@@ -14,6 +14,7 @@ public class BookStoreService implements IBookStoreService {
 
     @Override
     public String getAddedBooks(BookStoreDTO bookStoreDto) {
-        return null;
+        bookStoreRepository.save(bookStoreDto);
+        return "Books Added Successfully";
     }
 }

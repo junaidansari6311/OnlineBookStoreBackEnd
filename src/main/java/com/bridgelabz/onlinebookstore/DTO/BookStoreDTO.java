@@ -1,6 +1,13 @@
 package com.bridgelabz.onlinebookstore.DTO;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "bookdetails")
 public class BookStoreDTO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Integer id;
 
     public String bookName;
     public String authorName;
@@ -19,6 +26,4 @@ public class BookStoreDTO {
         this.quantity = quantity;
         this.publishingYear = publishingYear;
     }
-
-
 }

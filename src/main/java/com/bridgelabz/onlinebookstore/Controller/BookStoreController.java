@@ -13,7 +13,7 @@ public class BookStoreController {
     @Autowired
     IBookStoreService bookStoreService;
 
-    @PostMapping("/insertbook")
+    @PostMapping("/addbooks")
     public String addBooks(@RequestBody BookStoreDTO bookStoreDto) {
         return bookStoreService.getAddedBooks(bookStoreDto);
     }

@@ -33,7 +33,7 @@ public class BookStoreControllerTest {
         BookStoreDTO bookStoreDTO = new BookStoreDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook",150,2,2019);
         String stringConvertDTO = gson.toJson(bookStoreDTO);
         when(bookStoreService.getAddedBooks(any())).thenReturn(stringConvertDTO);
-        MvcResult mvcResult = this.mockMvc.perform(post("/insertbook")
+        MvcResult mvcResult = this.mockMvc.perform(post("/addbooks")
                 .contentType(MediaType.APPLICATION_JSON).content(stringConvertDTO)).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         Assert.assertEquals(stringConvertDTO,response);
