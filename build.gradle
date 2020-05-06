@@ -23,6 +23,9 @@ dependencies {
 	implementation 'com.google.code.gson:gson:2.8.6'
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 	testImplementation 'org.mockito:mockito-core:3.+'
+	compile group: 'org.modelmapper.extensions', name: 'modelmapper-spring', version: '2.3.7'
+	compileOnly 'org.projectlombok:lombok:1.18.12'
+	annotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 
 test {

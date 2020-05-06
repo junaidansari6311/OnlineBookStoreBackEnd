@@ -1,4 +1,4 @@
-package com.bridgelabz.onlinebookstore;
+package com.codebrewers.onlinebookstore;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
