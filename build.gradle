@@ -26,6 +26,9 @@ dependencies {
 	compile group: 'org.modelmapper.extensions', name: 'modelmapper-spring', version: '2.3.7'
 	compileOnly 'org.projectlombok:lombok:1.18.12'
 	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
 }
 
 test {
