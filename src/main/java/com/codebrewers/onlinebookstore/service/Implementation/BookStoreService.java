@@ -21,18 +21,18 @@ public class BookStoreService implements IBookStoreService {
     ModelMapper modelMapper;
 
     @Override
-    public BookDetails getAddedBooks(BookDTO bookDTO) {
-//        BookDetails bookDetails = new BookDetails(bookDTO);
+    public String getAddedBooks(BookDTO bookDTO) {
         BookDetails bookDetails = modelMapper.map(bookDTO,BookDetails.class);
         Optional<BookDetails> byIsbn = bookStoreRepository.findByIsbn(bookDTO.getIsbn());
-        Optional<BookDetails> byBookNameAndAuthorName = bookStoreRepository.findByBookNameAndAuthorName(bookDTO.getBookName(), bookDTO.getAuthorName());
+
         if(byIsbn.isPresent()){
             throw  new AdminServiceException("ISBN Number is Already Present");
-        }else if(byBookNameAndAuthorName.isPresent()) {
+        }
+        Optional<BookDetails> byBookNameAndAuthorName = bookStoreRepository.findByBookNameAndAuthorName(bookDTO.getBookName(), bookDTO.getAuthorName());
+        if(byBookNameAndAuthorName.isPresent()) {
             throw new AdminServiceException("Book Already Present with " + bookDTO.getBookName() + " and " + bookDTO.getAuthorName());
         }
-          return bookStoreRepository.save(bookDetails);
-       // return "Book Added Successfully";
-//        return null;
+           bookStoreRepository.save(bookDetails);
+        return "Book Added Successfully";
     }
 }

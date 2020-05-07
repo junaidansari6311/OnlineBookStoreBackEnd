@@ -27,8 +27,8 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
-        BookDetails addedBooks = bookStoreService.getAddedBooks(bookDTO);
-        ResponseDto responseDto=new ResponseDto("Book Added Successfully",addedBooks);
+        String message = bookStoreService.getAddedBooks(bookDTO);
+        ResponseDto responseDto=new ResponseDto(message,null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

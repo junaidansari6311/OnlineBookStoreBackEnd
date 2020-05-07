@@ -31,15 +31,16 @@ public class AdminBookStoreServiceTest {
     @InjectMocks
     BookStoreService bookStoreService;
 
+
     @Test
     void givenBookDetails_WhenGetResponse_ShouldReturnBookDetails() {
         BookDTO bookDTO = new BookDTO("IOT","Mark","This is book about how internet of things can be applied.","ABC123","jpg",200,50,2015);
         BookDetails givenBook = new BookDetails(bookDTO);
         when(bookStoreRepository.save(any())).thenReturn(givenBook);
+        String message="Book Added Successfully";
+        String addedBooks = bookStoreService.getAddedBooks(bookDTO);
 
-        BookDetails addedBooks = bookStoreService.getAddedBooks(bookDTO);
-
-        Assert.assertEquals(givenBook, addedBooks);
+        Assert.assertEquals(message, addedBooks);
     }
 
     @Test
