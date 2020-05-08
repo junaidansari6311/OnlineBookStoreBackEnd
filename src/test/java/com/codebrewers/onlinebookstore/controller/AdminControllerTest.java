@@ -219,14 +219,14 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenPublishingYearIsOutOfRange_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,0,2021);
+        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,50,0);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
         mockMvc.perform(post("/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(content().string("Year should be between 1 and 2020"))
+                .andExpect(content().string("Year should be between 999 and 2020"))
                 .andDo(print());
     }
 }

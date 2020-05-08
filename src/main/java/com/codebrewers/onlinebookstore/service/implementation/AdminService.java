@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,5 +35,10 @@ public class AdminService implements IBookStoreService {
         }
            bookStoreRepository.save(bookDetails);
         return "Book Added Successfully";
+    }
+
+    @Override
+    public List<BookDetails> allBooks() {
+        return null;
     }
 }

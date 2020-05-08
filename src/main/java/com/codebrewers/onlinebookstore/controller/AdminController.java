@@ -30,4 +30,9 @@ public class AdminController {
         ResponseDto responseDto=new ResponseDto(message,null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+    @GetMapping("/books")
+    public ResponseEntity<BookDTO> allBooks(){
+        return new ResponseEntity(bookStoreService.allBooks(),HttpStatus.OK);
+    }
 }

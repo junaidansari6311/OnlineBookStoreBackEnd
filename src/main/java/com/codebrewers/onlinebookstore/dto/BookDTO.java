@@ -35,7 +35,7 @@ public class BookDTO {
     @Min(value = 1, message = "Quantity cant be 0")
     public int quantity;
 
-    @Range(min = 1,max = 2020,message = "Year should be between 1 and 2020")
+    @Range(min = 999,max = 2020,message = "Year should be between 999 and 2020")
     public int publishingYear;
 
     public BookDTO(String bookName, String authorName, String description, String isbn, String imageUrl, double bookPrice, int quantity, int publishingYear) {
