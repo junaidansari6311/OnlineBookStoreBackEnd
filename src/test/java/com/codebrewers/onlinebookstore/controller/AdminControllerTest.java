@@ -1,10 +1,10 @@
 package com.codebrewers.onlinebookstore.controller;
 
-import com.codebrewers.onlinebookstore.Exception.AdminServiceException;
+import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
 import com.codebrewers.onlinebookstore.model.BookDetails;
-import com.codebrewers.onlinebookstore.service.implementation.BookStoreService;
+import com.codebrewers.onlinebookstore.service.implementation.AdminService;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class AdminControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private BookStoreService bookStoreService;
+    private AdminService adminService;
 
     Gson gson = new Gson();
 
@@ -43,7 +43,7 @@ public class AdminControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         String message="Book Added Successfully";
-        when(bookStoreService.getAddedBooks(any())).thenReturn(message);
+        when(adminService.getAddedBooks(any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/book")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
@@ -60,7 +60,7 @@ public class AdminControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         String message="Book Added Successfully";
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(bookStoreService.getAddedBooks(any())).thenReturn(message);
+        when(adminService.getAddedBooks(any())).thenReturn(message);
         this.mockMvc.perform(post("/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
@@ -70,7 +70,7 @@ public class AdminControllerTest {
         AdminServiceException adminServiceException=new AdminServiceException("");
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
-        when(bookStoreService.getAddedBooks(any())).thenThrow(adminServiceException);
+        when(adminService.getAddedBooks(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(post("/book")
                 .contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getStatus();
         Assert.assertEquals(400,status);
@@ -82,7 +82,7 @@ public class AdminControllerTest {
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(bookStoreService.getAddedBooks(any())).thenThrow(adminServiceException);
+        when(adminService.getAddedBooks(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(post("/insertbook")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getStatus();
         Assert.assertEquals(404,status);
@@ -94,7 +94,7 @@ public class AdminControllerTest {
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(bookStoreService.getAddedBooks(any())).thenThrow(adminServiceException);
+        when(adminService.getAddedBooks(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(post("/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_ATOM_XML)).andReturn().getResponse().getStatus();
         Assert.assertEquals(415,status);
@@ -106,7 +106,7 @@ public class AdminControllerTest {
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(bookStoreService.getAddedBooks(any())).thenThrow(adminServiceException);
+        when(adminService.getAddedBooks(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(get("/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_ATOM_XML))
                 .andReturn().getResponse().getStatus();

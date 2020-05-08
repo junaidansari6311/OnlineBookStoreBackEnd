@@ -1,6 +1,6 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
-import com.codebrewers.onlinebookstore.Exception.AdminServiceException;
+import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BookStoreService implements IBookStoreService {
+public class AdminService implements IBookStoreService {
 
     @Autowired
     private IBookStoreRepository bookStoreRepository;

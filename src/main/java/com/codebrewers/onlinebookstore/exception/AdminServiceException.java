@@ -1,4 +1,4 @@
-package com.codebrewers.onlinebookstore.Exception;
+package com.codebrewers.onlinebookstore.exception;
 
 import lombok.Getter;
 

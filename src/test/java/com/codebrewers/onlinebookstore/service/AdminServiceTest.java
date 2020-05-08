@@ -1,9 +1,9 @@
 package com.codebrewers.onlinebookstore.service;
-import com.codebrewers.onlinebookstore.Exception.AdminServiceException;
+import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 import com.codebrewers.onlinebookstore.model.BookDetails;
-import com.codebrewers.onlinebookstore.service.implementation.BookStoreService;
+import com.codebrewers.onlinebookstore.service.implementation.AdminService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class AdminBookStoreServiceTest {
+public class AdminServiceTest {
 
     @Mock
     private ModelMapper mapper;
@@ -28,7 +28,7 @@ public class AdminBookStoreServiceTest {
     ModelMapper modelMapper;
 
     @InjectMocks
-    BookStoreService bookStoreService;
+    AdminService adminService;
 
 
     @Test
@@ -37,7 +37,7 @@ public class AdminBookStoreServiceTest {
         BookDetails givenBook = new BookDetails(bookDTO);
         when(bookStoreRepository.save(any())).thenReturn(givenBook);
         String message="Book Added Successfully";
-        String addedBooks = bookStoreService.getAddedBooks(bookDTO);
+        String addedBooks = adminService.getAddedBooks(bookDTO);
 
         Assert.assertEquals(message, addedBooks);
     }
@@ -49,7 +49,7 @@ public class AdminBookStoreServiceTest {
             BookDetails addBook = new BookDetails(bookDTO);
             when(bookStoreRepository.save(any())).thenReturn(addBook);
             when(bookStoreRepository.findByIsbn(bookDTO.getIsbn())).thenReturn(java.util.Optional.of(addBook));
-            bookStoreService.getAddedBooks(bookDTO);
+            adminService.getAddedBooks(bookDTO);
         }catch(AdminServiceException e) {
             Assert.assertEquals("ISBN Number is Already Present",e.getMessage());
         }
@@ -62,7 +62,7 @@ public class AdminBookStoreServiceTest {
             BookDetails addBook = new BookDetails(bookDTO);
             when(bookStoreRepository.save(any())).thenReturn(addBook);
             when(bookStoreRepository.findByBookNameAndAuthorName(bookDTO.getBookName(),bookDTO.getAuthorName())).thenReturn(java.util.Optional.of(addBook));
-            bookStoreService.getAddedBooks(bookDTO);
+            adminService.getAddedBooks(bookDTO);
         }catch(AdminServiceException e) {
             Assert.assertEquals("Book Already Present with IOT and Mark",e.getMessage());
         }
