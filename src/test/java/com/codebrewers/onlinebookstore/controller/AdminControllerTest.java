@@ -151,20 +151,7 @@ public class AdminControllerTest {
                 .andExpect(content().string("Description should between 1-250 characters"))
                 .andDo(print());
     }
-
-/*    @Test
-    void givenBookDetails_WhenIsbnMissing_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","","jpg",50.0,5,2020);
-        BindingResult bindingResult=mock(BindingResult.class);
-        String stringConvertDTO = gson.toJson(bookDTO);
-        when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
-                .content(stringConvertDTO)
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(content().string("Please Provide ISBN"))
-                .andDo(print());
-    }*/
-
+    
     @Test
     void givenBookDetails_WhenIsbnIsNotProper_ShouldReturnError() throws Exception {
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","sdgsh","jpg",50.0,5,2020);

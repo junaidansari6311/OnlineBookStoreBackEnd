@@ -1,15 +1,16 @@
 package com.codebrewers.onlinebookstore.controller;
 
-import com.codebrewers.onlinebookstore.dto.ResponseDto;
-import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
-
+import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -18,7 +19,8 @@ import javax.validation.Valid;
 public class AdminController {
 
     @Autowired
-    IBookStoreService bookStoreService;
+    IAdminService adminService;
+
 
 
     @PostMapping("/book")
@@ -26,13 +28,8 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
-        String message = bookStoreService.addBook(bookDTO);
+        String message = adminService.addBook(bookDTO);
         ResponseDto responseDto=new ResponseDto(message,null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
-    }
-
-    @GetMapping("/books")
-    public ResponseEntity<BookDTO> allBooks(){
-        return new ResponseEntity(bookStoreService.allBooks(),HttpStatus.OK);
     }
 }

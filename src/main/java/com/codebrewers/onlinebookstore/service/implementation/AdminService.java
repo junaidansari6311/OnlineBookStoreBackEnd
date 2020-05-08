@@ -1,19 +1,18 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
-import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
+import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
-import com.codebrewers.onlinebookstore.service.IBookStoreService;
+import com.codebrewers.onlinebookstore.service.IAdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AdminService implements IBookStoreService {
+public class AdminService implements IAdminService {
 
     @Autowired
     private IBookStoreRepository bookStoreRepository;
@@ -35,11 +34,5 @@ public class AdminService implements IBookStoreService {
         }
            bookStoreRepository.save(bookDetails);
         return "Book Added Successfully";
-    }
-
-    @Override
-    public List<BookDetails> allBooks() {
-        List<BookDetails> bookList = bookStoreRepository.findAll();
-        return bookList;
     }
 }
