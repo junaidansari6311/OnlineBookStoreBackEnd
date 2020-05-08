@@ -1,7 +1,6 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
-import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 
@@ -27,7 +26,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
-        String message = bookStoreService.getAddedBooks(bookDTO);
+        String message = bookStoreService.addBook(bookDTO);
         ResponseDto responseDto=new ResponseDto(message,null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

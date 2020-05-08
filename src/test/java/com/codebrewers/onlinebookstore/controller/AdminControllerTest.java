@@ -43,7 +43,7 @@ public class AdminControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         String message="Book Added Successfully";
-        when(adminService.getAddedBooks(any())).thenReturn(message);
+        when(adminService.addBook(any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/book")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
@@ -60,7 +60,7 @@ public class AdminControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         String message="Book Added Successfully";
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(adminService.getAddedBooks(any())).thenReturn(message);
+        when(adminService.addBook(any())).thenReturn(message);
         this.mockMvc.perform(post("/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
@@ -70,7 +70,7 @@ public class AdminControllerTest {
         AdminServiceException adminServiceException=new AdminServiceException("");
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
-        when(adminService.getAddedBooks(any())).thenThrow(adminServiceException);
+        when(adminService.addBook(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(post("/book")
                 .contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getStatus();
         Assert.assertEquals(400,status);
@@ -82,7 +82,7 @@ public class AdminControllerTest {
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(adminService.getAddedBooks(any())).thenThrow(adminServiceException);
+        when(adminService.addBook(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(post("/insertbook")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getStatus();
         Assert.assertEquals(404,status);
@@ -94,7 +94,7 @@ public class AdminControllerTest {
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(adminService.getAddedBooks(any())).thenThrow(adminServiceException);
+        when(adminService.addBook(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(post("/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_ATOM_XML)).andReturn().getResponse().getStatus();
         Assert.assertEquals(415,status);
@@ -106,25 +106,12 @@ public class AdminControllerTest {
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(adminService.getAddedBooks(any())).thenThrow(adminServiceException);
+        when(adminService.addBook(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(get("/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_ATOM_XML))
                 .andReturn().getResponse().getStatus();
         Assert.assertEquals(405,status);
     }
-
- @Test
- void givenBookDetails_WhenMissingAnyField_ShouldReturnError() throws Exception {
-     BookDTO bookDTO = new BookDTO("","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
-     BindingResult bindingResult=mock(BindingResult.class);
-     String stringConvertDTO = gson.toJson(bookDTO);
-     when(bindingResult.hasErrors()).thenReturn(true);
-     mockMvc.perform(post("/book")
-             .content(stringConvertDTO)
-             .contentType(MediaType.APPLICATION_JSON_VALUE))
-             .andExpect(status().isNotAcceptable())
-             .andDo(print());
- }
 
     @Test
     void givenBookDetails_WhenBookNameMissing_ShouldReturnError() throws Exception {
@@ -148,7 +135,7 @@ public class AdminControllerTest {
         mockMvc.perform(post("/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(content().string("Please Provide Author Name"))
+                .andExpect(content().string("Please provide proper author name"))
                 .andDo(print());
     }
 
@@ -161,11 +148,11 @@ public class AdminControllerTest {
         mockMvc.perform(post("/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(content().string("Please Provide Description"))
+                .andExpect(content().string("Description should between 1-250 characters"))
                 .andDo(print());
     }
 
-    @Test
+/*    @Test
     void givenBookDetails_WhenIsbnMissing_ShouldReturnError() throws Exception {
         BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","","jpg",50.0,5,2020);
         BindingResult bindingResult=mock(BindingResult.class);
@@ -175,6 +162,19 @@ public class AdminControllerTest {
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("Please Provide ISBN"))
+                .andDo(print());
+    }*/
+
+    @Test
+    void givenBookDetails_WhenIsbnIsNotProper_ShouldReturnError() throws Exception {
+        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","sdgsh","jpg",50.0,5,2020);
+        BindingResult bindingResult=mock(BindingResult.class);
+        String stringConvertDTO = gson.toJson(bookDTO);
+        when(bindingResult.hasErrors()).thenReturn(true);
+        mockMvc.perform(post("/book")
+                .content(stringConvertDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().string("ISBN should be of 10 digits and characters"))
                 .andDo(print());
     }
 
@@ -191,4 +191,42 @@ public class AdminControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    void givenBookDetails_WhenBookPriceIsZero_ShouldReturnError() throws Exception {
+        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",0.0,5,2020);
+        BindingResult bindingResult=mock(BindingResult.class);
+        String stringConvertDTO = gson.toJson(bookDTO);
+        when(bindingResult.hasErrors()).thenReturn(true);
+        mockMvc.perform(post("/book")
+                .content(stringConvertDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().string("Book Price cant be 0"))
+                .andDo(print());
+    }
+
+    @Test
+    void givenBookDetails_WhenQuantityIssZero_ShouldReturnError() throws Exception {
+        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,0,2020);
+        BindingResult bindingResult=mock(BindingResult.class);
+        String stringConvertDTO = gson.toJson(bookDTO);
+        when(bindingResult.hasErrors()).thenReturn(true);
+        mockMvc.perform(post("/book")
+                .content(stringConvertDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().string("Quantity cant be 0"))
+                .andDo(print());
+    }
+
+    @Test
+    void givenBookDetails_WhenPublishingYearIsOutOfRange_ShouldReturnError() throws Exception {
+        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,0,2021);
+        BindingResult bindingResult=mock(BindingResult.class);
+        String stringConvertDTO = gson.toJson(bookDTO);
+        when(bindingResult.hasErrors()).thenReturn(true);
+        mockMvc.perform(post("/book")
+                .content(stringConvertDTO)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().string("Year should be between 1 and 2020"))
+                .andDo(print());
+    }
 }

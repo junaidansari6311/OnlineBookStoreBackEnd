@@ -26,13 +26,13 @@ public class BookDetails {
     public int publishingYear;
 
     public BookDetails(BookDTO bookDTO) {
-        this.bookName = bookDTO.getBookName();
-        this.authorName = bookDTO.getAuthorName();
-        this.bookPrice = bookDTO.getBookPrice();
-        this.isbn = bookDTO.getIsbn();
-        this.quantity = bookDTO.getQuantity();
-        this.description = bookDTO.getDescription();
-        this.imageUrl = bookDTO.getImageUrl();
-        this.publishingYear = bookDTO.getPublishingYear();
+        this.bookName = bookDTO.bookName;
+        this.authorName = bookDTO.authorName;
+        this.bookPrice = bookDTO.bookPrice;
+        this.isbn = bookDTO.isbn;
+        this.quantity = bookDTO.quantity;
+        this.description = bookDTO.description;
+        this.imageUrl = bookDTO.imageUrl;
+        this.publishingYear = bookDTO.publishingYear;
     }
 }

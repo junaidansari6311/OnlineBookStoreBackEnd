@@ -4,5 +4,5 @@ import com.codebrewers.onlinebookstore.dto.BookDTO;
 
 public interface IBookStoreService {
 
-    String getAddedBooks(BookDTO bookDTO);
+    String addBook(BookDTO bookDTO);
 }

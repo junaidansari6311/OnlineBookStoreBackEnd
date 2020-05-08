@@ -1,27 +1,41 @@
 package com.codebrewers.onlinebookstore.dto;
+import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
+@Getter
 @Setter
 public class BookDTO {
-    @NotEmpty(message = "Please Provide Book Name")
+
+    @Pattern(regexp = "^[a-zA-Z0-9]+$",message = "Please Provide Book Name")
     public String bookName;
-    @NotEmpty(message = "Please Provide Author Name")
+
+    @Pattern(regexp = "^[A-Za-z]+[ ]*[A-Za-z]*$",message ="Please provide proper author name")
     public String authorName;
-    @NotEmpty(message = "Please Provide Description")
+
+
+    @Length(min = 1,max = 250,message = "Description should between 1-250 characters")
     public String description;
+
     @NotEmpty(message = "Please Provide Image Name")
     public String imageUrl;
-    @NotEmpty(message = "Please Provide ISBN")
+
+    @Pattern(regexp= "^[A-Za-z0-9]{10}$",message ="ISBN should be of 10 digits and characters")
     public String isbn;
-    @NotNull(message = "Please Provide Book Price")
+
+    @Min(value = 1,message="Book Price cant be 0")
     public double bookPrice;
-    @NotNull(message = "Please Provide Quantity")
+
+    @Min(value = 1, message = "Quantity cant be 0")
     public int quantity;
-    @NotNull(message = "Please Provide Publishing Year")
+
+    @Range(min = 1,max = 2020,message = "Year should be between 1 and 2020")
     public int publishingYear;
 
     public BookDTO(String bookName, String authorName, String description, String isbn, String imageUrl, double bookPrice, int quantity, int publishingYear) {
@@ -33,37 +47,5 @@ public class BookDTO {
         this.description = description;
         this.imageUrl = imageUrl;
         this.publishingYear = publishingYear;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public double getBookPrice() {
-        return bookPrice;
-    }
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public int getPublishingYear() {
-        return publishingYear;
     }
 }

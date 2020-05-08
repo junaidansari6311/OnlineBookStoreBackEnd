@@ -37,7 +37,7 @@ public class AdminServiceTest {
         BookDetails givenBook = new BookDetails(bookDTO);
         when(bookStoreRepository.save(any())).thenReturn(givenBook);
         String message="Book Added Successfully";
-        String addedBooks = adminService.getAddedBooks(bookDTO);
+        String addedBooks = adminService.addBook(bookDTO);
 
         Assert.assertEquals(message, addedBooks);
     }
@@ -48,8 +48,8 @@ public class AdminServiceTest {
             BookDTO bookDTO = new BookDTO("IOT", "Mark", "This is book about how internet of things can be applied.", "ABC123", "jpg", 200, 50, 2015);
             BookDetails addBook = new BookDetails(bookDTO);
             when(bookStoreRepository.save(any())).thenReturn(addBook);
-            when(bookStoreRepository.findByIsbn(bookDTO.getIsbn())).thenReturn(java.util.Optional.of(addBook));
-            adminService.getAddedBooks(bookDTO);
+            when(bookStoreRepository.findByIsbn(bookDTO.isbn)).thenReturn(java.util.Optional.of(addBook));
+            adminService.addBook(bookDTO);
         }catch(AdminServiceException e) {
             Assert.assertEquals("ISBN Number is Already Present",e.getMessage());
         }
@@ -61,8 +61,8 @@ public class AdminServiceTest {
             BookDTO bookDTO = new BookDTO("IOT", "Mark", "This is book about how internet of things can be applied.", "ABC123", "jpg", 200, 50, 2015);
             BookDetails addBook = new BookDetails(bookDTO);
             when(bookStoreRepository.save(any())).thenReturn(addBook);
-            when(bookStoreRepository.findByBookNameAndAuthorName(bookDTO.getBookName(),bookDTO.getAuthorName())).thenReturn(java.util.Optional.of(addBook));
-            adminService.getAddedBooks(bookDTO);
+            when(bookStoreRepository.findByBookNameAndAuthorName(bookDTO.bookName,bookDTO.authorName)).thenReturn(java.util.Optional.of(addBook));
+            adminService.addBook(bookDTO);
         }catch(AdminServiceException e) {
             Assert.assertEquals("Book Already Present with IOT and Mark",e.getMessage());
         }
