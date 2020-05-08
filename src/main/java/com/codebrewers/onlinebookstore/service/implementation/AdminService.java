@@ -39,6 +39,7 @@ public class AdminService implements IBookStoreService {
 
     @Override
     public List<BookDetails> allBooks() {
-        return null;
+        List<BookDetails> bookList = bookStoreRepository.findAll();
+        return bookList;
     }
 }
