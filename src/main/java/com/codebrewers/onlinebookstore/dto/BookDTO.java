@@ -11,17 +11,17 @@ public class BookDTO {
     public String bookName;
     @NotEmpty(message = "Please Provide Author Name")
     public String authorName;
-    @NotEmpty(message = "Please Provide description")
+    @NotEmpty(message = "Please Provide Description")
     public String description;
-    @NotEmpty(message = "Please Provide image Name")
+    @NotEmpty(message = "Please Provide Image Name")
     public String imageUrl;
-    @NotEmpty(message = "Please Provide isbn")
+    @NotEmpty(message = "Please Provide ISBN")
     public String isbn;
-    @NotNull(message = "Please Provide Book price")
+    @NotNull(message = "Please Provide Book Price")
     public double bookPrice;
-    @NotNull(message = "Please Provide quantity")
+    @NotNull(message = "Please Provide Quantity")
     public int quantity;
-    @NotNull(message = "Please Provide publishing year")
+    @NotNull(message = "Please Provide Publishing Year")
     public int publishingYear;
 
     public BookDTO(String bookName, String authorName, String description, String isbn, String imageUrl, double bookPrice, int quantity, int publishingYear) {
