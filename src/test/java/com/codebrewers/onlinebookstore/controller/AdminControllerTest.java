@@ -39,7 +39,9 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenAdded_ShouldReturnsBooks() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         String message="Book Added Successfully";
@@ -56,7 +58,9 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenAdded_ShouldReturnStatus() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String message="Book Added Successfully";
         String stringConvertDTO = gson.toJson(bookDetails);
@@ -68,7 +72,9 @@ public class AdminControllerTest {
     @Test
     void givenBookDetails_WhenWrongData_ShouldReturn400StatusCode() throws Exception {
         AdminServiceException adminServiceException=new AdminServiceException("");
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         when(adminService.addBook(any())).thenThrow(adminServiceException);
         int status = this.mockMvc.perform(post("/book")
@@ -79,7 +85,9 @@ public class AdminControllerTest {
     @Test
     void givenBookDetails_WhenWrongURL_ShouldReturn404StatusCode() throws Exception {
         AdminServiceException adminServiceException=new AdminServiceException("");
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         when(adminService.addBook(any())).thenThrow(adminServiceException);
@@ -91,7 +99,9 @@ public class AdminControllerTest {
     @Test
     void givenBookDetails_WhenWrongMediaType_ShouldReturn415StatusCode() throws Exception {
         AdminServiceException adminServiceException=new AdminServiceException("");
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         when(adminService.addBook(any())).thenThrow(adminServiceException);
@@ -103,7 +113,9 @@ public class AdminControllerTest {
     @Test
     void givenBookDetails_WhenWrongMethod_ShouldReturn405StatusCode() throws Exception {
         AdminServiceException adminServiceException=new AdminServiceException("");
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         when(adminService.addBook(any())).thenThrow(adminServiceException);
@@ -115,7 +127,9 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenBookNameMissing_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,5,2020);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
@@ -128,7 +142,9 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenAuthorNameMissing_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,5,2020);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
@@ -141,7 +157,8 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenDescriptionMissing_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","","iotBook123","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter","",
+                "iotBook123","jpg",50.0,5,2020);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
@@ -154,7 +171,9 @@ public class AdminControllerTest {
     
     @Test
     void givenBookDetails_WhenIsbnIsNotProper_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","sdgsh","jpg",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "sdgsh","jpg",50.0,5,2020);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
@@ -167,7 +186,9 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenImageMissing_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","",50.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","",50.0,5,2020);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
@@ -180,7 +201,9 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenBookPriceIsZero_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",0.0,5,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",0.0,5,2020);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
@@ -193,7 +216,9 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenQuantityIssZero_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,0,2020);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,0,2020);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
@@ -206,7 +231,9 @@ public class AdminControllerTest {
 
     @Test
     void givenBookDetails_WhenPublishingYearIsOutOfRange_ShouldReturnError() throws Exception {
-        BookDTO bookDTO = new BookDTO("IOT","Peter","This book about getting started with IOT by way of creating your own products.","iotBook123","jpg",50.0,50,0);
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.0,50,0);
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
