@@ -38,4 +38,15 @@ public class DisplayBooksServiceTest {
         int size = bookDTOList.size();
         Assert.assertEquals(1, size);
     }
+
+    @Test
+    void whenBooksAreNotAvailable_ShouldThrowAnException() {
+        List<BookDetails> bookDTOList = new ArrayList<>();
+        try {
+            when(bookStoreRepository.findAll()).thenReturn(bookDTOList);
+            bookStoreService.allBooks();
+        }catch (BookStoreException bookException){
+            Assert.assertEquals("No Books Available",bookException.getMessage());
+        }
+    }
 }
