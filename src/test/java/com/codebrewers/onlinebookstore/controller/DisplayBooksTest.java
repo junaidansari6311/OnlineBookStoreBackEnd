@@ -64,4 +64,19 @@ public class DisplayBooksTest {
         int size = bookList.size();
         Assert.assertEquals(2,size);
     }
+
+    @Test
+    void givenDisplayBook_WhenWrongMethod_ThenReturn405StatusCode() throws Exception {
+        List<BookDetails> bookDTOList = new ArrayList<>();
+        BookDTO bookDTO = new BookDTO("IOT","Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123","jpg",50.00,5,2020);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        bookDTOList.add(bookDetails);
+        when(bookStoreService.allBooks()).thenReturn(bookDTOList);
+        int status = this.mockMvc.perform(post("/books"))
+                .andReturn().getResponse().getStatus();
+        Assert.assertEquals(405,status);
+    }
+
 }
