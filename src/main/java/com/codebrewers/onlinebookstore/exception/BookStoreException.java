@@ -3,9 +3,10 @@ package com.codebrewers.onlinebookstore.exception;
 import lombok.Getter;
 
 @Getter
-public class AdminServiceException extends RuntimeException{
+public class BookStoreException extends RuntimeException{
 
-    public AdminServiceException(String message) {
+    public BookStoreException(String message)
+    {
         super(message);
     }
 }

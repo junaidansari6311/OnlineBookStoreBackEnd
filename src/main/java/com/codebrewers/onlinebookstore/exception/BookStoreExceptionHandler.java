@@ -15,5 +15,4 @@ public class BookStoreExceptionHandler extends ResponseEntityExceptionHandler {
         ResponseDto responseDto=new ResponseDto(e.getMessage(),null);
         return new ResponseEntity<>(responseDto,HttpStatus.ALREADY_REPORTED);
     }
-
 }

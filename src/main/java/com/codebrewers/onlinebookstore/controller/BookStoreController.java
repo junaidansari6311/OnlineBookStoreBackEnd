@@ -1,6 +1,6 @@
 package com.codebrewers.onlinebookstore.controller;
 
-import com.codebrewers.onlinebookstore.dto.BookDTO;
+import com.codebrewers.onlinebookstore.dto.ResponseDto;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class BookStoreController {
     IBookStoreService bookStoreService;
 
     @GetMapping("/books")
-    public ResponseEntity<BookDTO> allBooks(){
+    public ResponseEntity<ResponseDto> allBooks(){
         return new ResponseEntity(bookStoreService.allBooks(), HttpStatus.OK);
     }
 }

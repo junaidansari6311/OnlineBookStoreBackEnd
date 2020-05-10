@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.service;
 import com.codebrewers.onlinebookstore.exception.AdminServiceException;
+import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 import com.codebrewers.onlinebookstore.model.BookDetails;

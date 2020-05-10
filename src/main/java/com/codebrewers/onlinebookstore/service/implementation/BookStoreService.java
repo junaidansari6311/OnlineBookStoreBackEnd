@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
+import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
@@ -17,6 +18,9 @@ public class BookStoreService implements IBookStoreService {
     @Override
     public List<BookDetails> allBooks() {
         List<BookDetails> bookList = bookStoreRepository.findAll();
+       if(bookList.isEmpty()){
+           throw new BookStoreException("No Books Available");
+       }
         return bookList;
     }
 }

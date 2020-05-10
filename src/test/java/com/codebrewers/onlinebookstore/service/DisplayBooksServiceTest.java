@@ -1,9 +1,13 @@
 package com.codebrewers.onlinebookstore.service;
+import com.codebrewers.onlinebookstore.controller.BookStoreController;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
+import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
+import com.codebrewers.onlinebookstore.service.implementation.BookStoreService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,6 +21,10 @@ public class DisplayBooksServiceTest {
 
     @Mock
     IBookStoreRepository bookStoreRepository;
+
+
+    @InjectMocks
+    BookStoreService bookStoreService;
 
     @Test
     void getAllBooks() {
