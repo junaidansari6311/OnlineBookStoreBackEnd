@@ -13,10 +13,10 @@ import javax.validation.constraints.Pattern;
 @Setter
 public class BookDTO {
 
-    @Pattern(regexp = "^[a-zA-Z0-9]+$",message = "Please Provide Book Name")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+[a-zA-Z0-9]{2,}$",message = "Please Provide Book Name")
     public String bookName;
 
-    @Pattern(regexp = "^[A-Za-z]+[ ]*[A-Za-z]*$",message ="Please provide proper author name")
+    @Pattern(regexp = "^[A-Za-z. ]+[ ]*[A-Za-z.]*$",message ="Please provide proper author name")
     public String authorName;
 
 
