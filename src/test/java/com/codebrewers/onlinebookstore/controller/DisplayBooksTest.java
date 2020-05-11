@@ -33,12 +33,14 @@ public class DisplayBooksTest {
     @Test
     void findAllBooks() throws Exception {
         List<BookDetails> bookList = new ArrayList<>();
-        BookDTO bookDTO = new BookDTO("IOT","Peter",
+        BookDTO bookDTO = new BookDTO("IOT", "Peter",
                 "This book about getting started with IOT by way of creating your own products.",
-                "iotBook123","jpg",50.00,5,2020);
+                "iotBook123", "jpg", 50.00, 5, 2020);
+
         BookDetails bookDetails = new BookDetails(bookDTO);
         bookList.add(bookDetails);
-        when(bookStoreService.allBooks(0,8,"id")).thenReturn(bookList);
+
+        when(bookStoreService.allBooks(0, 8, "id")).thenReturn(bookList);
         this.mockMvc.perform(get("/books")).andDo(print())
                 .andExpect(status().isOk()).andExpect(content().json("[{'bookName':'IOT','authorName':'Peter'," +
                 "'description':'This book about getting started with IOT by way of creating your own products.','imageUrl':'jpg'," +
@@ -48,35 +50,39 @@ public class DisplayBooksTest {
     @Test
     void givenDisplayBook_WhenBooksAdded_ThenReturnListOfBooks() throws Exception {
         List<BookDetails> bookList = new ArrayList<>();
-        BookDTO book1 = new BookDTO("IOT","Peter",
+        BookDTO book1 = new BookDTO("IOT", "Peter",
                 "This book about getting started with IOT by way of creating your own products.",
-                "iotBook123","jpg",50.00,5,2020);
-        BookDTO book2 = new BookDTO("IOT","Peter",
+                "iotBook123", "jpg", 50.00, 5, 2020);
+
+        BookDTO book2 = new BookDTO("IOT", "Peter",
                 "This book about getting started with IOT by way of creating your own products.",
-                "iotBook123","jpg",50.00,5,2020);
+                "iotBook123", "jpg", 50.00, 5, 2020);
+
         BookDetails bookDetails1 = new BookDetails(book1);
         BookDetails bookDetails2 = new BookDetails(book2);
 
         bookList.add(bookDetails1);
         bookList.add(bookDetails2);
 
-        when(bookStoreService.allBooks(0,4,"id")).thenReturn(bookList);
+        when(bookStoreService.allBooks(0, 4, "id")).thenReturn(bookList);
         int size = bookList.size();
-        Assert.assertEquals(2,size);
+        Assert.assertEquals(2, size);
     }
 
     @Test
     void givenDisplayBook_WhenWrongMethod_ThenReturn405StatusCode() throws Exception {
-        List<BookDetails> bookDTOList = new ArrayList<>();
-        BookDTO bookDTO = new BookDTO("IOT","Peter",
+        List<BookDetails> bookList = new ArrayList<>();
+        BookDTO bookDTO = new BookDTO("IOT", "Peter",
                 "This book about getting started with IOT by way of creating your own products.",
-                "iotBook123","jpg",50.00,5,2020);
+                "iotBook123", "jpg", 50.00, 5, 2020);
+
         BookDetails bookDetails = new BookDetails(bookDTO);
-        bookDTOList.add(bookDetails);
-        when(bookStoreService.allBooks(0,4,"id")).thenReturn(bookDTOList);
+        bookList.add(bookDetails);
+
+        when(bookStoreService.allBooks(0, 4, "id")).thenReturn(bookList);
         int status = this.mockMvc.perform(post("/books"))
                 .andReturn().getResponse().getStatus();
-        Assert.assertEquals(405,status);
+        Assert.assertEquals(405, status);
     }
 
 }

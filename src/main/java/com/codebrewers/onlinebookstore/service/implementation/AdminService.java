@@ -22,17 +22,17 @@ public class AdminService implements IAdminService {
 
     @Override
     public String addBook(BookDTO bookDTO) {
-        BookDetails bookDetails = modelMapper.map(bookDTO,BookDetails.class);
+        BookDetails bookDetails = modelMapper.map(bookDTO, BookDetails.class);
         Optional<BookDetails> byIsbn = bookStoreRepository.findByIsbn(bookDTO.isbn);
 
-        if(byIsbn.isPresent()){
-            throw  new AdminServiceException("ISBN Number is Already Present");
+        if (byIsbn.isPresent()) {
+            throw new AdminServiceException("ISBN Number is Already Present");
         }
         Optional<BookDetails> byBookNameAndAuthorName = bookStoreRepository.findByBookNameAndAuthorName(bookDTO.bookName, bookDTO.authorName);
-        if(byBookNameAndAuthorName.isPresent()) {
+        if (byBookNameAndAuthorName.isPresent()) {
             throw new AdminServiceException("Book Already Present with " + bookDTO.bookName + " and " + bookDTO.authorName);
         }
-           bookStoreRepository.save(bookDetails);
+        bookStoreRepository.save(bookDetails);
         return "Book Added Successfully";
     }
 }

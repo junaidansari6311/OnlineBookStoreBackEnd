@@ -25,7 +25,7 @@ public class AdminController {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
         String message = adminService.addBook(bookDTO);
-        ResponseDto responseDto=new ResponseDto(message,null);
+        ResponseDto responseDto = new ResponseDto(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

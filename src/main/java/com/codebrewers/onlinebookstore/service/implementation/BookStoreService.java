@@ -7,9 +7,9 @@ import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,15 +21,14 @@ public class BookStoreService implements IBookStoreService {
 
 
     @Override
-    public List<BookDetails> allBooks(Integer pageNo, Integer pageSize,String sortBy) {
-        Pageable paging = PageRequest.of(pageNo,pageSize, Sort.by(sortBy));
+    public List<BookDetails> allBooks(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<BookDetails> bookList = bookStoreRepository.findAll(paging);
-       if(bookList.hasContent()){
-           return bookList.getContent();
-       }
-       else {
-           throw new BookStoreException("No Books Available");
-       }
+        if (bookList.hasContent()) {
+            return bookList.getContent();
+        } else {
+            throw new BookStoreException("No Books Available");
+        }
     }
 
     @Override

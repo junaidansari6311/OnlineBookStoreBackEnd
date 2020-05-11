@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface IBookStoreRepository extends JpaRepository<BookDetails,Integer> {
+public interface IBookStoreRepository extends JpaRepository<BookDetails, Integer> {
     Optional<BookDetails> findByIsbn(String Isbn);
-    Optional<BookDetails> findByBookNameAndAuthorName(String bookName,String authorName);
+
+    Optional<BookDetails> findByBookNameAndAuthorName(String bookName, String authorName);
 }

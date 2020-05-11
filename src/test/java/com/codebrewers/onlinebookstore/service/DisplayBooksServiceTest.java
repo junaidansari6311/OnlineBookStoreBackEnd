@@ -1,5 +1,5 @@
 package com.codebrewers.onlinebookstore.service;
-import com.codebrewers.onlinebookstore.controller.BookStoreController;
+
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
@@ -31,14 +31,14 @@ public class DisplayBooksServiceTest {
 
     @Test
     void getAllBooks() {
-        List<BookDetails> bookDTOList = new ArrayList<>();
-        BookDTO bookDTO = new BookDTO("IOT","Mark",
+        List<BookDetails> bookList = new ArrayList<>();
+        BookDTO bookDTO = new BookDTO("IOT", "Mark",
                 "This is book about how internet of things can be applied.",
-                "ABC123","jpg",200,50,2015);
+                "ABC123", "jpg", 200, 50, 2015);
         BookDetails bookDetails = new BookDetails(bookDTO);
-        bookDTOList.add(bookDetails);
-        when(bookStoreRepository.findAll()).thenReturn(bookDTOList);
-        int size = bookDTOList.size();
+        bookList.add(bookDetails);
+        when(bookStoreRepository.findAll()).thenReturn(bookList);
+        int size = bookList.size();
         Assert.assertEquals(1, size);
     }
 
@@ -49,8 +49,8 @@ public class DisplayBooksServiceTest {
         Page<BookDetails> page = new PageImpl(booksList);
         try {
             when(bookStoreRepository.findAll(paging)).thenReturn(page);
-        }catch (BookStoreException bookException){
-            Assert.assertEquals("No Books Available",bookException.getMessage());
+        } catch (BookStoreException bookException) {
+            Assert.assertEquals("No Books Available", bookException.getMessage());
         }
     }
 }
