@@ -23,9 +23,14 @@ public class BookStoreController {
 
     @GetMapping("/books")
     public ResponseEntity<ResponseDto> allBooks(@RequestParam(defaultValue = "0") Integer PageNo,
-                                                @RequestParam(defaultValue = "4") Integer PageSize,
+                                                @RequestParam(defaultValue = "8") Integer PageSize,
                                                 @RequestParam(defaultValue = "id") String sortBy){
         List<BookDetails> list = bookStoreService.allBooks(PageNo,PageSize,sortBy);
         return new ResponseEntity(list,new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/total/books")
+    public ResponseEntity<ResponseDto> getTotalCount(){
+        return new ResponseEntity(bookStoreService.getCount(), HttpStatus.OK);
     }
 }

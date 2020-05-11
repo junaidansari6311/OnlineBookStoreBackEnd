@@ -31,4 +31,10 @@ public class BookStoreService implements IBookStoreService {
            throw new BookStoreException("No Books Available");
        }
     }
+
+    @Override
+    public int getCount() {
+        List<BookDetails> totalBooks = bookStoreRepository.findAll();
+        return totalBooks.size();
+    }
 }
