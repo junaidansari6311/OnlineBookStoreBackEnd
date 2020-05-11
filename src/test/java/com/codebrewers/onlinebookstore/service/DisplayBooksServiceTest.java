@@ -22,7 +22,6 @@ public class DisplayBooksServiceTest {
     @Mock
     IBookStoreRepository bookStoreRepository;
 
-
     @InjectMocks
     BookStoreService bookStoreService;
 
@@ -44,7 +43,7 @@ public class DisplayBooksServiceTest {
         List<BookDetails> bookDTOList = new ArrayList<>();
         try {
             when(bookStoreRepository.findAll()).thenReturn(bookDTOList);
-            bookStoreService.allBooks();
+            bookStoreService.allBooks(0,1,"id");
         }catch (BookStoreException bookException){
             Assert.assertEquals("No Books Available",bookException.getMessage());
         }

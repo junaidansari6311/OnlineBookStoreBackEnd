@@ -46,7 +46,7 @@ public class AdminControllerTest {
         String stringConvertDTO = gson.toJson(bookDetails);
         String message="Book Added Successfully";
         when(adminService.addBook(any())).thenReturn(message);
-        MvcResult mvcResult = this.mockMvc.perform(post("/book")
+        MvcResult mvcResult = this.mockMvc.perform(post("/admin/book")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
 
@@ -65,7 +65,7 @@ public class AdminControllerTest {
         String message="Book Added Successfully";
         String stringConvertDTO = gson.toJson(bookDetails);
         when(adminService.addBook(any())).thenReturn(message);
-        this.mockMvc.perform(post("/book")
+        this.mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
@@ -77,7 +77,7 @@ public class AdminControllerTest {
                 "iotBook123","jpg",50.0,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         when(adminService.addBook(any())).thenThrow(adminServiceException);
-        int status = this.mockMvc.perform(post("/book")
+        int status = this.mockMvc.perform(post("/admin/book")
                 .contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getStatus();
         Assert.assertEquals(400,status);
     }
@@ -91,7 +91,7 @@ public class AdminControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         when(adminService.addBook(any())).thenThrow(adminServiceException);
-        int status = this.mockMvc.perform(post("/insertbook")
+        int status = this.mockMvc.perform(post("/admin/insertbook")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getStatus();
         Assert.assertEquals(404,status);
     }
@@ -105,7 +105,7 @@ public class AdminControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         when(adminService.addBook(any())).thenThrow(adminServiceException);
-        int status = this.mockMvc.perform(post("/book")
+        int status = this.mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_ATOM_XML)).andReturn().getResponse().getStatus();
         Assert.assertEquals(415,status);
     }
@@ -119,7 +119,7 @@ public class AdminControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         String stringConvertDTO = gson.toJson(bookDetails);
         when(adminService.addBook(any())).thenThrow(adminServiceException);
-        int status = this.mockMvc.perform(get("/book")
+        int status = this.mockMvc.perform(get("/admin/book")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_ATOM_XML))
                 .andReturn().getResponse().getStatus();
         Assert.assertEquals(405,status);
@@ -133,7 +133,7 @@ public class AdminControllerTest {
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("Please Provide Book Name"))
@@ -148,7 +148,7 @@ public class AdminControllerTest {
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("Please provide proper author name"))
@@ -162,7 +162,7 @@ public class AdminControllerTest {
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("Description should between 1-250 characters"))
@@ -177,7 +177,7 @@ public class AdminControllerTest {
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("ISBN should be of 10 digits and characters"))
@@ -192,7 +192,7 @@ public class AdminControllerTest {
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("Please Provide Image Name"))
@@ -207,7 +207,7 @@ public class AdminControllerTest {
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("Book Price cant be 0"))
@@ -222,7 +222,7 @@ public class AdminControllerTest {
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("Quantity cant be 0"))
@@ -237,7 +237,7 @@ public class AdminControllerTest {
         BindingResult bindingResult=mock(BindingResult.class);
         String stringConvertDTO = gson.toJson(bookDTO);
         when(bindingResult.hasErrors()).thenReturn(true);
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().string("Year should be between 999 and 2020"))

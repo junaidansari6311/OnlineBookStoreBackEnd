@@ -38,7 +38,7 @@ public class DisplayBooksTest {
                 "iotBook123","jpg",50.00,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         bookList.add(bookDetails);
-        when(bookStoreService.allBooks()).thenReturn(bookList);
+        when(bookStoreService.allBooks(0,4,"id")).thenReturn(bookList);
         this.mockMvc.perform(get("/books")).andDo(print())
                 .andExpect(status().isOk()).andExpect(content().json("[{'bookName':'IOT','authorName':'Peter'," +
                 "'description':'This book about getting started with IOT by way of creating your own products.','imageUrl':'jpg'," +
@@ -60,7 +60,7 @@ public class DisplayBooksTest {
         bookList.add(bookDetails1);
         bookList.add(bookDetails2);
 
-        when(bookStoreService.allBooks()).thenReturn(bookList);
+        when(bookStoreService.allBooks(0,4,"id")).thenReturn(bookList);
         int size = bookList.size();
         Assert.assertEquals(2,size);
     }
@@ -73,7 +73,7 @@ public class DisplayBooksTest {
                 "iotBook123","jpg",50.00,5,2020);
         BookDetails bookDetails = new BookDetails(bookDTO);
         bookDTOList.add(bookDetails);
-        when(bookStoreService.allBooks()).thenReturn(bookDTOList);
+        when(bookStoreService.allBooks(0,4,"id")).thenReturn(bookDTOList);
         int status = this.mockMvc.perform(post("/books"))
                 .andReturn().getResponse().getStatus();
         Assert.assertEquals(405,status);

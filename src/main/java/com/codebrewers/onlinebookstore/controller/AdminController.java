@@ -19,7 +19,6 @@ public class AdminController {
     @Autowired
     IAdminService adminService;
 
-
     @PostMapping("/book")
     public ResponseEntity<ResponseDto> addBooks(@Valid @RequestBody BookDTO bookDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
