@@ -5,7 +5,6 @@ import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.service.IAdminService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,10 @@ public class AdminService implements IAdminService {
     @Autowired
     private IBookStoreRepository bookStoreRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
 
     @Override
     public String addBook(BookDTO bookDTO) {
-        BookDetails bookDetails = modelMapper.map(bookDTO, BookDetails.class);
+        BookDetails bookDetails = new BookDetails();
         Optional<BookDetails> byIsbn = bookStoreRepository.findByIsbn(bookDTO.isbn);
 
         if (byIsbn.isPresent()) {

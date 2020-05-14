@@ -1,19 +1,13 @@
 package com.codebrewers.onlinebookstore.model;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Getter
-@Setter
 @Entity
-@NoArgsConstructor
 public class BookDetails {
 
     @Id
@@ -28,6 +22,9 @@ public class BookDetails {
     public double bookPrice;
     public double quantity;
     public int publishingYear;
+
+    public BookDetails() {
+    }
 
     public BookDetails(BookDTO bookDTO) {
         this.bookName = bookDTO.bookName;

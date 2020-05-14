@@ -1,7 +1,5 @@
 package com.codebrewers.onlinebookstore.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
@@ -9,8 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-@Getter
-@Setter
+
 public class BookDTO {
 
     @Pattern(regexp = "^[a-zA-Z0-9 ]+[a-zA-Z0-9]{2,}$", message = "Please Provide Book Name")
