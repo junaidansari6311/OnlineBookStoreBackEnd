@@ -29,7 +29,7 @@ public class BookStoreController {
         return new ResponseEntity(list, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/total/books")
+    @GetMapping("/books/count")
     public ResponseEntity<ResponseDto> getTotalCount() {
         return new ResponseEntity(bookStoreService.getCount(), HttpStatus.OK);
     }
