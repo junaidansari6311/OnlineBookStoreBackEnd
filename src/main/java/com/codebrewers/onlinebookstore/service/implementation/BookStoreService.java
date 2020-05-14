@@ -35,4 +35,9 @@ public class BookStoreService implements IBookStoreService {
         List<BookDetails> totalBooks = bookStoreRepository.findAll();
         return totalBooks.size();
     }
+
+    @Override
+    public Object searchBook(Object any, Object any1) {
+        return null;
+    }
 }
