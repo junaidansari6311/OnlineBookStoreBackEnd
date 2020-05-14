@@ -37,7 +37,7 @@ public class BookStoreService implements IBookStoreService {
     }
 
     @Override
-    public Object searchBook(Object any, Object any1) {
-        return null;
+    public Page<BookDetails> searchBook(Pageable pageable,String field){
+        return bookStoreRepository.findAllBooks(pageable,field);
     }
 }
