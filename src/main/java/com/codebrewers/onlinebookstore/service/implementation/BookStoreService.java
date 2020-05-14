@@ -24,11 +24,10 @@ public class BookStoreService implements IBookStoreService {
     public List<BookDetails> allBooks(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<BookDetails> bookList = bookStoreRepository.findAll(paging);
-        if (bookList.hasContent()) {
-            return bookList.getContent();
-        } else {
+        if (!bookList.hasContent()) {
             throw new BookStoreException("No Books Available");
         }
+        return bookList.getContent();
     }
 
     @Override
