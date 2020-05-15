@@ -76,10 +76,25 @@ public class DisplayBooksServiceTest {
         Pageable paging = PageRequest.of(0, 10);
         Page<BookDetails> page = new PageImpl(booksList);
         try {
-            when(bookStoreRepository.findAllBooks(any(),any())).thenReturn(page);
+            when(bookStoreRepository.findAllBooks(any(), any())).thenReturn(page);
             bookStoreService.searchBook(paging, "IOT");
         } catch (BookStoreException bookException) {
             Assert.assertEquals("No Books Available", bookException.getMessage());
         }
+    }
+
+    @Test
+    void givenABookToSearchAndFilter_whenPresent_shouldReturnBooks() {
+        List<BookDetails> bookList = new ArrayList<>();
+        BookDTO bookDTO = new BookDTO("IOT", "Mark",
+                "This is book about how internet of things can be applied.",
+                "ABC123", "jpg", 200, 50, 2015);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        bookList.add(bookDetails);
+        Pageable paging = PageRequest.of(0, 8);
+        Page<BookDetails> page = new PageImpl(bookList);
+        when(bookStoreRepository.findAllBooks(any(), any())).thenReturn(page);
+        Page<BookDetails> bookNamePage = bookStoreService.searchBook(paging, "IOT");
+        Assert.assertEquals(page, bookNamePage);
     }
 }
