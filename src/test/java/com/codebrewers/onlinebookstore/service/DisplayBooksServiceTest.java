@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -53,4 +54,21 @@ public class DisplayBooksServiceTest {
             Assert.assertEquals("No Books Available", bookException.getMessage());
         }
     }
+
+    @Test
+    void givenABook_WhenToSearch_shouldReturnBook() {
+        List<BookDetails> booksList = new ArrayList<>();
+        BookDTO bookDTO = new BookDTO("IOT", "Mark",
+                "This is book about how internet of things can be applied.",
+                "ABC123", "jpg", 200, 50, 2015);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        booksList.add(bookDetails);
+        Pageable paging = PageRequest.of(0, 10);
+        Page<BookDetails> page = new PageImpl(booksList);
+        when(bookStoreRepository.findAllBooks(any(), any())).thenReturn(page);
+        Page<BookDetails> pageResult = bookStoreService.searchBook(paging, "IOT");
+        Assert.assertEquals(page, pageResult);
+
+    }
+
 }

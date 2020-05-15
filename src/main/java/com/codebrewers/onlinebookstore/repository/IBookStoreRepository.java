@@ -18,5 +18,4 @@ public interface IBookStoreRepository extends JpaRepository<BookDetails, Integer
 
     @Query(value = "select * from book_details where author_name LIKE %:searchText% OR book_name LIKE %:searchText%", nativeQuery = true)
     Page<BookDetails> findAllBooks(Pageable pageable, @Param("searchText") String searchText);
-
 }
