@@ -68,7 +68,18 @@ public class DisplayBooksServiceTest {
         when(bookStoreRepository.findAllBooks(any(), any())).thenReturn(page);
         Page<BookDetails> pageResult = bookStoreService.searchBook(paging, "IOT");
         Assert.assertEquals(page, pageResult);
-
     }
 
+    @Test
+    void givenABook_whenToSearchButNotPresent_ShouldThrowAnException() {
+        List<BookDetails> booksList = new ArrayList<>();
+        Pageable paging = PageRequest.of(0, 10);
+        Page<BookDetails> page = new PageImpl(booksList);
+        try {
+            when(bookStoreRepository.findAllBooks(any(),any())).thenReturn(page);
+            bookStoreService.searchBook(paging, "IOT");
+        } catch (BookStoreException bookException) {
+            Assert.assertEquals("No Books Available", bookException.getMessage());
+        }
+    }
 }
