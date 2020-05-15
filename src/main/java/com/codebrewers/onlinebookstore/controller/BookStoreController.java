@@ -1,6 +1,7 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.dto.SearchAndFilterResponseDTO;
 import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
@@ -44,7 +45,9 @@ public class BookStoreController {
 
     @GetMapping("/sort/{pageNo}/{searchText}/{selectedfield}")
     public ResponseEntity sort(@PathVariable String searchText, @PathVariable int pageNo, @PathVariable BookStoreEnum selectedfield) {
+        int size = bookStoreService.getSize(searchText);
         List<BookDetails> allBooks = bookStoreService.findAllBooks(searchText, pageNo, selectedfield);
-        return new ResponseEntity(allBooks, HttpStatus.OK);
+        SearchAndFilterResponseDTO searchAndFilterResponseDTO = new SearchAndFilterResponseDTO(allBooks,size);
+        return new ResponseEntity(searchAndFilterResponseDTO, HttpStatus.OK);
     }
 }

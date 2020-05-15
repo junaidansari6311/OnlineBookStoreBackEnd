@@ -13,6 +13,8 @@ public interface IBookStoreService {
 
     int getCount();
 
+    int getSize(String searchText);
+
     Page<BookDetails> searchBook(Pageable pageable, String field);
 
     List<BookDetails> findAllBooks(String iot, int pageNo, BookStoreEnum lowToHigh);

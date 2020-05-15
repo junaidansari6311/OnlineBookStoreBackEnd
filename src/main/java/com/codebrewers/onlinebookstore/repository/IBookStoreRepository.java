@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,4 +19,7 @@ public interface IBookStoreRepository extends JpaRepository<BookDetails, Integer
 
     @Query(value = "select * from book_details where author_name LIKE %:searchText% OR book_name LIKE %:searchText%", nativeQuery = true)
     Page<BookDetails> findAllBooks(Pageable pageable, @Param("searchText") String searchText);
+
+    @Query(value = "select * from book_details where author_name LIKE %:searchText% OR book_name LIKE %:searchText%", nativeQuery = true)
+    List<BookDetails> findSortedBooks(@Param("searchText") String searchText);
 }

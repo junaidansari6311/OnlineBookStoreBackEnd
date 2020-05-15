@@ -6,6 +6,7 @@ import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +49,23 @@ public class BookStoreService implements IBookStoreService {
 
     @Override
     public List findAllBooks(String searchText, int pageNo, BookStoreEnum selectedfield) {
-        return null;
+        List<BookDetails> allBooks = null;
+        if(searchText.equals("none")){
+            allBooks = bookStoreRepository.findAll();
+        }else {
+            allBooks = bookStoreRepository.findSortedBooks(searchText);
+        }
+
+        List<BookDetails> sortedData = selectedfield.getSortedData(allBooks);
+        PagedListHolder page = new PagedListHolder(sortedData);
+        page.setPageSize(8);
+        page.setPage(pageNo);
+        return page.getPageList();
     }
 
+    @Override
+    public int getSize(String searchText) {
+        List<BookDetails> allBooks = bookStoreRepository.findSortedBooks(searchText);
+        return allBooks.size();
+    }
 }
