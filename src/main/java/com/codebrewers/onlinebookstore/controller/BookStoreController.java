@@ -1,6 +1,7 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,9 @@ public class BookStoreController {
         return new ResponseEntity(bookStoreService.searchBook(pageable,searchText), HttpStatus.OK);
     }
 
+    @GetMapping("/sort/{pageNo}/{searchText}/{selectedfield}")
+    public ResponseEntity sort(@PathVariable String searchText, @PathVariable int pageNo, @PathVariable BookStoreEnum selectedfield) {
+        List<BookDetails> allBooks = bookStoreService.findAllBooks(searchText, pageNo, selectedfield);
+        return new ResponseEntity(allBooks, HttpStatus.OK);
+    }
 }

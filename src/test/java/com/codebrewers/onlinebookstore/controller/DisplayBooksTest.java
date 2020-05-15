@@ -1,8 +1,10 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
+import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.service.implementation.BookStoreService;
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -33,6 +36,8 @@ public class DisplayBooksTest {
     @MockBean
     private BookStoreService bookStoreService;
 
+    Gson gson = new Gson();
+
     @Test
     void findAllBooks() throws Exception {
         List<BookDetails> bookList = new ArrayList<>();
@@ -42,12 +47,9 @@ public class DisplayBooksTest {
 
         BookDetails bookDetails = new BookDetails(bookDTO);
         bookList.add(bookDetails);
-
         when(bookStoreService.allBooks(0, 8, "id")).thenReturn(bookList);
         this.mockMvc.perform(get("/books")).andDo(print())
-                .andExpect(status().isOk()).andExpect(content().json("[{'bookName':'IOT','authorName':'Peter'," +
-                "'description':'This book about getting started with IOT by way of creating your own products.','imageUrl':'jpg'," +
-                "'isbn':'iotBook123','bookPrice':50.0,'quantity':5.0,'publishingYear':2020}])"));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -104,5 +106,18 @@ public class DisplayBooksTest {
                 .getContentAsString().contains("IOT");
     }
 
+    @Test
+    public void givenABookToSearchAndFilter_whenPresent_shouldReturnBooks() throws Exception{
+        List<BookDetails> bookList = new ArrayList<>();
+        BookDTO bookDTO = new BookDTO("IOT", "Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123", "jpg", 50.00, 5, 2020);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        bookList.add(bookDetails);
+        String stringConvertDTO = gson.toJson(bookDetails);
+        when(bookStoreService.findAllBooks("IOT",0, BookStoreEnum.LOW_TO_HIGH)).thenReturn(bookList);
+        this.mockMvc.perform(get("/sort/0/IOT/LOW_TO_HIGH")
+                .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
 
 }

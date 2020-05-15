@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
+import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
@@ -44,4 +45,10 @@ public class BookStoreService implements IBookStoreService {
         }
         return allBooks;
     }
+
+    @Override
+    public List findAllBooks(String searchText, int pageNo, BookStoreEnum selectedfield) {
+        return null;
+    }
+
 }

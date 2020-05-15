@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.service;
 
+import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +14,6 @@ public interface IBookStoreService {
     int getCount();
 
     Page<BookDetails> searchBook(Pageable pageable, String field);
+
+    List<BookDetails> findAllBooks(String iot, int pageNo, BookStoreEnum lowToHigh);
 }
