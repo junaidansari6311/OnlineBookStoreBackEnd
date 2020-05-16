@@ -1,6 +1,7 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
+import com.codebrewers.onlinebookstore.dto.SearchAndFilterResponseDTO;
 import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.service.implementation.BookStoreService;
@@ -91,22 +92,6 @@ public class DisplayBooksControllerTest {
     }
 
     @Test
-    void givenBookDetails_WhenSearchedBooks_shouldReturnBookDetails() throws Exception {
-        List<BookDetails> bookList = new ArrayList<>();
-        BookDTO bookDTO = new BookDTO("IOT", "Peter",
-                "This book about getting started with IOT by way of creating your own products.",
-                "iotBook123", "jpg", 50.00, 5, 2020);
-
-        BookDetails bookDetails = new BookDetails(bookDTO);
-        bookList.add(bookDetails);
-        Page<BookDetails> page = new PageImpl(bookList);
-        when(bookStoreService.searchBook(any(),any())).thenReturn(page);
-
-        this.mockMvc.perform(get("/books/0/I")).andReturn().getResponse()
-                .getContentAsString().contains("IOT");
-    }
-
-    @Test
     public void givenABookToSearchAndFilter_whenPresent_shouldReturnBooks() throws Exception{
         List<BookDetails> bookList = new ArrayList<>();
         BookDTO bookDTO = new BookDTO("IOT", "Peter",
@@ -117,7 +102,8 @@ public class DisplayBooksControllerTest {
         String stringConvertDTO = gson.toJson(bookDetails);
         when(bookStoreService.findAllBooks("IOT",0, BookStoreEnum.LOW_TO_HIGH)).thenReturn(bookList);
         this.mockMvc.perform(get("/sort/0/IOT/LOW_TO_HIGH")
-                .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+                .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
 }
