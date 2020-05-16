@@ -40,15 +40,6 @@ public class BookStoreService implements IBookStoreService {
     }
 
     @Override
-    public Page<BookDetails> searchBook(Pageable pageable,String field){
-        Page<BookDetails> allBooks = bookStoreRepository.findAllBooks(pageable, field);
-        if (!allBooks.hasContent()){
-            throw new BookStoreException("No Books Available");
-        }
-        return allBooks;
-    }
-
-    @Override
     public SearchAndFilterResponseDTO findAllBooks(String searchText, int pageNo, BookStoreEnum selectedfield) {
         List<BookDetails> allBooks = null;
         if(searchText.equals("none")){
