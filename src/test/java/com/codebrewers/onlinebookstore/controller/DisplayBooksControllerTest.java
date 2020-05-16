@@ -100,10 +100,13 @@ public class DisplayBooksControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         bookList.add(bookDetails);
         String stringConvertDTO = gson.toJson(bookDetails);
-        when(bookStoreService.findAllBooks("IOT",0, BookStoreEnum.LOW_TO_HIGH)).thenReturn(bookList);
+        SearchAndFilterResponseDTO filterResponseDTO=new SearchAndFilterResponseDTO(bookList,bookList.size());
+        String toJson = gson.toJson(filterResponseDTO);
+        when(bookStoreService.findAllBooks("IOT",0, BookStoreEnum.LOW_TO_HIGH)).thenReturn(filterResponseDTO);
         this.mockMvc.perform(get("/sort/0/IOT/LOW_TO_HIGH")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().json(toJson));
     }
 
 }

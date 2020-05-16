@@ -20,13 +20,7 @@ import static org.mockito.Mockito.when;
 public class AdminServiceTest {
 
     @Mock
-    private ModelMapper mapper;
-
-    @Mock
     IBookStoreRepository bookStoreRepository;
-
-    @Autowired
-    ModelMapper modelMapper;
 
     @InjectMocks
     AdminService adminService;

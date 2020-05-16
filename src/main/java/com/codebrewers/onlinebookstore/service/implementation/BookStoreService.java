@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
+import com.codebrewers.onlinebookstore.dto.SearchAndFilterResponseDTO;
 import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
@@ -48,11 +49,12 @@ public class BookStoreService implements IBookStoreService {
     }
 
     @Override
-    public List findAllBooks(String searchText, int pageNo, BookStoreEnum selectedfield) {
+    public SearchAndFilterResponseDTO findAllBooks(String searchText, int pageNo, BookStoreEnum selectedfield) {
         List<BookDetails> allBooks = null;
         if(searchText.equals("none")){
             allBooks = bookStoreRepository.findAll();
-        }else {
+        }
+        if(!searchText.equals("none")) {
             allBooks = bookStoreRepository.findSortedBooks(searchText);
         }
 
@@ -60,12 +62,8 @@ public class BookStoreService implements IBookStoreService {
         PagedListHolder page = new PagedListHolder(sortedData);
         page.setPageSize(8);
         page.setPage(pageNo);
-        return page.getPageList();
+        SearchAndFilterResponseDTO searchAndFilterResponseDTO = new SearchAndFilterResponseDTO(page.getPageList(),allBooks.size());
+        return searchAndFilterResponseDTO;
     }
 
-    @Override
-    public int getSize(String searchText) {
-        List<BookDetails> allBooks = bookStoreRepository.findSortedBooks(searchText);
-        return allBooks.size();
-    }
 }

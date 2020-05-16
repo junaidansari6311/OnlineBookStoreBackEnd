@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.service;
 
+import com.codebrewers.onlinebookstore.dto.SearchAndFilterResponseDTO;
 import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import org.springframework.data.domain.Page;
@@ -13,9 +14,8 @@ public interface IBookStoreService {
 
     int getCount();
 
-    int getSize(String searchText);
 
     Page<BookDetails> searchBook(Pageable pageable, String field);
 
-    List<BookDetails> findAllBooks(String iot, int pageNo, BookStoreEnum lowToHigh);
+    SearchAndFilterResponseDTO findAllBooks(String searchText, int pageNo, BookStoreEnum selectedfield);
 }

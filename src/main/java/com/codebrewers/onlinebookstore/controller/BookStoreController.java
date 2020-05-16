@@ -45,9 +45,7 @@ public class BookStoreController {
 
     @GetMapping("/sort/{pageNo}/{searchText}/{selectedfield}")
     public ResponseEntity sort(@PathVariable String searchText, @PathVariable int pageNo, @PathVariable BookStoreEnum selectedfield) {
-        int size = bookStoreService.getSize(searchText);
-        List<BookDetails> allBooks = bookStoreService.findAllBooks(searchText, pageNo, selectedfield);
-        SearchAndFilterResponseDTO searchAndFilterResponseDTO = new SearchAndFilterResponseDTO(allBooks,size);
-        return new ResponseEntity(searchAndFilterResponseDTO, HttpStatus.OK);
+        SearchAndFilterResponseDTO allBooks = bookStoreService.findAllBooks(searchText, pageNo, selectedfield);
+        return new ResponseEntity(allBooks, HttpStatus.OK);
     }
 }
