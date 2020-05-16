@@ -1,6 +1,8 @@
 package com.codebrewers.onlinebookstore.service;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
+import com.codebrewers.onlinebookstore.dto.SearchAndFilterResponseDTO;
+import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
@@ -97,4 +99,19 @@ public class DisplayBooksServiceTest {
         Page<BookDetails> bookNamePage = bookStoreService.searchBook(paging, "IOT");
         Assert.assertEquals(page, bookNamePage);
     }
+    @Test
+    void givenABookToFilter_whenPresent_shouldReturnBooks() {
+        List<BookDetails> bookList = new ArrayList<>();
+        BookDTO bookDTO = new BookDTO("IOT", "Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123", "jpg", 50.00, 5, 2020);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        bookList.add(bookDetails);
+        when(bookStoreRepository.findAll()).thenReturn(bookList);
+        SearchAndFilterResponseDTO allBooks = bookStoreService.findAllBooks("none",0, BookStoreEnum.HIGH_TO_LOW);
+        List bookDetails2 = allBooks.bookDetails;
+        Assert.assertEquals(bookList,bookDetails2);
+
+    }
+
 }
