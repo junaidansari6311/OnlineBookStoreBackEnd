@@ -58,48 +58,6 @@ public class DisplayBooksServiceTest {
     }
 
     @Test
-    void givenABook_WhenToSearch_shouldReturnBook() {
-        List<BookDetails> booksList = new ArrayList<>();
-        BookDTO bookDTO = new BookDTO("IOT", "Mark",
-                "This is book about how internet of things can be applied.",
-                "ABC123", "jpg", 200, 50, 2015);
-        BookDetails bookDetails = new BookDetails(bookDTO);
-        booksList.add(bookDetails);
-        Pageable paging = PageRequest.of(0, 10);
-        Page<BookDetails> page = new PageImpl(booksList);
-        when(bookStoreRepository.findAllBooks(any(), any())).thenReturn(page);
-        Page<BookDetails> pageResult = bookStoreService.searchBook(paging, "IOT");
-        Assert.assertEquals(page, pageResult);
-    }
-
-    @Test
-    void givenABook_whenToSearchButNotPresent_ShouldThrowAnException() {
-        List<BookDetails> booksList = new ArrayList<>();
-        Pageable paging = PageRequest.of(0, 10);
-        Page<BookDetails> page = new PageImpl(booksList);
-        try {
-            when(bookStoreRepository.findAllBooks(any(), any())).thenReturn(page);
-            bookStoreService.searchBook(paging, "IOT");
-        } catch (BookStoreException bookException) {
-            Assert.assertEquals("No Books Available", bookException.getMessage());
-        }
-    }
-
-    @Test
-    void givenABookToSearchAndFilter_whenPresent_shouldReturnBooks() {
-        List<BookDetails> bookList = new ArrayList<>();
-        BookDTO bookDTO = new BookDTO("IOT", "Mark",
-                "This is book about how internet of things can be applied.",
-                "ABC123", "jpg", 200, 50, 2015);
-        BookDetails bookDetails = new BookDetails(bookDTO);
-        bookList.add(bookDetails);
-        Pageable paging = PageRequest.of(0, 8);
-        Page<BookDetails> page = new PageImpl(bookList);
-        when(bookStoreRepository.findAllBooks(any(), any())).thenReturn(page);
-        Page<BookDetails> bookNamePage = bookStoreService.searchBook(paging, "IOT");
-        Assert.assertEquals(page, bookNamePage);
-    }
-    @Test
     void givenABookToFilter_whenPresent_shouldReturnBooks() {
         List<BookDetails> bookList = new ArrayList<>();
         BookDTO bookDTO = new BookDTO("IOT", "Peter",
@@ -109,6 +67,21 @@ public class DisplayBooksServiceTest {
         bookList.add(bookDetails);
         when(bookStoreRepository.findAll()).thenReturn(bookList);
         SearchAndFilterResponseDTO allBooks = bookStoreService.findAllBooks("none",0, BookStoreEnum.HIGH_TO_LOW);
+        List bookDetails2 = allBooks.bookDetails;
+        Assert.assertEquals(bookList,bookDetails2);
+
+    }
+
+    @Test
+    void givenBookToSearchAndFilter_whenBookPresent_shouldReturnBooks() {
+        List<BookDetails> bookList = new ArrayList<>();
+        BookDTO bookDTO = new BookDTO("IOT", "Peter",
+                "This book about getting started with IOT by way of creating your own products.",
+                "iotBook123", "jpg", 50.00, 5, 2020);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        bookList.add(bookDetails);
+        when(bookStoreRepository.findSortedBooks(any())).thenReturn(bookList);
+        SearchAndFilterResponseDTO allBooks = bookStoreService.findAllBooks("I",0, BookStoreEnum.HIGH_TO_LOW);
         List bookDetails2 = allBooks.bookDetails;
         Assert.assertEquals(bookList,bookDetails2);
 
