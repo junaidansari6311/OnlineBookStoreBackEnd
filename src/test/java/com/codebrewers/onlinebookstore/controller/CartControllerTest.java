@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(CartController.class)
@@ -49,5 +50,32 @@ public class CartControllerTest {
         ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
+    }
+
+    @Test
+    void givenBookDetails_WhenWrongData_ShouldReturn400StatusCode() throws Exception {
+        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+        String message ="book Added";
+        when(cartService.addTOCart(any())).thenReturn(message);
+        int status = this.mockMvc.perform(post("/cart")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse().getStatus();
+
+        Assert.assertEquals(400, status);
+    }
+
+    @Test
+    void givenBookDetails_WhenWrongMethod_ShouldReturn400StatusCode() throws Exception {
+        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+        CartDetails cartDetails = new CartDetails(cartDTO);
+        String message ="book Added";
+        String stringConvertDTO = gson.toJson(cartDetails);
+        when(cartService.addTOCart(any())).thenReturn(message);
+        int status = this.mockMvc.perform(get("/cart")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(stringConvertDTO))
+                .andReturn().getResponse().getStatus();
+
+        Assert.assertEquals(405, status);
     }
 }
