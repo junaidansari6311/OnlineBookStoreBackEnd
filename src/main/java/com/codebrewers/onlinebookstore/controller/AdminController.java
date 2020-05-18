@@ -22,7 +22,7 @@ public class AdminController {
     @PostMapping("/book")
     public ResponseEntity<ResponseDto> addBooks(@Valid @RequestBody BookDTO bookDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
         String message = adminService.addBook(bookDTO);
         ResponseDto responseDto = new ResponseDto(message, null);

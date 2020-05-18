@@ -16,16 +16,17 @@ public class AdminService implements IAdminService {
     @Autowired
     private IBookStoreRepository bookStoreRepository;
 
-
     @Override
     public String addBook(BookDTO bookDTO) {
-        BookDetails bookDetails = new BookDetails();
+        BookDetails bookDetails = new BookDetails(bookDTO);
         Optional<BookDetails> byIsbn = bookStoreRepository.findByIsbn(bookDTO.isbn);
 
         if (byIsbn.isPresent()) {
             throw new AdminServiceException("ISBN Number is Already Present");
         }
+
         Optional<BookDetails> byBookNameAndAuthorName = bookStoreRepository.findByBookNameAndAuthorName(bookDTO.bookName, bookDTO.authorName);
+
         if (byBookNameAndAuthorName.isPresent()) {
             throw new AdminServiceException("Book Already Present with " + bookDTO.bookName + " and " + bookDTO.authorName);
         }
