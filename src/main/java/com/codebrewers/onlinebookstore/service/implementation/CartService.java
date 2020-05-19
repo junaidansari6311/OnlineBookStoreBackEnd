@@ -30,6 +30,7 @@ public class CartService implements ICartService {
 
     @Override
     public List<CartDetails> allCartItems() {
-        return null;
+        List<CartDetails> all = icartRepository.findAll();
+        return all;
     }
 }

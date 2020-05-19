@@ -19,9 +19,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(CartController.class)
 public class CartControllerTest {
@@ -56,7 +54,7 @@ public class CartControllerTest {
     @Test
     void givenBookDetails_WhenWrongData_ShouldReturn400StatusCode() throws Exception {
         CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        String message ="book Added";
+        String message = "book Added";
         when(cartService.addTOCart(any())).thenReturn(message);
         int status = this.mockMvc.perform(post("/cart")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -66,18 +64,15 @@ public class CartControllerTest {
     }
 
     @Test
-    void givenBookDetails_WhenWrongMethod_ShouldReturn400StatusCode() throws Exception {
+    void givenBookDetails_WhenWrongMethod_ShouldReturn404StatusCode() throws Exception {
         CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        CartDetails cartDetails = new CartDetails(cartDTO);
-        String message ="book Added";
-        String stringConvertDTO = gson.toJson(cartDetails);
+        String message = "book Added";
         when(cartService.addTOCart(any())).thenReturn(message);
-        int status = this.mockMvc.perform(get("/cart")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(stringConvertDTO))
+        int status = this.mockMvc.perform(post("/cart/books")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse().getStatus();
 
-        Assert.assertEquals(405, status);
+        Assert.assertEquals(404, status);
     }
 
     @Test
@@ -90,6 +85,6 @@ public class CartControllerTest {
         cartList1.add(cartDetails);
 
         when(cartService.allCartItems()).thenReturn(cartList);
-       Assert.assertEquals(cartList1,cartList);
+        Assert.assertEquals(cartList1, cartList);
     }
 }
