@@ -31,6 +31,9 @@ public class CartService implements ICartService {
     @Override
     public List<CartDetails> allCartItems() {
         List<CartDetails> all = icartRepository.findAll();
+        if(all.isEmpty()){
+            throw new CartException("No Books Available");
+        }
         return all;
     }
 }

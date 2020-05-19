@@ -62,4 +62,19 @@ public class CartServiceTest {
         cartService.allCartItems();
         Assert.assertEquals(cartList1, cartList);
     }
+
+    @Test
+    void givenBookDetails_WhenNoBooksAvailableInCart_ShouldThrowException() {
+        List<CartDetails> cartList = new ArrayList<>();
+        try {
+            CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+            CartDetails cartDetails = new CartDetails(cartDTO);
+            cartList.add(cartDetails);
+            when(cartRepository.findAll()).thenReturn(cartList);
+            cartService.allCartItems();
+        }
+        catch (CartException e){
+            Assert.assertEquals("No Books Available", e.getMessage());
+        }
+    }
 }
