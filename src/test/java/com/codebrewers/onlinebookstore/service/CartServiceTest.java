@@ -11,6 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -45,5 +48,18 @@ public class CartServiceTest {
         catch (CartException e){
             Assert.assertEquals("Book Already Present", e.getMessage());
         }
+    }
+
+    @Test
+    void givenCart_ShouldReturnListOfBooks() {
+        List<CartDetails> cartList = new ArrayList<>();
+        List<CartDetails> cartList1 = new ArrayList<>();
+        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+        CartDetails cartDetails = new CartDetails(cartDTO);
+        cartList.add(cartDetails);
+        cartList1.add(cartDetails);
+        when(cartRepository.findAll()).thenReturn(cartList);
+        cartService.allCartItems();
+        Assert.assertEquals(cartList1, cartList);
     }
 }
