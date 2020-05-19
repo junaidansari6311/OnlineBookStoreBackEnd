@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(CartController.class)
 public class CartControllerTest {
@@ -77,5 +78,18 @@ public class CartControllerTest {
                 .andReturn().getResponse().getStatus();
 
         Assert.assertEquals(405, status);
+    }
+
+    @Test
+    void givenCart_shouldReturnsListOfAllBooks() throws Exception {
+        List<CartDetails> cartList = new ArrayList<>();
+        List<CartDetails> cartList1 = new ArrayList<>();
+        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+        CartDetails cartDetails = new CartDetails(cartDTO);
+        cartList.add(cartDetails);
+        cartList1.add(cartDetails);
+
+        when(cartService.allCartItems()).thenReturn(cartList);
+       Assert.assertEquals(cartList1,cartList);
     }
 }

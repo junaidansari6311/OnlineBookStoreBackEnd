@@ -8,6 +8,7 @@ import com.codebrewers.onlinebookstore.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +26,10 @@ public class CartService implements ICartService {
         }
         icartRepository.save(cartDetails);
         return "book addded";
+    }
+
+    @Override
+    public List<CartDetails> allCartItems() {
+        return null;
     }
 }
