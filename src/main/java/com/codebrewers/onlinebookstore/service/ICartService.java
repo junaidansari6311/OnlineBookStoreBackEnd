@@ -11,4 +11,7 @@ public interface ICartService {
     String addTOCart(CartDTO cartDTO);
 
     List<CartDetails> allCartItems();
+
+    String UpdateQuantity(CartDTO cartDTO);
+
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @WebMvcTest(CartController.class)
 public class CartControllerTest {
@@ -87,4 +88,25 @@ public class CartControllerTest {
         when(cartService.allCartItems()).thenReturn(cartList);
         Assert.assertEquals(cartList1, cartList);
     }
+
+
+    @Test
+    void givenBookDetails_WhenUpdateBookQuantity_ShouldReturnMessage() throws Exception {
+        List<CartDetails> cart1 = new ArrayList<>();
+        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+        CartDetails cartDetails = new CartDetails(cartDTO);
+        cart1.add(cartDetails);
+        String stringConvertDTO = gson.toJson(cartDetails);
+        String message = "Book Quantity Update";
+        when(cartService.UpdateQuantity(any())).thenReturn(message);
+        MvcResult mvcResult = this.mockMvc.perform(put("/cart")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(stringConvertDTO)).andReturn();
+
+        String response = mvcResult.getResponse().getContentAsString();
+        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        String responseMessage = responseDto.message;
+        Assert.assertEquals(message, responseMessage);
+    }
+
 }

@@ -36,4 +36,11 @@ public class CartController {
         List<CartDetails> list = cartService.allCartItems();
         return new ResponseEntity(list, new HttpHeaders(), HttpStatus.OK);
     }
+
+    @PutMapping("/cart")
+    public ResponseEntity Update(@Valid @RequestBody CartDTO cartDTO){
+        String message = cartService.UpdateQuantity(cartDTO);
+        ResponseDto responseDto = new ResponseDto(message, null);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 }

@@ -36,4 +36,9 @@ public class CartService implements ICartService {
         }
         return all;
     }
+
+    @Override
+    public String UpdateQuantity(CartDTO cartDTO) {
+        return null;
+    }
 }
