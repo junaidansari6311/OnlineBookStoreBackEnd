@@ -1,6 +1,7 @@
 package com.codebrewers.onlinebookstore.service;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
+import com.codebrewers.onlinebookstore.dto.ResponseDto;
 import com.codebrewers.onlinebookstore.exception.CartException;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.repository.IcartRepository;
@@ -9,13 +10,16 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 @SpringBootTest
 public class CartServiceTest {
@@ -103,6 +107,17 @@ public class CartServiceTest {
         }catch (CartException e) {
             Assert.assertEquals("No Books Available", e.getMessage());
         }
+    }
+
+    @Test
+    void givenBookID_WhenPresentToDelete_ShouldReturnMessage() throws Exception {
+        String message = "Cart Has Been Deleted";
+        Integer id = 1;
+
+        doNothing().doThrow(new IllegalArgumentException()).when(cartRepository).deleteById(id);
+        String deleteCartItems = cartService.deleteCartItems(id);
+        Assert.assertEquals(message,deleteCartItems);
+        verify(cartRepository).deleteById(id);
     }
 
 }
