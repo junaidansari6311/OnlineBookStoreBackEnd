@@ -52,6 +52,7 @@ public class CartService implements ICartService {
 
     @Override
     public String deleteCartItems(Integer id) {
-        return null;
+        icartRepository.deleteById(id);
+        return "Cart Has Been Deleted";
     }
 }
