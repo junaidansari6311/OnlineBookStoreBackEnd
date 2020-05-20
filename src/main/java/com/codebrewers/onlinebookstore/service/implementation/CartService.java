@@ -1,6 +1,7 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
+import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.exception.CartException;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.repository.IcartRepository;
@@ -39,6 +40,13 @@ public class CartService implements ICartService {
 
     @Override
     public String UpdateQuantity(CartDTO cartDTO) {
-        return null;
+        Optional<CartDetails> byBookID = icartRepository.findByBookID(cartDTO.bookID);
+        if(byBookID.isPresent()){
+            CartDetails cartDetails = byBookID.get();
+            cartDetails.setQuantity(cartDTO.quantity);
+            icartRepository.save(cartDetails);
+            return "Book Quantity Update";
+        }
+        throw new BookStoreException("No Books Available");
     }
 }

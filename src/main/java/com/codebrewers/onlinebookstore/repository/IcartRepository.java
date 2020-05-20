@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface IcartRepository extends JpaRepository<CartDetails, Integer> {
     Optional<CartDetails> findByBookName(String bookName);
+
+    Optional<CartDetails> findByBookID(int bookID);
 }
