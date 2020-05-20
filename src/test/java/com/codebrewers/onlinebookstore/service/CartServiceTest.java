@@ -77,4 +77,16 @@ public class CartServiceTest {
             Assert.assertEquals("No Books Available", e.getMessage());
         }
     }
+
+    @Test
+    void givenBookDetails_WhenUpdateBookQuantity_ShouldReturnMessage() {
+
+        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+        CartDetails cartDetails = new CartDetails(cartDTO);
+        when(cartRepository.findByBookID(1)).thenReturn(java.util.Optional.of(cartDetails));
+        when(cartRepository.save(any())).thenReturn(cartDetails);
+        String message = "Book Quantity Update";
+        String updateQuantity = cartService.UpdateQuantity(cartDTO);
+        Assert.assertEquals(message,updateQuantity);
+    }
 }
