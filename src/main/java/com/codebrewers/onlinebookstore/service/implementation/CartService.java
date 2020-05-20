@@ -47,6 +47,6 @@ public class CartService implements ICartService {
             icartRepository.save(cartDetails);
             return "Book Quantity Update";
         }
-        throw new BookStoreException("No Books Available");
+        throw new CartException("No Books Available");
     }
 }

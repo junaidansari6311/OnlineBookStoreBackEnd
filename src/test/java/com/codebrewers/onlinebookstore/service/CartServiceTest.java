@@ -89,4 +89,20 @@ public class CartServiceTest {
         String updateQuantity = cartService.UpdateQuantity(cartDTO);
         Assert.assertEquals(message,updateQuantity);
     }
+
+    @Test
+    void givenBookDetails_WhenNoBookAvailable_ShouldThrowException() {
+        List<CartDetails> cartList = new ArrayList<>();
+        try {
+            CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+            CartDetails cartDetails = new CartDetails(cartDTO);
+            cartList.add(cartDetails);
+            when(cartRepository.findByBookID(2)).thenReturn(java.util.Optional.of(cartDetails));
+            when(cartRepository.save(any())).thenReturn(cartList);
+            cartService.UpdateQuantity(cartDTO);
+        }catch (CartException e) {
+            Assert.assertEquals("No Books Available", e.getMessage());
+        }
+    }
+
 }
