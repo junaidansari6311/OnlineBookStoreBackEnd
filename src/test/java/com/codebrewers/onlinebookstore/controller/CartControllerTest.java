@@ -19,8 +19,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @WebMvcTest(CartController.class)
 public class CartControllerTest {
@@ -109,4 +108,15 @@ public class CartControllerTest {
         Assert.assertEquals(message, responseMessage);
     }
 
+    @Test
+    void givenBookID_WhenPresentToDelete_ShouldReturnMessage() throws Exception {
+        String message = "Cart Has Been Deleted";
+        Integer id = 1;
+        when(cartService.deleteCartItems(any())).thenReturn(message);
+        MvcResult mvcResult = this.mockMvc.perform(delete("/cart/{id}",id)).andReturn();
+        String response = mvcResult.getResponse().getContentAsString();
+        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        String responseMessage = responseDto.message;
+        Assert.assertEquals(message, responseMessage);
+    }
 }

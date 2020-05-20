@@ -49,4 +49,9 @@ public class CartService implements ICartService {
         }
         throw new CartException("No Books Available");
     }
+
+    @Override
+    public String deleteCartItems(Integer id) {
+        return null;
+    }
 }

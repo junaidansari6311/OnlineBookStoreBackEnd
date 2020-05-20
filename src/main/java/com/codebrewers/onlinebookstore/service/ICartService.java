@@ -14,4 +14,5 @@ public interface ICartService {
 
     String UpdateQuantity(CartDTO cartDTO);
 
+    String deleteCartItems(Integer id);
 }
