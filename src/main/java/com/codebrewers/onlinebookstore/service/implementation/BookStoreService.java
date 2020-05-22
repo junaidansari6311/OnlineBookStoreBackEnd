@@ -42,10 +42,10 @@ public class BookStoreService implements IBookStoreService {
     @Override
     public SearchAndFilterResponseDTO findAllBooks(String searchText, int pageNo, BookStoreEnum selectedfield) {
         List<BookDetails> allBooks = null;
-        if(searchText.equals("none")){
+        if (searchText.equals("none")) {
             allBooks = bookStoreRepository.findAll();
         }
-        if(!searchText.equals("none")) {
+        if (!searchText.equals("none")) {
             allBooks = bookStoreRepository.findSortedBooks(searchText);
         }
 
@@ -53,7 +53,7 @@ public class BookStoreService implements IBookStoreService {
         PagedListHolder page = new PagedListHolder(sortedData);
         page.setPageSize(8);
         page.setPage(pageNo);
-        SearchAndFilterResponseDTO searchAndFilterResponseDTO = new SearchAndFilterResponseDTO(page.getPageList(),allBooks.size());
+        SearchAndFilterResponseDTO searchAndFilterResponseDTO = new SearchAndFilterResponseDTO(page.getPageList(), allBooks.size());
         return searchAndFilterResponseDTO;
     }
 

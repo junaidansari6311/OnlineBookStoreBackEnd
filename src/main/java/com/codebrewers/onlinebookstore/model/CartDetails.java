@@ -34,12 +34,4 @@ public class CartDetails {
         this.bookPrice = cartDTO.bookPrice;
         this.bookImg = cartDTO.bookImg;
     }
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
-    }
 }

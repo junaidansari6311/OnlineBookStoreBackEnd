@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -90,7 +89,7 @@ public class DisplayBooksControllerTest {
     }
 
     @Test
-    public void givenABookToSearchAndFilter_whenPresent_shouldReturnBooks() throws Exception{
+    public void givenABookToSearchAndFilter_whenPresent_shouldReturnBooks() throws Exception {
         List<BookDetails> bookList = new ArrayList<>();
         BookDTO bookDTO = new BookDTO("IOT", "Peter",
                 "This book about getting started with IOT by way of creating your own products.",
@@ -98,9 +97,9 @@ public class DisplayBooksControllerTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         bookList.add(bookDetails);
         String stringConvertDTO = gson.toJson(bookDetails);
-        SearchAndFilterResponseDTO filterResponseDTO=new SearchAndFilterResponseDTO(bookList,bookList.size());
+        SearchAndFilterResponseDTO filterResponseDTO = new SearchAndFilterResponseDTO(bookList, bookList.size());
         String toJson = gson.toJson(filterResponseDTO);
-        when(bookStoreService.findAllBooks("IOT",0, BookStoreEnum.LOW_TO_HIGH)).thenReturn(filterResponseDTO);
+        when(bookStoreService.findAllBooks("IOT", 0, BookStoreEnum.LOW_TO_HIGH)).thenReturn(filterResponseDTO);
         this.mockMvc.perform(get("/sort/0/IOT/LOW_TO_HIGH")
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

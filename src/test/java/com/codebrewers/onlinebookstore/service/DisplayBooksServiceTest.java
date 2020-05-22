@@ -66,9 +66,9 @@ public class DisplayBooksServiceTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         bookList.add(bookDetails);
         when(bookStoreRepository.findAll()).thenReturn(bookList);
-        SearchAndFilterResponseDTO allBooks = bookStoreService.findAllBooks("none",0, BookStoreEnum.HIGH_TO_LOW);
-        List bookDetails2 = allBooks.bookDetails;
-        Assert.assertEquals(bookList,bookDetails2);
+        SearchAndFilterResponseDTO allBooks = bookStoreService.findAllBooks("none", 0, BookStoreEnum.HIGH_TO_LOW);
+        List bookDetails2 = allBooks.books;
+        Assert.assertEquals(bookList, bookDetails2);
 
     }
 
@@ -81,9 +81,9 @@ public class DisplayBooksServiceTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         bookList.add(bookDetails);
         when(bookStoreRepository.findSortedBooks(any())).thenReturn(bookList);
-        SearchAndFilterResponseDTO allBooks = bookStoreService.findAllBooks("I",0, BookStoreEnum.HIGH_TO_LOW);
-        List bookDetails2 = allBooks.bookDetails;
-        Assert.assertEquals(bookList,bookDetails2);
+        SearchAndFilterResponseDTO allBooks = bookStoreService.findAllBooks("I", 0, BookStoreEnum.HIGH_TO_LOW);
+        List bookDetails2 = allBooks.books;
+        Assert.assertEquals(bookList, bookDetails2);
 
     }
 

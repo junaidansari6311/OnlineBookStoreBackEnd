@@ -26,28 +26,28 @@ public class CartController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
-        String message = cartService.addTOCart(cartDTO);
+        String message = cartService.addToCart(cartDTO);
         ResponseDto responseDto = new ResponseDto(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("/cart")
-    public ResponseEntity<ResponseDto> allCart(){
+    public ResponseEntity<ResponseDto> fetchBooks() {
         List<CartDetails> list = cartService.allCartItems();
         return new ResponseEntity(list, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PutMapping("/cart")
-    public ResponseEntity Update(@Valid @RequestBody CartDTO cartDTO){
-        String message = cartService.UpdateQuantity(cartDTO);
+    public ResponseEntity updateBookQuantity(@Valid @RequestBody CartDTO cartDTO) {
+        String message = cartService.updateQuantity(cartDTO);
         ResponseDto responseDto = new ResponseDto(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/cart/{id}")
-    public ResponseEntity deleteCart(@PathVariable Integer id){
-        String message = cartService.deleteCartItems(id);
-        ResponseDto responseDto = new ResponseDto(message,null);
-        return new ResponseEntity(responseDto,HttpStatus.OK);
+    public ResponseEntity deleteBook(@PathVariable Integer id) {
+        String message = cartService.deleteCartItem(id);
+        ResponseDto responseDto = new ResponseDto(message, null);
+        return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 }

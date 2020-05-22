@@ -21,10 +21,10 @@ public class BookStoreController {
     IBookStoreService bookStoreService;
 
     @GetMapping("/books")
-    public ResponseEntity<ResponseDto> allBooks(@RequestParam(defaultValue = "0") Integer PageNo,
-                                                @RequestParam(defaultValue = "8") Integer PageSize,
-                                                @RequestParam(defaultValue = "id") String sortBy) {
-        List<BookDetails> list = bookStoreService.allBooks(PageNo, PageSize, sortBy);
+    public ResponseEntity<ResponseDto> getAllBooks(@RequestParam(defaultValue = "1") Integer PageNo,
+                                                   @RequestParam(defaultValue = "8") Integer PageSize,
+                                                   @RequestParam(defaultValue = "id") String sortBy) {
+        List<BookDetails> list = bookStoreService.allBooks((PageNo - 1), PageSize, sortBy);
         return new ResponseEntity(list, new HttpHeaders(), HttpStatus.OK);
     }
 

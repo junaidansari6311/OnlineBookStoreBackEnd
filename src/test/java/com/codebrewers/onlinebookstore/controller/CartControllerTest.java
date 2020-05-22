@@ -40,7 +40,7 @@ public class CartControllerTest {
         cart1.add(cartDetails);
         String stringConvertDTO = gson.toJson(cartDetails);
         String message = "book Added";
-        when(cartService.addTOCart(any())).thenReturn(message);
+        when(cartService.addToCart(any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
@@ -55,7 +55,7 @@ public class CartControllerTest {
     void givenBookDetails_WhenWrongData_ShouldReturn400StatusCode() throws Exception {
         CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
         String message = "book Added";
-        when(cartService.addTOCart(any())).thenReturn(message);
+        when(cartService.addToCart(any())).thenReturn(message);
         int status = this.mockMvc.perform(post("/cart")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse().getStatus();
@@ -64,15 +64,15 @@ public class CartControllerTest {
     }
 
     @Test
-    void givenBookDetails_WhenWrongMethod_ShouldReturn404StatusCode() throws Exception {
+    void givenBookDetails_WhenWrongMethod_ShouldReturn405StatusCode() throws Exception {
         CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        String message = "book Added";
-        when(cartService.addTOCart(any())).thenReturn(message);
+        String message = "Book Added Successfully";
+        when(cartService.addToCart(any())).thenReturn(message);
         int status = this.mockMvc.perform(post("/cart/books")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse().getStatus();
 
-        Assert.assertEquals(404, status);
+        Assert.assertEquals(405, status);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class CartControllerTest {
         cart1.add(cartDetails);
         String stringConvertDTO = gson.toJson(cartDetails);
         String message = "Book Quantity Update";
-        when(cartService.UpdateQuantity(any())).thenReturn(message);
+        when(cartService.updateQuantity(any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(put("/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
@@ -112,8 +112,8 @@ public class CartControllerTest {
     void givenBookID_WhenPresentToDelete_ShouldReturnMessage() throws Exception {
         String message = "Cart Has Been Deleted";
         Integer id = 1;
-        when(cartService.deleteCartItems(any())).thenReturn(message);
-        MvcResult mvcResult = this.mockMvc.perform(delete("/cart/{id}",id)).andReturn();
+        when(cartService.deleteCartItem(any())).thenReturn(message);
+        MvcResult mvcResult = this.mockMvc.perform(delete("/cart/{id}", id)).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
         String responseMessage = responseDto.message;

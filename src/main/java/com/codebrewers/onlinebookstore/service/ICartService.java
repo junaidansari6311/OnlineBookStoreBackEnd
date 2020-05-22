@@ -8,11 +8,11 @@ import java.util.List;
 public interface ICartService {
 
 
-    String addTOCart(CartDTO cartDTO);
+    String addToCart(CartDTO cartDTO);
 
     List<CartDetails> allCartItems();
 
-    String UpdateQuantity(CartDTO cartDTO);
+    String updateQuantity(CartDTO cartDTO);
 
-    String deleteCartItems(Integer id);
+    String deleteCartItem(Integer id);
 }

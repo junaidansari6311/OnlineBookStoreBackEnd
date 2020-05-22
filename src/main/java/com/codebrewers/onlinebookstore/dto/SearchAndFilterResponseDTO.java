@@ -3,11 +3,11 @@ package com.codebrewers.onlinebookstore.dto;
 import java.util.List;
 
 public class SearchAndFilterResponseDTO {
-        public List bookDetails;
-        public int size;
+    public List books;
+    public int size;
 
-        public SearchAndFilterResponseDTO(List bookDetails, int size) {
-            this.bookDetails = bookDetails;
-            this.size = size;
-        }
+    public SearchAndFilterResponseDTO(List books, int size) {
+        this.books = books;
+        this.size = size;
+    }
 }
