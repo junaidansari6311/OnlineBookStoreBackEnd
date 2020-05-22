@@ -69,7 +69,18 @@ public class BookStoreService implements IBookStoreService {
 
     @Override
     public Resource loadFileAsResource(String fileName) {
-        return null;
+        try {
+            String fileBasePath = System.getProperty("user.dir")+ "\\src\\main\\resources\\Images\\";
+            Path path = Paths.get(fileBasePath + fileName);
+            Resource resource = new UrlResource(path.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new BookStoreException("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new BookStoreException("File not found " + fileName);
+        }
     }
 
 }
