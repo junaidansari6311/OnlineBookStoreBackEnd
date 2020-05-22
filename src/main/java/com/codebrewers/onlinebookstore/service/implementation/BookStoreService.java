@@ -7,17 +7,27 @@ import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 
+
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
 public class BookStoreService implements IBookStoreService {
+
+    @Value("${image.file.path}")
+    private String imagePath;
 
     @Autowired
     private IBookStoreRepository bookStoreRepository;
@@ -55,6 +65,11 @@ public class BookStoreService implements IBookStoreService {
         page.setPage(pageNo);
         SearchAndFilterResponseDTO searchAndFilterResponseDTO = new SearchAndFilterResponseDTO(page.getPageList(), allBooks.size());
         return searchAndFilterResponseDTO;
+    }
+
+    @Override
+    public Resource loadFileAsResource(String fileName) {
+        return null;
     }
 
 }

@@ -6,6 +6,8 @@ import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.service.implementation.BookStoreService;
 import com.google.gson.Gson;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -104,6 +110,19 @@ public class DisplayBooksControllerTest {
                 .content(stringConvertDTO).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(toJson));
+    }
+
+    @Test
+    void givenFileName_WhenFound_ReturnsFile() throws Exception {
+        String fileName="Bob.jpg";
+        String imagePath="\\src\\main\\resources\\Images\\";
+        String fileBasePath = System.getProperty("user.dir")+imagePath;
+        Path path = Paths.get(fileBasePath + fileName);
+        Resource resource = new UrlResource(path.toUri());
+        when(bookStoreService.loadFileAsResource(any())).thenReturn(resource);
+        MvcResult result = this.mockMvc.perform(get("/books/image/fileName?fileName=imageName"))
+                .andReturn();
+        Assert.assertEquals(200,result.getResponse().getStatus());
     }
 
 }
