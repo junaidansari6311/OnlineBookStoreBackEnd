@@ -48,6 +48,18 @@ public class AdminService implements IAdminService {
 
     @Override
     public String storeFile(MultipartFile file) {
-       return null;
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileBasePath = System.getProperty("user.dir") + imagePath;
+        System.out.println("sdc"+fileBasePath);
+        if (!(fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png"))) {
+            throw new AdminServiceException("Only Image Files Can Be Uploaded");
+        }
+        Path path = Paths.get(fileBasePath + fileName);
+        try {
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileName;
     }
 }
