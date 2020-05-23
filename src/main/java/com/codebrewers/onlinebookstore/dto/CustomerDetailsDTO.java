@@ -1,6 +1,6 @@
 package com.codebrewers.onlinebookstore.dto;
 
-public class OrderBookDetailsDTO {
+public class CustomerDetailsDTO {
 
     public String[] bookName;
 
@@ -25,7 +25,7 @@ public class OrderBookDetailsDTO {
     public String email;
 
 
-    public OrderBookDetailsDTO(Integer quantity, Double bookPrice, String customerName, String mobileNo, String pincode, String locality, String address, String city, String landmark, String email, String... bookName) {
+    public CustomerDetailsDTO(Integer quantity, Double bookPrice, String customerName, String mobileNo, String pincode, String locality, String address, String city, String landmark, String email, String... bookName) {
         this.quantity = quantity;
         this.bookPrice = bookPrice;
         this.customerName = customerName;

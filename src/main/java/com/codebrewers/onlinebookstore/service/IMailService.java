@@ -1,6 +1,6 @@
 package com.codebrewers.onlinebookstore.service;
 
-import com.codebrewers.onlinebookstore.dto.OrderBookDetailsDTO;
+import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -8,5 +8,5 @@ import java.io.IOException;
 public interface IMailService {
 
 
-    void sendMail(OrderBookDetailsDTO orderBookDetailsDTO) throws MessagingException, IOException;
+    void sendMail(CustomerDetailsDTO customerDetailsDTO) throws MessagingException, IOException;
 }

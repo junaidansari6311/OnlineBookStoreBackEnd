@@ -1,6 +1,6 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
-import com.codebrewers.onlinebookstore.dto.OrderBookDetailsDTO;
+import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,7 +21,7 @@ public class MailService {
     @Autowired
     JavaMailSender javaMailSender;
 
-    public void sendMail(OrderBookDetailsDTO order) throws MessagingException {
+    public void sendMail(CustomerDetailsDTO order) throws MessagingException {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);

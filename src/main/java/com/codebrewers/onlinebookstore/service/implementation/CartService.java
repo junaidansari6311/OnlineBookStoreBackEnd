@@ -1,7 +1,7 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
-import com.codebrewers.onlinebookstore.dto.OrderBookDetailsDTO;
+import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 import com.codebrewers.onlinebookstore.exception.CartException;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.repository.ICartRepository;
@@ -66,7 +66,7 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void sendMail(OrderBookDetailsDTO order) throws MessagingException {
+    public void sendMail(CustomerDetailsDTO order) throws MessagingException {
         mailService.sendMail(order);
     }
 }
