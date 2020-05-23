@@ -1,6 +1,7 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
+import com.codebrewers.onlinebookstore.dto.MailDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.service.ICartService;
@@ -11,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -49,5 +52,11 @@ public class CartController {
         String message = cartService.deleteCartItem(id);
         ResponseDto responseDto = new ResponseDto(message, null);
         return new ResponseEntity(responseDto, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/send",method = RequestMethod.POST)
+    public String sendEmail(@RequestBody MailDTO mailDTO) throws IOException, MessagingException, MessagingException {
+        cartService.sendMail(mailDTO);
+        return "Email Send Successfully";
     }
 }
