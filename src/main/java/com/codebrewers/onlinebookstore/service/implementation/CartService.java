@@ -1,31 +1,27 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
-import com.codebrewers.onlinebookstore.dto.MailDTO;
+import com.codebrewers.onlinebookstore.dto.OrderBookDetailsDTO;
 import com.codebrewers.onlinebookstore.exception.CartException;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.repository.ICartRepository;
 import com.codebrewers.onlinebookstore.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.IOException;
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
 @Service
 public class CartService implements ICartService {
 
-    @Value("${spring.mail.username}")
-    private String username;
+    @Autowired
+    JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.password}")
-    private String password;
+    @Autowired
+    MailService mailService;
 
     @Autowired
     private ICartRepository icartRepository;
@@ -70,26 +66,7 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void sendMail(MailDTO mailDTO) throws IOException, MessagingException {
-
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-
-        Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(username, false));
-
-        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailDTO.to_address));
-        msg.setSubject(mailDTO.subject);
-        msg.setContent(mailDTO.body, "text/html");
-        Transport.send(msg);
+    public void sendMail(OrderBookDetailsDTO order) throws MessagingException {
+        mailService.sendMail(order);
     }
 }

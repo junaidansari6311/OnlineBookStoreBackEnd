@@ -2,6 +2,7 @@ package com.codebrewers.onlinebookstore.service;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.dto.MailDTO;
+import com.codebrewers.onlinebookstore.dto.OrderBookDetailsDTO;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 
 import javax.mail.MessagingException;
@@ -20,5 +21,5 @@ public interface ICartService {
 
     String deleteCartItem(Integer id);
 
-    void sendMail(MailDTO mailDTO) throws IOException, MessagingException;
+    void sendMail(OrderBookDetailsDTO order) throws MessagingException;
 }
