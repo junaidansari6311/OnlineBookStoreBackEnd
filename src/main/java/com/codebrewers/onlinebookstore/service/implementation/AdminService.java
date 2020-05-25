@@ -3,6 +3,7 @@ package com.codebrewers.onlinebookstore.service.implementation;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
+import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ import java.util.Optional;
 @Service
 public class AdminService implements IAdminService {
 
-    @Value("${image.file.path}")
-    private String imagePath;
+    @Autowired
+    private FileProperties fileProperties;
 
     @Autowired
     private IBookStoreRepository bookStoreRepository;
@@ -49,7 +50,7 @@ public class AdminService implements IAdminService {
     @Override
     public String storeFile(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        String fileBasePath = System.getProperty("user.dir") + imagePath;
+        String fileBasePath = System.getProperty("user.dir") + fileProperties;
         System.out.println("sdc"+fileBasePath);
         if (!(fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png"))) {
             throw new AdminServiceException("Only Image Files Can Be Uploaded");

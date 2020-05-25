@@ -12,12 +12,6 @@ import javax.mail.internet.MimeMessage;
 
 public class MailService {
 
-    @Value("${spring.mail.username}")
-    private String username;
-
-    @Value("${spring.mail.password}")
-    private String password;
-
     @Autowired
     JavaMailSender javaMailSender;
 

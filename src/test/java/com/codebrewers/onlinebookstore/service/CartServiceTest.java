@@ -3,6 +3,7 @@ package com.codebrewers.onlinebookstore.service;
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.exception.CartException;
 import com.codebrewers.onlinebookstore.model.CartDetails;
+import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.repository.ICartRepository;
 import com.codebrewers.onlinebookstore.service.implementation.CartService;
 import org.junit.Assert;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,10 @@ public class CartServiceTest {
 
     @InjectMocks
     CartService cartService;
+
+
+    @MockBean
+    FileProperties fileProperties;
 
     @Test
     void givenBookDetails_WhenBookAddedInCart_ShouldReturnMessage() {

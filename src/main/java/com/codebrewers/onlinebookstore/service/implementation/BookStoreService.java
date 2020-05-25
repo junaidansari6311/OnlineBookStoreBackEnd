@@ -4,19 +4,19 @@ import com.codebrewers.onlinebookstore.dto.SearchAndFilterResponseDTO;
 import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.exception.BookStoreException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
+import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-
 
 import java.net.MalformedURLException;
 import java.nio.file.Path;
@@ -26,8 +26,8 @@ import java.util.List;
 @Service
 public class BookStoreService implements IBookStoreService {
 
-    @Value("${image.file.path}")
-    private String imagePath;
+    @Autowired
+    private FileProperties fileProperties;
 
     @Autowired
     private IBookStoreRepository bookStoreRepository;
@@ -70,10 +70,10 @@ public class BookStoreService implements IBookStoreService {
     @Override
     public Resource loadFileAsResource(String fileName) {
         try {
-            String fileBasePath = System.getProperty("user.dir")+ "\\src\\main\\resources\\Images\\";
+            String fileBasePath = System.getProperty("user.dir") + "\\src\\main\\resources\\Images\\";
             Path path = Paths.get(fileBasePath + fileName);
             Resource resource = new UrlResource(path.toUri());
-            if(resource.exists()) {
+            if (resource.exists()) {
                 return resource;
             } else {
                 throw new BookStoreException("File not found " + fileName);

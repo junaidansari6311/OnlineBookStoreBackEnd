@@ -3,6 +3,7 @@ package com.codebrewers.onlinebookstore.controller;
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
 import com.codebrewers.onlinebookstore.model.CartDetails;
+import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.service.implementation.CartService;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -29,6 +30,10 @@ public class CartControllerTest {
 
     @MockBean
     private CartService cartService;
+
+
+    @MockBean
+    FileProperties fileProperties;
 
     Gson gson = new Gson();
 

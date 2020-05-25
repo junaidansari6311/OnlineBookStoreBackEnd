@@ -3,6 +3,7 @@ package com.codebrewers.onlinebookstore.service;
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
+import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.service.implementation.AdminService;
 import org.junit.Assert;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -23,6 +25,9 @@ public class AdminServiceTest {
     @InjectMocks
     AdminService adminService;
 
+
+    @MockBean
+    FileProperties fileProperties;
 
     @Test
     void givenBookDetails_WhenGetResponse_ShouldReturnBookDetails() {
