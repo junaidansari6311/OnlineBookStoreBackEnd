@@ -2,16 +2,14 @@ package com.codebrewers.onlinebookstore.model;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class BookDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer id;
 
     public String bookName;
@@ -22,6 +20,9 @@ public class BookDetails {
     public double bookPrice;
     public double quantity;
     public int publishingYear;
+
+    @OneToMany(mappedBy = "bookDetails")
+    List<BookCartDetails> bookCartDetails;
 
     public BookDetails() {
     }
@@ -35,5 +36,13 @@ public class BookDetails {
         this.description = bookDTO.description;
         this.imageUrl = bookDTO.imageUrl;
         this.publishingYear = bookDTO.publishingYear;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

@@ -3,7 +3,11 @@ package com.codebrewers.onlinebookstore.service.implementation;
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 import com.codebrewers.onlinebookstore.exception.CartException;
+import com.codebrewers.onlinebookstore.model.BookCartDetails;
+import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.model.CartDetails;
+import com.codebrewers.onlinebookstore.repository.IBookCartDetailsRepository;
+import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.repository.ICartRepository;
 import com.codebrewers.onlinebookstore.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,16 +31,27 @@ public class CartService implements ICartService {
     @Autowired
     private ICartRepository icartRepository;
 
+    @Autowired
+    private IBookStoreRepository bookStoreRepository;
+
+    @Autowired
+    private IBookCartDetailsRepository bookCartDetailsRepository;
+
 
     @Override
     public String addToCart(CartDTO cartDTO) {
-        CartDetails cartDetails = new CartDetails(cartDTO);
-        Optional<CartDetails> byBookName = icartRepository.findByBookName(cartDTO.bookName);
-        if (byBookName.isPresent()) {
-            throw new CartException("Book Already Present");
-        }
+
+        BookCartDetails bookCartDetails = new BookCartDetails(cartDTO);
+        BookDetails books = bookStoreRepository.findById(cartDTO.id).get();
+        List<BookCartDetails> cartList = new ArrayList<>();
+        cartList.add(bookCartDetails);
+        CartDetails cartDetails = new CartDetails(1,cartList);
         icartRepository.save(cartDetails);
-        return "book addded";
+        bookCartDetails.setCartDetails(cartDetails);
+        bookCartDetails.setBookDetails(books);
+        System.out.println(bookCartDetails);
+        bookCartDetailsRepository.save(bookCartDetails);
+        return "Book Added To Cart Successfully";
     }
 
     @Override
@@ -48,15 +64,12 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public String updateQuantity(CartDTO cartDTO) {
-        Optional<CartDetails> byBookID = icartRepository.findByBookID(cartDTO.bookID);
-        if (byBookID.isPresent()) {
-            CartDetails cartDetails = byBookID.get();
-            cartDetails.setQuantity(cartDTO.quantity);
-            icartRepository.save(cartDetails);
-            return "Book Quantity Update";
-        }
-        throw new CartException("No Books Available");
+    public String updateQuantityAndPrice(CartDTO cartDTO) {
+        BookCartDetails bookCartDetails = bookCartDetailsRepository.findById(cartDTO.id).get();
+        bookCartDetails.setQuantity(cartDTO.quantity);
+        bookCartDetails.setTotalPrice(cartDTO.totalPrice);
+        bookCartDetailsRepository.save(bookCartDetails);
+        return "Book Quantity Updated";
     }
 
     @Override

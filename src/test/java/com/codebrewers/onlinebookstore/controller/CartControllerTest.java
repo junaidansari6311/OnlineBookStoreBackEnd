@@ -35,8 +35,8 @@ public class CartControllerTest {
     @Test
     void givenBookDetails_WhenAddedToCart_ShouldReturnMessage() throws Exception {
         List<CartDetails> cart1 = new ArrayList<>();
-        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        CartDetails cartDetails = new CartDetails(cartDTO);
+        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        CartDetails cartDetails = new CartDetails();
         cart1.add(cartDetails);
         String stringConvertDTO = gson.toJson(cartDetails);
         String message = "book Added";
@@ -53,7 +53,7 @@ public class CartControllerTest {
 
     @Test
     void givenBookDetails_WhenWrongData_ShouldReturn400StatusCode() throws Exception {
-        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+        CartDTO cartDTO = new CartDTO(1,50,200.0);
         String message = "book Added";
         when(cartService.addToCart(any())).thenReturn(message);
         int status = this.mockMvc.perform(post("/cart")
@@ -65,7 +65,7 @@ public class CartControllerTest {
 
     @Test
     void givenBookDetails_WhenWrongMethod_ShouldReturn405StatusCode() throws Exception {
-        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
+        CartDTO cartDTO = new CartDTO(1,50,200.0);
         String message = "Book Added Successfully";
         when(cartService.addToCart(any())).thenReturn(message);
         int status = this.mockMvc.perform(post("/cart/books")
@@ -79,8 +79,8 @@ public class CartControllerTest {
     void givenCart_shouldReturnsListOfAllBooks() throws Exception {
         List<CartDetails> cartList = new ArrayList<>();
         List<CartDetails> cartList1 = new ArrayList<>();
-        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        CartDetails cartDetails = new CartDetails(cartDTO);
+        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        CartDetails cartDetails = new CartDetails();
         cartList.add(cartDetails);
         cartList1.add(cartDetails);
 
@@ -92,12 +92,12 @@ public class CartControllerTest {
     @Test
     void givenBookDetails_WhenUpdateBookQuantity_ShouldReturnMessage() throws Exception {
         List<CartDetails> cart1 = new ArrayList<>();
-        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        CartDetails cartDetails = new CartDetails(cartDTO);
+        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        CartDetails cartDetails = new CartDetails();
         cart1.add(cartDetails);
         String stringConvertDTO = gson.toJson(cartDetails);
         String message = "Book Quantity Update";
-        when(cartService.updateQuantity(any())).thenReturn(message);
+        when(cartService.updateQuantityAndPrice(any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(put("/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();

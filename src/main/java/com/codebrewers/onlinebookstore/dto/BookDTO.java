@@ -17,7 +17,7 @@ public class BookDTO {
     public String authorName;
 
 
-    @Length(min = 1, max = 250, message = "Description should between 1-250 characters")
+    @Length(min = 1, max = 300, message = "Description should between 1-300 characters")
     public String description;
 
     @NotEmpty(message = "Please Provide Image Name")

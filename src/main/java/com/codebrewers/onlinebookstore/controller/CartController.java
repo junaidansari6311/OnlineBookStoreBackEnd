@@ -1,7 +1,7 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
-import com.codebrewers.onlinebookstore.dto.MailDTO;
+import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.service.ICartService;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -42,7 +41,7 @@ public class CartController {
 
     @PutMapping("/cart")
     public ResponseEntity updateBookQuantity(@Valid @RequestBody CartDTO cartDTO) {
-        String message = cartService.updateQuantity(cartDTO);
+        String message = cartService.updateQuantityAndPrice(cartDTO);
         ResponseDto responseDto = new ResponseDto(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
@@ -55,7 +54,7 @@ public class CartController {
     }
 
     @RequestMapping(value = "/send",method = RequestMethod.POST)
-    public String sendEmail(@RequestBody MailDTO mailDTO) throws IOException, MessagingException, MessagingException {
+    public String sendEmail(@RequestBody CustomerDetailsDTO mailDTO) throws  MessagingException {
         cartService.sendMail(mailDTO);
         return "Email Send Successfully";
     }

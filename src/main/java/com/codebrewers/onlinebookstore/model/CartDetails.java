@@ -1,11 +1,7 @@
 package com.codebrewers.onlinebookstore.model;
 
-import com.codebrewers.onlinebookstore.dto.CartDTO;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class CartDetails {
@@ -14,28 +10,31 @@ public class CartDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
 
-    public Integer bookID;
-
-    public double quantity;
-
-    public String bookName;
-    public String authorName;
-    public double bookPrice;
-    public String bookImg;
+    @OneToMany(mappedBy = "cartDetails")
+    public List<BookCartDetails> book;
 
     public CartDetails() {
     }
 
-    public CartDetails(CartDTO cartDTO) {
-        this.bookID = cartDTO.bookID;
-        this.quantity = cartDTO.quantity;
-        this.bookName = cartDTO.bookName;
-        this.authorName = cartDTO.authorName;
-        this.bookPrice = cartDTO.bookPrice;
-        this.bookImg = cartDTO.bookImg;
+    public CartDetails(int id,List<BookCartDetails> bookCartDetails) {
+        this.id= id;
+        this.book=bookCartDetails;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<BookCartDetails> getBook() {
+        return book;
+    }
+
+    public void setBook(List<BookCartDetails> items) {
+        this.book = items;
     }
 }

@@ -28,8 +28,8 @@ public class CartServiceTest {
 
     @Test
     void givenBookDetails_WhenBookAddedInCart_ShouldReturnMessage() {
-        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        CartDetails cartDetails = new CartDetails(cartDTO);
+        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        CartDetails cartDetails = new CartDetails();
         when(cartRepository.save(any())).thenReturn(cartDetails);
         String message = "Book Added Successfully";
         String addedBooks = cartService.addToCart(cartDTO);
@@ -39,8 +39,8 @@ public class CartServiceTest {
     @Test
     void givenBookDetails_WhenBookAlreadyPresentInCart_ShouldThrowException() {
         try {
-            CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-            CartDetails cartDetails = new CartDetails(cartDTO);
+            CartDTO cartDTO = new CartDTO(1,50,200.0);
+            CartDetails cartDetails = new CartDetails();
             when(cartRepository.findByBookName("IOT")).thenReturn(java.util.Optional.of(cartDetails));
             when(cartRepository.save(any())).thenReturn(cartDetails);
             cartService.addToCart(cartDTO);
@@ -53,8 +53,8 @@ public class CartServiceTest {
     void givenCart_ShouldReturnListOfBooks() {
         List<CartDetails> cartList = new ArrayList<>();
         List<CartDetails> cartList1 = new ArrayList<>();
-        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        CartDetails cartDetails = new CartDetails(cartDTO);
+        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        CartDetails cartDetails = new CartDetails();
         cartList.add(cartDetails);
         cartList1.add(cartDetails);
         when(cartRepository.findAll()).thenReturn(cartList);
@@ -66,8 +66,8 @@ public class CartServiceTest {
     void givenBookDetails_WhenNoBooksAvailableInCart_ShouldThrowException() {
         List<CartDetails> cartList = new ArrayList<>();
         try {
-            CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-            CartDetails cartDetails = new CartDetails(cartDTO);
+            CartDTO cartDTO = new CartDTO(1,50,200.0);
+            CartDetails cartDetails = new CartDetails();
             cartList.add(cartDetails);
             when(cartRepository.findAll()).thenReturn(cartList);
             cartService.allCartItems();
@@ -79,12 +79,12 @@ public class CartServiceTest {
     @Test
     void givenBookDetails_WhenUpdateBookQuantity_ShouldReturnMessage() {
 
-        CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-        CartDetails cartDetails = new CartDetails(cartDTO);
+        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        CartDetails cartDetails = new CartDetails();
         when(cartRepository.findByBookID(1)).thenReturn(java.util.Optional.of(cartDetails));
         when(cartRepository.save(any())).thenReturn(cartDetails);
         String message = "Book Quantity Updated";
-        String updateQuantity = cartService.updateQuantity(cartDTO);
+        String updateQuantity = cartService.updateQuantityAndPrice(cartDTO);
         Assert.assertEquals(message, updateQuantity);
     }
 
@@ -92,12 +92,12 @@ public class CartServiceTest {
     void givenBookDetails_WhenNoBookAvailable_ShouldThrowException() {
         List<CartDetails> cartList = new ArrayList<>();
         try {
-            CartDTO cartDTO = new CartDTO(1, 50, "IOT", "Mark", 500, "iot.jpg");
-            CartDetails cartDetails = new CartDetails(cartDTO);
+            CartDTO cartDTO = new CartDTO(1,50,200.0);
+            CartDetails cartDetails = new CartDetails();
             cartList.add(cartDetails);
             when(cartRepository.findByBookID(2)).thenReturn(java.util.Optional.of(cartDetails));
             when(cartRepository.save(any())).thenReturn(cartList);
-            cartService.updateQuantity(cartDTO);
+            cartService.updateQuantityAndPrice(cartDTO);
         } catch (CartException e) {
             Assert.assertEquals("No Books Available", e.getMessage());
         }

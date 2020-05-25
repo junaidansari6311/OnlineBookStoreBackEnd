@@ -10,4 +10,8 @@ public class ResponseDto {
         this.message = message;
         this.bookDetails = bookDetails;
     }
+
+    public ResponseDto(String message) {
+        this.message = message;
+    }
 }
