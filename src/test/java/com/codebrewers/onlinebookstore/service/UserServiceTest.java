@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -27,6 +28,9 @@ public class UserServiceTest {
 
     @MockBean
     FileProperties fileProperties;
+
+    @Mock
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Test
     void givenUserDetails_WhenRegistered_ShouldReturnMessage() {
