@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.service;
 
+import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
 import com.codebrewers.onlinebookstore.exception.UserServiceException;
 import com.codebrewers.onlinebookstore.model.UserDetails;
@@ -40,6 +41,18 @@ public class UserServiceTest {
             when(userRepository.findByEmailID(any())).thenReturn(java.util.Optional.of(userDetails));
             when(userRepository.save(any())).thenReturn(message);
         String user = userService.userRegistration(registrationDTO);
+        Assert.assertEquals(message, user);
+    }
+
+    @Test
+    void givenUserDetails_WhenUserLogedin_ShouldReturnMessage() {
+        LoginDTO loginDTO = new LoginDTO("gajanan@gmail.com", "Gajanan@123");
+        UserDetails userDetails = new UserDetails(loginDTO);
+        String message = "LOGIN SUCCESSFUL";
+        when(userRepository.findByEmailID(any())).thenReturn(java.util.Optional.of(userDetails));
+        when(bCryptPasswordEncoder.matches(loginDTO.password,userDetails.password)).thenReturn(true);
+        when(userRepository.save(any())).thenReturn(message);
+        String user = userService.userLogin(loginDTO);
         Assert.assertEquals(message, user);
     }
 }
