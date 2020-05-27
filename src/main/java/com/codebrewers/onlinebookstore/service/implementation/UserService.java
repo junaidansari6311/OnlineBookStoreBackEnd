@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements IUserService {
 
@@ -33,7 +35,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String userLogin(LoginDTO logInDTO) {
-       return null;
+    public String userLogin(LoginDTO loginDTO) {
+        Optional<UserDetails> userDetail = userRepository.findByEmailID(loginDTO.emailID);
+
+        if (userDetail.isPresent()) {
+                boolean password = bCryptPasswordEncoder.matches(loginDTO.password, userDetail.get().password);
+                if(password){
+                    return "LOGIN SUCCESSFUL";
+                }
+                throw new UserServiceException("INCORRECT PASSWORD");
+        }
+        throw new UserServiceException("INCORRECT EMAIL");
     }
 }
