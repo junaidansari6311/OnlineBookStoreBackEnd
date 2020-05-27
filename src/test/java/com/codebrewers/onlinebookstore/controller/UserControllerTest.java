@@ -64,11 +64,28 @@ public class UserControllerTest {
     }
 
     @Test
-    void givenUserLogin_WhenEmailAreNotProper_ShouldReturnMessage() throws Exception {
-        LoginDTO logInDTO = new LoginDTO("gajanan@sdcom","gajanan@123");
+    void givenUserLogin_WhenEmailIDFieldIsEmpty_ShouldReturnErrorMessage() throws Exception {
+        LoginDTO logInDTO = new LoginDTO("","gajanan@123");
         UserDetails userDetails = new UserDetails(logInDTO);
         String stringConvertDTO = gson.toJson(userDetails);
-        String message = "Enter Valid Email";
+        String message = "please Enter EmailID";
+
+        when(userService.userLogin(any())).thenReturn(message);
+        MvcResult mvcResult = this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
+                .content(stringConvertDTO)).andReturn();
+
+        String response = mvcResult.getResponse().getContentAsString();
+        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        String responseMessage = responseDto.message;
+        Assert.assertEquals(message, responseMessage);
+    }
+
+    @Test
+    void givenUserLogin_WhenPasswordFieldIsEmpty_ShouldReturnErrorMessage() throws Exception {
+        LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com","");
+        UserDetails userDetails = new UserDetails(logInDTO);
+        String stringConvertDTO = gson.toJson(userDetails);
+        String message = "please Enter Password";
 
         when(userService.userLogin(any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
