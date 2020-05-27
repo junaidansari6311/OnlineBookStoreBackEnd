@@ -62,4 +62,21 @@ public class UserControllerTest {
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
+
+    @Test
+    void givenUserLogin_WhenEmailAreNotProper_ShouldReturnMessage() throws Exception {
+        LoginDTO logInDTO = new LoginDTO("gajanan@sdcom","gajanan@123");
+        UserDetails userDetails = new UserDetails(logInDTO);
+        String stringConvertDTO = gson.toJson(userDetails);
+        String message = "Enter Valid Email";
+
+        when(userService.userLogin(any())).thenReturn(message);
+        MvcResult mvcResult = this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
+                .content(stringConvertDTO)).andReturn();
+
+        String response = mvcResult.getResponse().getContentAsString();
+        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        String responseMessage = responseDto.message;
+        Assert.assertEquals(message, responseMessage);
+    }
 }
