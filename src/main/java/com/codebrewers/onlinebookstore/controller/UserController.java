@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.controller;
 
+import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
 import com.codebrewers.onlinebookstore.service.IUserService;
@@ -28,6 +29,17 @@ public class UserController {
         }
         String message = userService.userRegistration(registrationDTO);
         ResponseDto responseDTO = new ResponseDto(message, null);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseDto> demoo(@Valid @RequestBody LoginDTO logInDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+        String message = userService.userLogin(logInDTO);
+        ResponseDto responseDTO = new ResponseDto(message,null);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 
     }

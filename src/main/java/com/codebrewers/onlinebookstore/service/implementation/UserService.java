@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
+import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
 import com.codebrewers.onlinebookstore.exception.UserServiceException;
 import com.codebrewers.onlinebookstore.model.UserDetails;
@@ -29,5 +30,10 @@ public class UserService implements IUserService {
         userDetails.password = password;
         userRepository.save(userDetails);
         return "REGISTRATION SUCCESSFUL";
+    }
+
+    @Override
+    public String userLogin(LoginDTO logInDTO) {
+       return null;
     }
 }

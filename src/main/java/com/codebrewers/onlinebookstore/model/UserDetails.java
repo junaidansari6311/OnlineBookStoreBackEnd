@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.model;
 
+import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,6 +29,11 @@ public class UserDetails {
     public UserDetails() {
     }
 
+
+    public UserDetails(LoginDTO logInDTO) {
+        this.emailID = logInDTO.emailID;
+        this.password = logInDTO.password;
+    }
 
     public UserDetails(RegistrationDTO registrationDTO) {
         this.emailID = registrationDTO.emailID;

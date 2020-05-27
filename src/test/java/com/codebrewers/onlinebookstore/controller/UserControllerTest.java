@@ -1,5 +1,6 @@
 package com.codebrewers.onlinebookstore.controller;
 
+import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDto;
 import com.codebrewers.onlinebookstore.model.UserDetails;
@@ -39,6 +40,23 @@ public class UserControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(post("/user/register").contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
 
+        String response = mvcResult.getResponse().getContentAsString();
+        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        String responseMessage = responseDto.message;
+        Assert.assertEquals(message, responseMessage);
+    }
+
+
+    @Test
+    void givenUserLogin_WhenFieldsAreCorrect_ShouldReturnMeaage() throws Exception {
+        LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com","gajanan@123");
+        UserDetails userDetails = new UserDetails(logInDTO);
+        String stringConvertDTO = gson.toJson(userDetails);
+        String message = "LOGIN SUCCESSFUL";
+
+        when(userService.userLogin(any())).thenReturn(message);
+        MvcResult mvcResult = this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
+                .content(stringConvertDTO)).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
         String responseMessage = responseDto.message;
