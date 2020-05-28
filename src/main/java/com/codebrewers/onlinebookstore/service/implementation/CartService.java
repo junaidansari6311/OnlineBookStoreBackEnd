@@ -6,6 +6,7 @@ import com.codebrewers.onlinebookstore.exception.CartException;
 import com.codebrewers.onlinebookstore.model.BookCartDetails;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.model.CartDetails;
+import com.codebrewers.onlinebookstore.model.UserDetails;
 import com.codebrewers.onlinebookstore.repository.IBookCartDetailsRepository;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.repository.ICartRepository;
@@ -37,6 +38,8 @@ public class CartService implements ICartService {
     @Autowired
     private IBookCartDetailsRepository bookCartDetailsRepository;
 
+    @Autowired
+    private ICartRepository cartRepository;
 
     @Override
     public String addToCart(CartDTO cartDTO) {
@@ -45,7 +48,7 @@ public class CartService implements ICartService {
         BookDetails books = bookStoreRepository.findById(cartDTO.id).get();
         List<BookCartDetails> cartList = new ArrayList<>();
         cartList.add(bookCartDetails);
-        CartDetails cartDetails = new CartDetails(1,cartList);
+        CartDetails cartDetails = new CartDetails();
         icartRepository.save(cartDetails);
         bookCartDetails.setCartDetails(cartDetails);
         bookCartDetails.setBookDetails(books);
@@ -81,4 +84,13 @@ public class CartService implements ICartService {
     public void sendMail(CustomerDetailsDTO order) throws MessagingException {
         mailService.sendMail(order);
     }
+
+    @Override
+    public CartDetails setCart(UserDetails userDetails) {
+        CartDetails cartDetails = new CartDetails();
+        cartDetails.setUserDetails(userDetails);
+        cartRepository.save(cartDetails);
+        return cartDetails;
+    }
+
 }

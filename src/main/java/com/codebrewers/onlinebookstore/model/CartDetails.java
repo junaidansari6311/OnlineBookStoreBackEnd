@@ -1,5 +1,8 @@
 package com.codebrewers.onlinebookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,12 +16,12 @@ public class CartDetails {
     @OneToMany(mappedBy = "cartDetails")
     public List<BookCartDetails> book;
 
-    public CartDetails() {
-    }
+    @JsonIgnore
+    @OneToOne()
+    @JoinColumn(name = "userId")
+    public UserDetails userDetails;
 
-    public CartDetails(int id,List<BookCartDetails> bookCartDetails) {
-        this.id= id;
-        this.book=bookCartDetails;
+    public CartDetails() {
     }
 
 
@@ -30,11 +33,19 @@ public class CartDetails {
         this.id = id;
     }
 
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
+
     public List<BookCartDetails> getBook() {
         return book;
     }
 
     public void setBook(List<BookCartDetails> items) {
         this.book = items;
+    }
+
+    public UserDetails getUserDetails() {
+        return userDetails;
     }
 }
