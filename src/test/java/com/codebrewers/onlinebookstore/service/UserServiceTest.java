@@ -7,6 +7,7 @@ import com.codebrewers.onlinebookstore.model.UserDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.implementation.UserService;
+import com.codebrewers.onlinebookstore.utils.implementation.Token;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,6 +34,10 @@ public class UserServiceTest {
     @Mock
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Mock
+    Token jwtToken;
+
+
     @Test
     void givenUserDetails_WhenRegistered_ShouldReturnMessage() {
         RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan", "gajanan@gmail.com", "Gajanan@123", "8855885588");
@@ -48,10 +53,10 @@ public class UserServiceTest {
     void givenUserDetails_WhenUserLogedin_ShouldReturnMessage() {
         LoginDTO loginDTO = new LoginDTO("gajanan@gmail.com", "Gajanan@123");
         UserDetails userDetails = new UserDetails(loginDTO);
-        String message = "LOGIN SUCCESSFUL";
+        String message = "token";
         when(userRepository.findByEmailID(any())).thenReturn(java.util.Optional.of(userDetails));
         when(bCryptPasswordEncoder.matches(loginDTO.password,userDetails.password)).thenReturn(true);
-        when(userRepository.save(any())).thenReturn(message);
+        when(jwtToken.generateLoginToken(userDetails)).thenReturn("token");
         String user = userService.userLogin(loginDTO);
         Assert.assertEquals(message, user);
     }

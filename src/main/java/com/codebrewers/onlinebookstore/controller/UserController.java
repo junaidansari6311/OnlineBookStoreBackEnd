@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -23,7 +24,7 @@ public class UserController {
     IUserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseDto> demo(@Valid @RequestBody RegistrationDTO registrationDTO, BindingResult bindingResult) {
+    public ResponseEntity<ResponseDto> userRegistration(@Valid @RequestBody RegistrationDTO registrationDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
@@ -34,13 +35,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> demoo(@Valid @RequestBody LoginDTO logInDTO, BindingResult bindingResult) {
+    public ResponseEntity userLogin(@Valid @RequestBody LoginDTO logInDTO, BindingResult bindingResult, HttpServletResponse response){
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
-        String message = userService.userLogin(logInDTO);
-        ResponseDto responseDTO = new ResponseDto(message,null);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-
+        String userLogin = userService.userLogin(logInDTO);
+        response.setHeader("Authorization",userLogin);
+        return new ResponseEntity("LOGIN SUCCESSFUL", HttpStatus.OK);
     }
 }

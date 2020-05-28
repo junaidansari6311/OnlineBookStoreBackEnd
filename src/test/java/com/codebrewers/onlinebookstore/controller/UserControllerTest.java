@@ -15,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,6 +29,9 @@ public class UserControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    HttpServletResponse httpServletResponse;
 
     Gson gson = new Gson();
 
@@ -48,19 +53,19 @@ public class UserControllerTest {
 
 
     @Test
-    void givenUserLogin_WhenFieldsAreCorrect_ShouldReturnMeaage() throws Exception {
-        LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com","gajanan@123");
+    void givenUserLogin_WhenFieldsAreCorrect_ShouldReturnMessage() throws Exception {
+        LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com","Gajanan@123");
         UserDetails userDetails = new UserDetails(logInDTO);
         String stringConvertDTO = gson.toJson(userDetails);
-        String message = "LOGIN SUCCESSFUL";
-
+        String message = "token";
         when(userService.userLogin(any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
+
         String response = mvcResult.getResponse().getContentAsString();
-        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
-        String responseMessage = responseDto.message;
-        Assert.assertEquals(message, responseMessage);
+        httpServletResponse.setHeader("Authorization",message);
+
+        Assert.assertEquals("LOGIN SUCCESSFUL",response);
     }
 
     @Test

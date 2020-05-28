@@ -6,6 +6,7 @@ import com.codebrewers.onlinebookstore.exception.UserServiceException;
 import com.codebrewers.onlinebookstore.model.UserDetails;
 import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.IUserService;
+import com.codebrewers.onlinebookstore.utils.IToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    IToken jwtToken;
 
     @Override
     public String userRegistration(RegistrationDTO registrationDTO) {
@@ -39,12 +43,14 @@ public class UserService implements IUserService {
         Optional<UserDetails> userDetail = userRepository.findByEmailID(loginDTO.emailID);
 
         if (userDetail.isPresent()) {
-                boolean password = bCryptPasswordEncoder.matches(loginDTO.password, userDetail.get().password);
-                if(password){
-                    return "LOGIN SUCCESSFUL";
-                }
-                throw new UserServiceException("INCORRECT PASSWORD");
+            boolean password = bCryptPasswordEncoder.matches(loginDTO.password, userDetail.get().password);
+            if (password) {
+                String tokenString = jwtToken.generateLoginToken(userDetail.get());
+                return tokenString;
+            }
+            throw new UserServiceException("INCORRECT PASSWORD");
         }
         throw new UserServiceException("INCORRECT EMAIL");
     }
+
 }

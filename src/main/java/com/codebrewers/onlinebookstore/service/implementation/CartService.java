@@ -49,7 +49,6 @@ public class CartService implements ICartService {
         icartRepository.save(cartDetails);
         bookCartDetails.setCartDetails(cartDetails);
         bookCartDetails.setBookDetails(books);
-        System.out.println(bookCartDetails);
         bookCartDetailsRepository.save(bookCartDetails);
         return "Book Added To Cart Successfully";
     }

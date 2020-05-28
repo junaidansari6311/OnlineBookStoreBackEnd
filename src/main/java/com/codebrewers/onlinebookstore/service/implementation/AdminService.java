@@ -51,7 +51,6 @@ public class AdminService implements IAdminService {
     public String storeFile(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         String fileBasePath = System.getProperty("user.dir") + fileProperties;
-        System.out.println("sdc"+fileBasePath);
         if (!(fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png"))) {
             throw new AdminServiceException("Only Image Files Can Be Uploaded");
         }
