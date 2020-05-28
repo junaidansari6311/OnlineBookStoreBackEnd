@@ -1,6 +1,7 @@
-package com.codebrewers.onlinebookstore.service.implementation;
+package com.codebrewers.onlinebookstore.utils.implementation;
 
 import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
+import com.codebrewers.onlinebookstore.utils.IMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -10,10 +11,11 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-public class MailService {
+public class MailService implements IMailService {
 
     @Autowired
     JavaMailSender javaMailSender;
+
 
     public void sendMail(CustomerDetailsDTO order) throws MessagingException {
 

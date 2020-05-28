@@ -1,4 +1,4 @@
-package com.codebrewers.onlinebookstore.service;
+package com.codebrewers.onlinebookstore.utils;
 
 import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 

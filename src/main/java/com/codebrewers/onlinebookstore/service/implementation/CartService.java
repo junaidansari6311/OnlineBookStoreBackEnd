@@ -10,6 +10,7 @@ import com.codebrewers.onlinebookstore.repository.IBookCartDetailsRepository;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.repository.ICartRepository;
 import com.codebrewers.onlinebookstore.service.ICartService;
+import com.codebrewers.onlinebookstore.utils.implementation.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartService implements ICartService {

@@ -1,6 +1,6 @@
 package com.codebrewers.onlinebookstore.configuration;
 
-import com.codebrewers.onlinebookstore.service.implementation.MailService;
+import com.codebrewers.onlinebookstore.utils.implementation.MailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
