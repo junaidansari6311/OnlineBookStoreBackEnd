@@ -37,7 +37,7 @@ public class UserControllerTest {
 
     @Test
     void givenUserRegistration_WhenAllValidationAreTrue_ShouldReturnMessage() throws Exception {
-        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","gajanan@123","8855885588");
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","Gajanan@123","8855885588");
         UserDetails userDetails = new UserDetails(registrationDTO);
         String stringConvertDTO = gson.toJson(userDetails);
         String message = "REGISTRATION SUCCESSFUL";
