@@ -42,11 +42,15 @@ public class UserServiceTest {
     void givenUserDetails_WhenRegistered_ShouldReturnMessage() {
         RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan", "gajanan@gmail.com", "Gajanan@123", "8855885588");
         UserDetails userDetails = new UserDetails(registrationDTO);
-        String message = "REGISTRATION SUCCESSFUL";
+        String message = "USER ALREADY EXISTS WITH THIS EMAIL ID";
+        try {
             when(userRepository.findByEmailID(any())).thenReturn(java.util.Optional.of(userDetails));
             when(userRepository.save(any())).thenReturn(message);
-        String user = userService.userRegistration(registrationDTO);
-        Assert.assertEquals(message, user);
+            userService.userRegistration(registrationDTO);
+        }catch(UserServiceException e){
+            Assert.assertEquals(message, e.getMessage());
+        }
+
     }
 
     @Test
