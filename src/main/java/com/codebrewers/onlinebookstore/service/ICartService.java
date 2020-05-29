@@ -2,6 +2,7 @@ package com.codebrewers.onlinebookstore.service;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
+import com.codebrewers.onlinebookstore.model.BookCartDetails;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.model.UserDetails;
 
@@ -13,7 +14,7 @@ public interface ICartService {
 
     String addToCart(CartDTO cartDTO, String token);
 
-    List<CartDetails> allCartItems();
+    List<BookCartDetails> allCartItems(String token);
 
     String updateQuantityAndPrice(CartDTO cartDTO);
 

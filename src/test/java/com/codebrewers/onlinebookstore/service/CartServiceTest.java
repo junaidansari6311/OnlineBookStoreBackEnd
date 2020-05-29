@@ -96,7 +96,7 @@ public class CartServiceTest {
         cartList.add(cartDetails);
         cartList1.add(cartDetails);
         when(cartRepository.findAll()).thenReturn(cartList);
-        cartService.allCartItems();
+        cartService.allCartItems("token");
         Assert.assertEquals(cartList1, cartList);
     }
 
@@ -108,7 +108,7 @@ public class CartServiceTest {
             CartDetails cartDetails = new CartDetails();
             cartList.add(cartDetails);
             when(cartRepository.findAll()).thenReturn(cartList);
-            cartService.allCartItems();
+            cartService.allCartItems("token");
         } catch (CartException e) {
             Assert.assertEquals("No Books Available", e.getMessage());
         }

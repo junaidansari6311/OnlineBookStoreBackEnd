@@ -2,6 +2,7 @@ package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDTO;
+import com.codebrewers.onlinebookstore.model.BookCartDetails;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.service.implementation.CartService;
@@ -82,14 +83,16 @@ public class CartControllerTest {
 
     @Test
     void givenCart_shouldReturnsListOfAllBooks() throws Exception {
-        List<CartDetails> cartList = new ArrayList<>();
-        List<CartDetails> cartList1 = new ArrayList<>();
-        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        List<BookCartDetails> cartList = new ArrayList<>();
+        List<BookCartDetails> cartList1 = new ArrayList<>();
+        CartDTO cartDTO = new CartDTO(1, 50, 500.0);
         CartDetails cartDetails = new CartDetails();
-        cartList.add(cartDetails);
-        cartList1.add(cartDetails);
+        BookCartDetails bookCartDetails=new BookCartDetails();
+        cartList.add(bookCartDetails);
+        cartList1.add(bookCartDetails);
+        cartDetails.setBook(cartList);
 
-        when(cartService.allCartItems()).thenReturn(cartList);
+        when(cartService.allCartItems("token")).thenReturn(cartList);
         Assert.assertEquals(cartList1, cartList);
     }
 

@@ -72,12 +72,13 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public List<CartDetails> allCartItems() {
-        List<CartDetails> all = icartRepository.findAll();
-        if (all.isEmpty()) {
-            throw new CartException("No Books Available");
-        }
-        return all;
+    public List<BookCartDetails> allCartItems(String token) {
+        int userId = jwtToken.decodeJWT(token);
+        System.out.println("Token  :  " + userId);
+        UserDetails user = userRepository.findById(userId).orElseThrow(()-> new UserServiceException("User Not Found"));
+        CartDetails cartDetails = cartRepository.findByUserDetails(user).orElseThrow(()->new CartException("Cart Not Found"));
+        List<BookCartDetails> bookCartDetails = bookCartDetailsRepository.fetchCartItems(cartDetails.getId());
+        return bookCartDetails;
     }
 
     @Override

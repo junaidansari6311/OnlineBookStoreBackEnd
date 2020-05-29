@@ -3,6 +3,7 @@ package com.codebrewers.onlinebookstore.controller;
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDTO;
+import com.codebrewers.onlinebookstore.model.BookCartDetails;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,10 @@ public class CartController {
 
 
     @GetMapping("/cart")
-    public ResponseEntity<ResponseDTO> fetchBooks() {
-        List<CartDetails> list = cartService.allCartItems();
-        return new ResponseEntity(list, new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<ResponseDTO> fetchBooks(@RequestHeader(value = "token",required = false) String token) {
+        List<BookCartDetails> list =  cartService.allCartItems(token);
+        ResponseDTO responseDTO = new ResponseDTO("Response Successful", list);
+        return new ResponseEntity(responseDTO, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PutMapping("/cart")
