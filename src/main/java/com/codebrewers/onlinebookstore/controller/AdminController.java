@@ -1,7 +1,7 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
-import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.dto.UploadFileResponse;
 import com.codebrewers.onlinebookstore.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +23,16 @@ public class AdminController {
     IAdminService adminService;
 
     @PostMapping("/book")
-    public ResponseEntity<ResponseDto> addBooks(@Valid @RequestBody BookDTO bookDTO, BindingResult bindingResult) {
+    public ResponseEntity<ResponseDTO> addBooks(@Valid @RequestBody BookDTO bookDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
         String message = adminService.addBook(bookDTO);
-        ResponseDto responseDto = new ResponseDto(message, null);
+        ResponseDTO responseDto = new ResponseDTO(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    @PostMapping("/uploadFile")
+    @PostMapping("/books/image")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file)
     {
         String fileName = adminService.storeFile(file);

@@ -3,6 +3,7 @@ package com.codebrewers.onlinebookstore.service.implementation;
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 import com.codebrewers.onlinebookstore.exception.CartException;
+import com.codebrewers.onlinebookstore.exception.UserServiceException;
 import com.codebrewers.onlinebookstore.model.BookCartDetails;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.model.CartDetails;
@@ -10,7 +11,9 @@ import com.codebrewers.onlinebookstore.model.UserDetails;
 import com.codebrewers.onlinebookstore.repository.IBookCartDetailsRepository;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.repository.ICartRepository;
+import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.ICartService;
+import com.codebrewers.onlinebookstore.utils.IToken;
 import com.codebrewers.onlinebookstore.utils.implementation.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -41,15 +44,27 @@ public class CartService implements ICartService {
     @Autowired
     private ICartRepository cartRepository;
 
-    @Override
-    public String addToCart(CartDTO cartDTO) {
+    @Autowired
+    IToken jwtToken;
 
+    @Autowired
+    private IUserRepository userRepository;
+
+
+
+    @Override
+    public String addToCart(CartDTO cartDTO, String token) {
+        int userId = jwtToken.decodeJWT(token);
+        UserDetails user = userRepository.findById(userId).orElseThrow(()->new UserServiceException("User Not Found"));
+        CartDetails cartDetails = cartRepository.findByUserDetails(user)
+                .orElseThrow(() -> new CartException("Cart Not Found"));
         BookCartDetails bookCartDetails = new BookCartDetails(cartDTO);
         BookDetails books = bookStoreRepository.findById(cartDTO.id).get();
         List<BookCartDetails> cartList = new ArrayList<>();
         cartList.add(bookCartDetails);
-        CartDetails cartDetails = new CartDetails();
-        icartRepository.save(cartDetails);
+        cartDetails.getBook().add(bookCartDetails);
+        cartDetails.setBook(cartList);
+        cartRepository.save(cartDetails);
         bookCartDetails.setCartDetails(cartDetails);
         bookCartDetails.setBookDetails(books);
         bookCartDetailsRepository.save(bookCartDetails);

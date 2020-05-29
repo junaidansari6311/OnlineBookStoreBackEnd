@@ -1,6 +1,6 @@
 package com.codebrewers.onlinebookstore.controller;
 
-import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.dto.SearchAndFilterResponseDTO;
 import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
@@ -29,7 +29,7 @@ public class BookStoreController {
     IBookStoreService bookStoreService;
 
     @GetMapping("/books")
-    public ResponseEntity<ResponseDto> getAllBooks(@RequestParam(defaultValue = "1") Integer PageNo,
+    public ResponseEntity<ResponseDTO> getAllBooks(@RequestParam(defaultValue = "1") Integer PageNo,
                                                    @RequestParam(defaultValue = "8") Integer PageSize,
                                                    @RequestParam(defaultValue = "id") String sortBy) {
         List<BookDetails> list = bookStoreService.allBooks((PageNo - 1), PageSize, sortBy);
@@ -37,7 +37,7 @@ public class BookStoreController {
     }
 
     @GetMapping("/books/count")
-    public ResponseEntity<ResponseDto> getTotalCount() {
+    public ResponseEntity<ResponseDTO> getTotalCount() {
         return new ResponseEntity(bookStoreService.getCount(), HttpStatus.OK);
     }
 

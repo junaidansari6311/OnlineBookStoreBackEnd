@@ -2,7 +2,7 @@ package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
-import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.model.UserDetails;
 import com.codebrewers.onlinebookstore.service.implementation.UserService;
 import com.google.gson.Gson;
@@ -46,7 +46,7 @@ public class UserControllerTest {
                 .content(stringConvertDTO)).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
-        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
@@ -80,7 +80,7 @@ public class UserControllerTest {
                 .content(stringConvertDTO)).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
-        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
@@ -97,7 +97,7 @@ public class UserControllerTest {
                 .content(stringConvertDTO)).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
-        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }

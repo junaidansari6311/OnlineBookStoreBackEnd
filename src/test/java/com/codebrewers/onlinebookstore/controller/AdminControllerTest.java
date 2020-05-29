@@ -1,7 +1,7 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
-import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
@@ -56,7 +56,7 @@ public class AdminControllerTest {
                 .content(stringConvertDTO)).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
-        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
@@ -170,7 +170,7 @@ public class AdminControllerTest {
         mockMvc.perform(post("/admin/book")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(content().string("Description should between 1-250 characters"))
+                .andExpect(content().string("Description should between 1-300 characters"))
                 .andDo(print());
     }
 

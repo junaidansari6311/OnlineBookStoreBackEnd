@@ -2,7 +2,7 @@ package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
-import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,12 +24,12 @@ public class UserController {
     IUserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseDto> userRegistration(@Valid @RequestBody RegistrationDTO registrationDTO, BindingResult bindingResult) {
+    public ResponseEntity<ResponseDTO> userRegistration(@Valid @RequestBody RegistrationDTO registrationDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
         String message = userService.userRegistration(registrationDTO);
-        ResponseDto responseDTO = new ResponseDto(message, null);
+        ResponseDTO responseDTO = new ResponseDTO(message, null);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 
     }

@@ -2,16 +2,16 @@ package com.codebrewers.onlinebookstore.dto;
 
 import com.codebrewers.onlinebookstore.model.BookDetails;
 
-public class ResponseDto {
+public class ResponseDTO {
     public String message;
     public BookDetails bookDetails;
 
-    public ResponseDto(String message, BookDetails bookDetails) {
+    public ResponseDTO(String message, BookDetails bookDetails) {
         this.message = message;
         this.bookDetails = bookDetails;
     }
 
-    public ResponseDto(String message) {
+    public ResponseDTO(String message) {
         this.message = message;
     }
 }

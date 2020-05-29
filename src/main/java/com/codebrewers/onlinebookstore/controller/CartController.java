@@ -2,7 +2,7 @@ package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
 import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
-import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +24,18 @@ public class CartController {
     ICartService cartService;
 
     @PostMapping("/cart")
-    public ResponseEntity<ResponseDto> addBooks(@Valid @RequestBody CartDTO cartDTO, BindingResult bindingResult) {
+    public ResponseEntity<ResponseDTO> addBooks(@Valid @RequestBody CartDTO cartDTO,@RequestHeader(value = "token",required = false) String token,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
-        String message = cartService.addToCart(cartDTO);
-        ResponseDto responseDto = new ResponseDto(message, null);
+        String message = cartService.addToCart(cartDTO,token);
+        ResponseDTO responseDto = new ResponseDTO(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+
     @GetMapping("/cart")
-    public ResponseEntity<ResponseDto> fetchBooks() {
+    public ResponseEntity<ResponseDTO> fetchBooks() {
         List<CartDetails> list = cartService.allCartItems();
         return new ResponseEntity(list, new HttpHeaders(), HttpStatus.OK);
     }
@@ -42,14 +43,14 @@ public class CartController {
     @PutMapping("/cart")
     public ResponseEntity updateBookQuantity(@Valid @RequestBody CartDTO cartDTO) {
         String message = cartService.updateQuantityAndPrice(cartDTO);
-        ResponseDto responseDto = new ResponseDto(message, null);
+        ResponseDTO responseDto = new ResponseDTO(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/cart/{id}")
     public ResponseEntity deleteBook(@PathVariable Integer id) {
         String message = cartService.deleteCartItem(id);
-        ResponseDto responseDto = new ResponseDto(message, null);
+        ResponseDTO responseDto = new ResponseDTO(message, null);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 

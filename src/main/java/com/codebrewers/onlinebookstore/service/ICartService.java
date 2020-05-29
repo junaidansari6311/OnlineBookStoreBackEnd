@@ -11,7 +11,7 @@ import java.util.List;
 public interface ICartService {
 
 
-    String addToCart(CartDTO cartDTO);
+    String addToCart(CartDTO cartDTO, String token);
 
     List<CartDetails> allCartItems();
 

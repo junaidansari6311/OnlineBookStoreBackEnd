@@ -1,10 +1,11 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
-import com.codebrewers.onlinebookstore.dto.ResponseDto;
+import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.service.implementation.CartService;
+import com.codebrewers.onlinebookstore.utils.IToken;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -40,18 +41,17 @@ public class CartControllerTest {
     @Test
     void givenBookDetails_WhenAddedToCart_ShouldReturnMessage() throws Exception {
         List<CartDetails> cart1 = new ArrayList<>();
-        CartDTO cartDTO = new CartDTO(1,50,200.0);
         CartDetails cartDetails = new CartDetails();
         cart1.add(cartDetails);
         String stringConvertDTO = gson.toJson(cartDetails);
-        String message = "book Added";
-        when(cartService.addToCart(any())).thenReturn(message);
+        String message = "Book Added To Cart Successfully";
+        when(cartService.addToCart(any(),any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
-        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
@@ -60,7 +60,7 @@ public class CartControllerTest {
     void givenBookDetails_WhenWrongData_ShouldReturn400StatusCode() throws Exception {
         CartDTO cartDTO = new CartDTO(1,50,200.0);
         String message = "book Added";
-        when(cartService.addToCart(any())).thenReturn(message);
+        when(cartService.addToCart(any(),any())).thenReturn(message);
         int status = this.mockMvc.perform(post("/cart")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse().getStatus();
@@ -72,7 +72,7 @@ public class CartControllerTest {
     void givenBookDetails_WhenWrongMethod_ShouldReturn405StatusCode() throws Exception {
         CartDTO cartDTO = new CartDTO(1,50,200.0);
         String message = "Book Added Successfully";
-        when(cartService.addToCart(any())).thenReturn(message);
+        when(cartService.addToCart(any(),any())).thenReturn(message);
         int status = this.mockMvc.perform(post("/cart/books")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse().getStatus();
@@ -108,7 +108,7 @@ public class CartControllerTest {
                 .content(stringConvertDTO)).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
-        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
@@ -120,7 +120,7 @@ public class CartControllerTest {
         when(cartService.deleteCartItem(any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(delete("/cart/{id}", id)).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
-        ResponseDto responseDto = gson.fromJson(response, ResponseDto.class);
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
