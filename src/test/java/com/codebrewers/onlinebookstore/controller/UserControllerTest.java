@@ -14,12 +14,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.validation.BindingResult;
 
 import javax.servlet.http.HttpServletResponse;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
@@ -70,19 +74,14 @@ public class UserControllerTest {
 
     @Test
     void givenUserLogin_WhenEmailIDFieldIsEmpty_ShouldReturnErrorMessage() throws Exception {
-        LoginDTO logInDTO = new LoginDTO("","gajanan@123");
+        LoginDTO logInDTO = new LoginDTO("","Gajanan@123");
         UserDetails userDetails = new UserDetails(logInDTO);
         String stringConvertDTO = gson.toJson(userDetails);
-        String message = "please Enter EmailID";
-
-        when(userService.userLogin(any())).thenReturn(message);
-        MvcResult mvcResult = this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
-                .content(stringConvertDTO)).andReturn();
-
-        String response = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
-        String responseMessage = responseDto.message;
-        Assert.assertEquals(message, responseMessage);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(true);
+        this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
+                .content(stringConvertDTO)).andExpect(content().string("please Enter EmailID"))
+                .andDo(print());
     }
 
     @Test
@@ -90,15 +89,10 @@ public class UserControllerTest {
         LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com","");
         UserDetails userDetails = new UserDetails(logInDTO);
         String stringConvertDTO = gson.toJson(userDetails);
-        String message = "please Enter Password";
-
-        when(userService.userLogin(any())).thenReturn(message);
-        MvcResult mvcResult = this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
-                .content(stringConvertDTO)).andReturn();
-
-        String response = mvcResult.getResponse().getContentAsString();
-        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
-        String responseMessage = responseDto.message;
-        Assert.assertEquals(message, responseMessage);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(true);
+        this.mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON)
+                .content(stringConvertDTO)).andExpect(content().string("Please Enter Password"))
+                .andDo(print());
     }
 }
