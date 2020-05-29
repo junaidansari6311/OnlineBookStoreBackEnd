@@ -116,12 +116,16 @@ public class CartServiceTest {
 
     @Test
     void givenBookDetails_WhenUpdateBookQuantity_ShouldReturnMessage() {
-
-        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        String token="asbfj45";
+        CartDTO cartDTO = new CartDTO(1, 50,200.0);
+        BookDTO bookDTO = new BookDTO("IOT", "Mark", "This is book about how internet of things can be applied.", "ABC123", "jpg", 200, 50, 2015);
+        book = new BookDetails(bookDTO);
+        bookCartDetails = new BookCartDetails(cartDTO);
         CartDetails cartDetails = new CartDetails();
-        when(cartRepository.save(any())).thenReturn(cartDetails);
+        when(cartRepository.save(any())).thenReturn(cartDTO);
+        when(bookCartDetailsRepository.findById(anyInt())).thenReturn(java.util.Optional.of(bookCartDetails));
         String message = "Book Quantity Updated";
-        String updateQuantity = cartService.updateQuantityAndPrice(cartDTO);
+        String updateQuantity = cartService.updateQuantityAndPrice(cartDTO, token);
         Assert.assertEquals(message, updateQuantity);
     }
 

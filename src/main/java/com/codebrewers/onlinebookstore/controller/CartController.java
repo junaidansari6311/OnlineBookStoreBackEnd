@@ -43,8 +43,8 @@ public class CartController {
     }
 
     @PutMapping("/cart")
-    public ResponseEntity updateBookQuantity(@Valid @RequestBody CartDTO cartDTO) {
-        String message = cartService.updateQuantityAndPrice(cartDTO);
+    public ResponseEntity updateBookQuantity(@Valid @RequestBody CartDTO cartDTO,@RequestHeader(value = "token",required = false) String token) {
+        String message = cartService.updateQuantityAndPrice(cartDTO,token);
         ResponseDTO responseDto = new ResponseDTO(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

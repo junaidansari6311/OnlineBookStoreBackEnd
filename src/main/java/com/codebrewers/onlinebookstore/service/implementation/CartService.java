@@ -82,7 +82,11 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public String updateQuantityAndPrice(CartDTO cartDTO) {
+    public String updateQuantityAndPrice(CartDTO cartDTO, String token) {
+        int verifyToken = jwtToken.decodeJWT(token);
+        System.out.println("Token  :  " + verifyToken);
+        userRepository.findById(verifyToken);
+
         BookCartDetails bookCartDetails = bookCartDetailsRepository.findById(cartDTO.id).get();
         bookCartDetails.setQuantity(cartDTO.quantity);
         bookCartDetails.setTotalPrice(cartDTO.totalPrice);

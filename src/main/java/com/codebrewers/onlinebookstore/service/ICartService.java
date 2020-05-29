@@ -16,7 +16,7 @@ public interface ICartService {
 
     List<BookCartDetails> allCartItems(String token);
 
-    String updateQuantityAndPrice(CartDTO cartDTO);
+    String updateQuantityAndPrice(CartDTO cartDTO, String token);
 
     String deleteCartItem(Integer id);
 

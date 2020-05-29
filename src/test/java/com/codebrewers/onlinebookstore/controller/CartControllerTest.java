@@ -105,7 +105,7 @@ public class CartControllerTest {
         cart1.add(cartDetails);
         String stringConvertDTO = gson.toJson(cartDetails);
         String message = "Book Quantity Update";
-        when(cartService.updateQuantityAndPrice(any())).thenReturn(message);
+        when(cartService.updateQuantityAndPrice(any(),any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(put("/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
