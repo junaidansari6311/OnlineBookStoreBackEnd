@@ -34,7 +34,7 @@ public class UserService implements IUserService {
     private CartService cartService;
 
     @Override
-    public String userRegistration(RegistrationDTO registrationDTO) {
+    public String userRegistration(RegistrationDTO registrationDTO,String requestURL) throws MessagingException {
         Optional<UserDetails> userDetail = userRepository.findByEmailID(registrationDTO.emailID);
 
         if (userDetail.isPresent()) {
@@ -46,7 +46,8 @@ public class UserService implements IUserService {
         userDetails.password = password;
         userRepository.save(userDetails);
         cartService.setCart(userDetails);
-        return "REGISTRATION SUCCESSFUL";
+        sendVerificationMail(registrationDTO.emailID, requestURL);
+        return "Verification Mail Has Been Sent Successfully";
     }
 
     @Override
