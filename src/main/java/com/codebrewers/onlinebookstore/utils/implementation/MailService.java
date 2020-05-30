@@ -1,31 +1,30 @@
 package com.codebrewers.onlinebookstore.utils.implementation;
 
-import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 import com.codebrewers.onlinebookstore.utils.IMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.beans.factory.annotation.Value;
-
+import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+@Service
 public class MailService implements IMailService {
 
     @Autowired
     JavaMailSender javaMailSender;
 
-
-    public void sendMail(CustomerDetailsDTO order) throws MessagingException {
+    @Override
+    public void sendMail(String body,String subject,String emailID) throws MessagingException {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setTo(order.email);
-        helper.setSubject("Order Placed");
-        helper.setText("Dear, "+order.customerName+" Congratulations! Your order for the books is Successfully Placed."
-                +"\n Your Book Name Are : "+
-                String.join(" , ",order.bookName) +"\n Total Book Price : "+order.bookPrice+"\n Total No. Of Books : "+order.quantity);
+        helper.setTo(emailID);
+        helper.setSubject(subject);
+        helper.setText(body,true);
         javaMailSender.send(message);
     }
 }
+
+

@@ -100,7 +100,10 @@ public class CartService implements ICartService {
 
     @Override
     public void sendMail(CustomerDetailsDTO order) throws MessagingException {
-        mailService.sendMail(order);
+        String body="Dear, "+order.customerName+" Congratulations! Your order for the books is Successfully Placed."
+                +"\n Your Book Name Are : "+
+                String.join(" , ",order.bookName) +"\n Total Book Price : "+order.bookPrice+"\n Total No. Of Books : "+order.quantity;
+        mailService.sendMail(body,"Placed Order",order.email);
     }
 
     @Override
