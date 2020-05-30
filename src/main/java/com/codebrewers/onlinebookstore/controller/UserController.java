@@ -28,7 +28,7 @@ public class UserController {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
         String message = userService.userRegistration(registrationDTO,request.getHeader("Referer"));
-        ResponseDTO responseDTO = new ResponseDTO(message);
+        ResponseDTO responseDTO = new ResponseDTO(message,null);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 
     }
