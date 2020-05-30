@@ -18,10 +18,13 @@ public class RegistrationDTO {
     @Pattern(regexp = "^([6-9]{1}[0-9]{9})$", message = "Please Enter Mobile Number")
     public String mobileNumber;
 
-    public RegistrationDTO(String fullName, String emailID, String password, String mobileNumber) {
+    public boolean isVerified;
+
+    public RegistrationDTO(String fullName, String emailID, String password, String mobileNumber,boolean isVerified) {
         this.fullName = fullName;
         this.emailID = emailID;
         this.password = password;
         this.mobileNumber = mobileNumber;
+        this.isVerified=isVerified;
     }
 }

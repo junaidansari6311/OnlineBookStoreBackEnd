@@ -23,7 +23,7 @@ public class UserDetails {
 
     public String mobileNumber;
     public String fullName;
-
+    public boolean isVerified;
 
 
     public UserDetails() {
@@ -40,5 +40,6 @@ public class UserDetails {
         this.password = registrationDTO.password;
         this.mobileNumber = registrationDTO.mobileNumber;
         this.fullName = registrationDTO.fullName;
+        this.isVerified = registrationDTO.isVerified;
     }
 }

@@ -40,4 +40,10 @@ public class UserController {
         return new ResponseEntity("LOGIN SUCCESSFUL", HttpStatus.OK);
     }
 
+    @PostMapping("/verify/mail")
+    public ResponseEntity verifyEmail(@RequestParam(name="token",defaultValue = "") String token){
+        String verifyEmail = userService.verifyEmail(token);
+        return new ResponseEntity(verifyEmail,HttpStatus.OK);
+    }
+
 }

@@ -78,4 +78,15 @@ public class UserService implements IUserService {
         return "Verification Mail Has Been Sent Successfully";
     }
 
+
+    @Override
+    public String verifyEmail(String token) {
+        System.out.println("verify mail: "+token);
+        int userId = jwtToken.decodeJWT(token);
+        UserDetails user = userRepository.findById(userId).get();
+        user.isVerified=true;
+        userRepository.save(user);
+        return "User Has Been Verified";
+    }
+
 }

@@ -13,4 +13,6 @@ public interface IUserService {
 
     String sendVerificationMail(String email, String requestURL) throws MessagingException;
 
+    String verifyEmail(String token);
+
 }
