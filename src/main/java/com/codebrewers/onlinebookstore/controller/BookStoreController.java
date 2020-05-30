@@ -47,7 +47,7 @@ public class BookStoreController {
         return new ResponseEntity(allBooks, HttpStatus.OK);
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/books/image/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         Resource resource = bookStoreService.loadFileAsResource(fileName);
         String contentType = null;
