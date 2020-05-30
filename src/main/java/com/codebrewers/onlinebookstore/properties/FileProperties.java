@@ -7,6 +7,7 @@ public class FileProperties {
     private String uploadDir;
     private String jwtSecret;
     private int jwtExpirationMs;
+    private int verificationMs;
 
     public String getUploadDir() {
         return uploadDir;
@@ -30,6 +31,14 @@ public class FileProperties {
 
     public void setJwtExpirationMs(int jwtExpirationMs) {
         this.jwtExpirationMs = jwtExpirationMs;
+    }
+
+    public int getVerificationMs() {
+        return verificationMs;
+    }
+
+    public void setVerificationMs(int verificationMs) {
+        this.verificationMs = verificationMs;
     }
 
 }

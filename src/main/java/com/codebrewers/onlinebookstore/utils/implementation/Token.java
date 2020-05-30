@@ -45,4 +45,17 @@ public class Token implements IToken {
         }
     }
 
+    @Override
+    public String generateVerificationToken(UserDetails userDetails) {
+
+        long currentTime = System.currentTimeMillis();
+        return Jwts.builder()
+                .setId(String.valueOf(userDetails.id))
+                .setSubject(userDetails.fullName)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(currentTime + jwtProperties.getVerificationMs()))
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getJwtSecret())
+                .compact();
+    }
+
 }

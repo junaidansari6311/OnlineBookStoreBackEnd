@@ -8,4 +8,5 @@ public interface IUserService {
     String userRegistration(RegistrationDTO registrationDTO);
 
     String userLogin(LoginDTO logInDTO);
+
 }

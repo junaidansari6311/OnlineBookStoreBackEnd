@@ -9,4 +9,6 @@ public interface IToken {
 
      int decodeJWT(String jwt) throws JWTException;
 
+     String generateVerificationToken(UserDetails userDetails);
+
 }
