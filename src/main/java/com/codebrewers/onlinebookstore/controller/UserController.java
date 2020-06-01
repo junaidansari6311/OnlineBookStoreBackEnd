@@ -57,6 +57,13 @@ public class UserController {
         return new ResponseEntity(response,HttpStatus.OK);
     }
 
+    @PostMapping("/resend/email/{emailID}")
+    public ResponseEntity<ResponseDTO> resendMail(@PathVariable(name = "emailID")String emailID,HttpServletRequest request) throws MessagingException {
+        String resentMail = userService.sendVerificationMail(emailID,request.getHeader("Referer"));
+        ResponseDTO response = new ResponseDTO(resentMail,null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/verify/mail")
     public ResponseEntity verifyEmail(@RequestParam(name="token",defaultValue = "") String token){
         String verifyEmail = userService.verifyEmail(token);
