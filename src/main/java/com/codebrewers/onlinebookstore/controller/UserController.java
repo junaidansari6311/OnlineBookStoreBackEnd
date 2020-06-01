@@ -50,6 +50,13 @@ public class UserController {
         return new ResponseEntity(response,HttpStatus.OK);
     }
 
+    @PostMapping("/confirm/password/")
+    public ResponseEntity resetPassword(@RequestParam(name = "password") String password,@RequestParam(value = "token",defaultValue = "") String urlToken){
+        String resetPassword = userService.resetPassword(password,urlToken);
+        ResponseDTO response = new ResponseDTO(resetPassword,null);
+        return new ResponseEntity(response,HttpStatus.OK);
+    }
+
     @PostMapping("/verify/mail")
     public ResponseEntity verifyEmail(@RequestParam(name="token",defaultValue = "") String token){
         String verifyEmail = userService.verifyEmail(token);

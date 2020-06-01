@@ -82,6 +82,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public String resetPassword(String password, String urlToken) {
+        return null;
+    }
+
+    @Override
     public String sendVerificationMail(String email, String requestURL) throws MessagingException {
         UserDetails user = userRepository.findByEmailID(email).orElseThrow(()->new UserServiceException("User Not Found"));
         String token = jwtToken.generateVerificationToken(user);
