@@ -72,7 +72,13 @@ public class UserService implements IUserService {
 
     @Override
     public String resetPasswordLink(String email, String urlToken) throws MessagingException {
-        return null;
+        UserDetails user = userRepository.findByEmailID(email).orElseThrow(() -> new UserServiceException("User Not Found"));
+        String tokenGenerate = jwtToken.generateVerificationToken(user);
+        urlToken = urlToken.contains("forgot")?
+                urlToken.substring(0, urlToken.indexOf("f") - 1) + "/reset/password/" + tokenGenerate :
+                urlToken.substring(0, urlToken.indexOf("r") - 1) + "/reset/password/" + tokenGenerate;
+        mailService.sendMail(urlToken, "Reset Password", user.emailID);
+        return "Reset Password Link Has Been Sent To Your Email Address";
     }
 
     @Override
