@@ -83,7 +83,12 @@ public class UserService implements IUserService {
 
     @Override
     public String resetPassword(String password, String urlToken) {
-        return null;
+        int userId = jwtToken.decodeJWT(urlToken);
+        UserDetails userDetails = userRepository.findById(userId).orElseThrow(() -> new UserServiceException("User Not Found"));
+        String encodePassword = bCryptPasswordEncoder.encode(password);
+        userDetails.password = encodePassword;
+        userRepository.save(userDetails);
+        return "Password Has Been Reset";
     }
 
     @Override
