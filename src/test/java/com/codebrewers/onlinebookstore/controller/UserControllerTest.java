@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -37,15 +38,17 @@ public class UserControllerTest {
     @MockBean
     HttpServletResponse httpServletResponse;
 
+    HttpHeaders httpHeaders=new HttpHeaders();
+
     Gson gson = new Gson();
 
     @Test
     void givenUserRegistration_WhenAllValidationAreTrue_ShouldReturnMessage() throws Exception {
-        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","Gajanan@123","8855885588");
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","Gajanan@123","8855885588",true);
         UserDetails userDetails = new UserDetails(registrationDTO);
         String stringConvertDTO = gson.toJson(userDetails);
         String message = "REGISTRATION SUCCESSFUL";
-        when(userService.userRegistration(any())).thenReturn(message);
+        when(userService.userRegistration(any(),any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/user/register").contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
 
@@ -54,7 +57,6 @@ public class UserControllerTest {
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
-
 
     @Test
     void givenUserLogin_WhenFieldsAreCorrect_ShouldReturnMessage() throws Exception {

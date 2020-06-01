@@ -15,4 +15,6 @@ public interface IUserService {
 
     String verifyEmail(String token);
 
+    String resetPasswordLink(String email, String urlToken) throws MessagingException;
+
 }

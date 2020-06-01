@@ -43,6 +43,13 @@ public class UserController {
         return new ResponseEntity("LOGIN SUCCESSFUL", HttpStatus.OK);
     }
 
+    @PostMapping("/forget/password")
+    public ResponseEntity getResetPassword(@RequestParam("emailID") String emailID,HttpServletRequest httpServletRequest) throws MessagingException {
+        String resetPassword = userService.resetPasswordLink(emailID,httpServletRequest.getHeader("Referer"));
+        ResponseDTO response = new ResponseDTO(resetPassword,null);
+        return new ResponseEntity(response,HttpStatus.OK);
+    }
+
     @PostMapping("/verify/mail")
     public ResponseEntity verifyEmail(@RequestParam(name="token",defaultValue = "") String token){
         String verifyEmail = userService.verifyEmail(token);

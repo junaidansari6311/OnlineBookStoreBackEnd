@@ -16,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.mail.MessagingException;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -39,19 +41,19 @@ public class UserServiceTest {
 
 
     @Test
-    void givenUserDetails_WhenRegistered_ShouldReturnMessage() {
-        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan", "gajanan@gmail.com", "Gajanan@123", "8855885588");
+    void givenUserDetails_WhenUserAlreadyPresent_ShouldThrowException() {
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan", "gajanan@gmail.com", "Gajanan@123", "8855885588",true);
         UserDetails userDetails = new UserDetails(registrationDTO);
         String message = "USER ALREADY EXISTS WITH THIS EMAIL ID";
         try {
             when(userRepository.findByEmailID(any())).thenReturn(java.util.Optional.of(userDetails));
             when(userRepository.save(any())).thenReturn(message);
-            userService.userRegistration(registrationDTO);
-        }catch(UserServiceException e){
+            userService.userRegistration(registrationDTO,"url");
+        } catch (UserServiceException | MessagingException e) {
             Assert.assertEquals(message, e.getMessage());
         }
-
     }
+
 
     @Test
     void givenUserDetails_WhenUserLogedin_ShouldReturnMessage() {

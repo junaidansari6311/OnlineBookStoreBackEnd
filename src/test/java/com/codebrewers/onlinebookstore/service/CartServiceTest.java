@@ -64,7 +64,7 @@ public class CartServiceTest {
         String token="asbfj45";
         CartDTO cartDTO = new CartDTO(1, 50,200.0);
         BookDTO bookDTO = new BookDTO("IOT", "Mark", "This is book about how internet of things can be applied.", "ABC123", "jpg", 200, 50, 2015);
-        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","XYTZ@1456","9966998855");
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","XYTZ@1456","9966998855",true);
         user= new UserDetails(registrationDTO);
         user.id=1;
         book = new BookDetails(bookDTO);

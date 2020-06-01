@@ -27,9 +27,6 @@ import java.util.List;
 public class CartService implements ICartService {
 
     @Autowired
-    JavaMailSender javaMailSender;
-
-    @Autowired
     MailService mailService;
 
     @Autowired
