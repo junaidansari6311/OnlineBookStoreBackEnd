@@ -1,42 +1,32 @@
 package com.codebrewers.onlinebookstore.dto;
 
+import javax.validation.constraints.Pattern;
+
 public class CustomerDetailsDTO {
 
-    public String[] bookName;
-
-    public Integer quantity;
-
-    public Double bookPrice;
-
-    public String customerName;
-
-    public String mobileNo;
-
+    @Pattern(regexp = "^[1-9]{1}[0-9]{2}[-]{0,1}[0-9]{3}$",message = "Please enter a valid 6 digits zip code")
     public String pincode;
 
+    @Pattern(regexp = "^[a-zA-Z]+",message = "Please enter valid location")
     public String locality;
 
+    @Pattern(regexp = "^\\w{1,150}",message = "Please enter Address between 150 character")
     public String address;
 
+    @Pattern(regexp = "^[a-zA-Z]+",message = "Please enter valid city name")
     public String city;
 
     public String landmark;
 
-    public String email;
+    public String addressType;
 
 
-    public CustomerDetailsDTO(Integer quantity, Double bookPrice, String customerName, String mobileNo, String pincode, String locality, String address, String city, String landmark, String email, String... bookName) {
-        this.quantity = quantity;
-        this.bookPrice = bookPrice;
-        this.customerName = customerName;
-        this.mobileNo = mobileNo;
+    public CustomerDetailsDTO(String pincode, String locality, String address, String city, String landmark, String addressType) {
         this.pincode = pincode;
         this.locality = locality;
         this.address = address;
         this.city = city;
         this.landmark = landmark;
-        this.email = email;
-        this.bookName = bookName;
-
+        this.addressType=addressType;
     }
 }

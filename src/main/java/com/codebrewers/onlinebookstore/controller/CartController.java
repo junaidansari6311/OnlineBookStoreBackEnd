@@ -56,9 +56,4 @@ public class CartController {
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/send",method = RequestMethod.POST)
-    public String sendEmail(@RequestBody CustomerDetailsDTO mailDTO) throws  MessagingException {
-        cartService.sendMail(mailDTO);
-        return "Email Send Successfully";
-    }
 }

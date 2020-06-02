@@ -4,10 +4,8 @@ import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class UserDetails {
@@ -26,6 +24,9 @@ public class UserDetails {
     public boolean isVerified;
 
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userDetails")
+    public List<CustomerDetails> customerDetails;
+
     public UserDetails() {
     }
 
@@ -42,4 +43,13 @@ public class UserDetails {
         this.fullName = registrationDTO.fullName;
         this.isVerified = registrationDTO.isVerified;
     }
+
+    public List<CustomerDetails> getCustomerDetails() {
+        return customerDetails;
+    }
+
+    public void setCustomerDetails(List<CustomerDetails> customerDetails) {
+        this.customerDetails = customerDetails;
+    }
+
 }

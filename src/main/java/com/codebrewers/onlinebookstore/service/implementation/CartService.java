@@ -14,20 +14,13 @@ import com.codebrewers.onlinebookstore.repository.ICartRepository;
 import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.ICartService;
 import com.codebrewers.onlinebookstore.utils.IToken;
-import com.codebrewers.onlinebookstore.utils.implementation.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CartService implements ICartService {
-
-    @Autowired
-    MailService mailService;
 
     @Autowired
     private ICartRepository icartRepository;
@@ -93,14 +86,6 @@ public class CartService implements ICartService {
     public String deleteCartItem(Integer id) {
         icartRepository.deleteById(id);
         return "Cart Has Been Deleted";
-    }
-
-    @Override
-    public void sendMail(CustomerDetailsDTO order) throws MessagingException {
-        String body="Dear, "+order.customerName+" Congratulations! Your order for the books is Successfully Placed."
-                +"\n Your Book Name Are : "+
-                String.join(" , ",order.bookName) +"\n Total Book Price : "+order.bookPrice+"\n Total No. Of Books : "+order.quantity;
-        mailService.sendMail(body,"Placed Order",order.email);
     }
 
     @Override
