@@ -52,7 +52,6 @@ public class UserService implements IUserService {
 
     @Override
     public String userLogin(LoginDTO loginDTO) {
-        System.out.println("email: "+loginDTO.emailID);
         Optional<UserDetails> userDetail = userRepository.findByEmailID(loginDTO.emailID);
 
         if (userDetail.isPresent()) {
@@ -60,7 +59,6 @@ public class UserService implements IUserService {
                 boolean password = bCryptPasswordEncoder.matches(loginDTO.password, userDetail.get().password);
                 if (password) {
                     String tokenString = jwtToken.generateLoginToken(userDetail.get());
-                    System.out.println(tokenString);
                     return tokenString;
                 }
                 throw new UserServiceException("INCORRECT PASSWORD");
@@ -108,7 +106,6 @@ public class UserService implements IUserService {
 
     @Override
     public String verifyEmail(String token) {
-        System.out.println("verify mail: "+token);
         int userId = jwtToken.decodeJWT(token);
         UserDetails user = userRepository.findById(userId).get();
         user.isVerified=true;
