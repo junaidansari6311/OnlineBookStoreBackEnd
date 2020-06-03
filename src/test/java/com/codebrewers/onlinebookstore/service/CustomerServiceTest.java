@@ -57,4 +57,17 @@ public class CustomerServiceTest {
         Assert.assertEquals(message,customerDetails1);
     }
 
+    @Test
+    void givenUserDetail_WhenProper_ShouldProperMessages() {
+        String token="asbfj45";
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","XYTZ@1456","9966998855",true);
+        UserDetails user=new UserDetails(registrationDTO);
+        UserDetails user1=new UserDetails(registrationDTO);
+        when(jwtToken.decodeJWT(anyString())).thenReturn(1);
+        when(userRepository.findById(anyInt())).thenReturn(java.util.Optional.of(user));
+        customerService.getCustomerDetail(token);
+        Assert.assertEquals(user.fullName,user1.fullName);
+
+    }
+
 }
