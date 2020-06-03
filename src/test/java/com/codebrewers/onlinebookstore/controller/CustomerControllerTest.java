@@ -77,4 +77,20 @@ public class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).headers(httpHeaders).characterEncoding("utf-8")).andExpect(status().isOk());
     }
 
+    @Test
+    void givenUserDetail_WhenWrongURL_ShouldReturn404StatusCode() throws Exception {
+        UserServiceException userServiceException =new UserServiceException("");
+        httpHeaders.set("token","Qwebst43Y");
+        CustomerDetailsDTO customerDetailsDTO = new CustomerDetailsDTO("400604","Thane",
+                "16/17 A Street","Thane","Thane", "home");
+        CustomerDetails customerDetails = new CustomerDetails(customerDetailsDTO);
+        customerDetails.id=1;
+        String customerDetailsString = gson.toJson(customerDetails);
+        when(customerService.getCustomerDetails(anyString(),any())).thenThrow(userServiceException);
+        int status = this.mockMvc.perform(post("/user/customer").content(customerDetailsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .headers(httpHeaders).characterEncoding("utf-8")).andReturn().getResponse().getStatus();
+        Assert.assertEquals(404, status);
+    }
+
 }
