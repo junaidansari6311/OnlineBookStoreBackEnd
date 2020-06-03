@@ -7,4 +7,6 @@ public interface ICustomerService {
 
     String getCustomerDetails(String token, CustomerDetailsDTO customerDetailsDTO);
 
+    UserDetails getCustomerDetail(String token);
+
 }

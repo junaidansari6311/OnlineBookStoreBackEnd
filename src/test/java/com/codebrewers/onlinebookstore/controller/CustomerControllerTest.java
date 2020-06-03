@@ -66,4 +66,15 @@ public class CustomerControllerTest {
         Assert.assertEquals(message, responseMessage);
     }
 
+    @Test
+    void getCustomerDetails() throws Exception {
+        httpHeaders.set("token","Qwebst43Y");
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmailcom","Gajanan@123","8855885588",true);
+        UserDetails userDetails = new UserDetails(registrationDTO);
+        String customerDetailsString = gson.toJson(userDetails);
+        when(customerService.getCustomerDetail(any())).thenReturn(userDetails);
+        this.mockMvc.perform(get("/customer").content(customerDetailsString)
+                .contentType(MediaType.APPLICATION_JSON).headers(httpHeaders).characterEncoding("utf-8")).andExpect(status().isOk());
+    }
+
 }

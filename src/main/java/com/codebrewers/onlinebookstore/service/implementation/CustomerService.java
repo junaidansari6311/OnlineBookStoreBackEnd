@@ -42,4 +42,9 @@ public class CustomerService implements ICustomerService {
         return "Customer Details Added Successful";
     }
 
+    @Override
+    public UserDetails getCustomerDetail(String token) {
+        return null;
+    }
+
 }

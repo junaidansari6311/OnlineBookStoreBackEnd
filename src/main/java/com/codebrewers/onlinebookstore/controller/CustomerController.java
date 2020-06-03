@@ -23,4 +23,10 @@ public class CustomerController {
         return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/customer")
+    public ResponseEntity getCustomerDetail(@RequestHeader(value = "token") String token){
+        UserDetails customerDetails = customerService.getCustomerDetail(token);
+        return new ResponseEntity(customerDetails,HttpStatus.OK);
+    }
+
 }
