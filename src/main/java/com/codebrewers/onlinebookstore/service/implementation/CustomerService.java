@@ -26,7 +26,20 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public String getCustomerDetails(String token, CustomerDetailsDTO customerDetailsDTO) {
-       return null;
+        int userId = jwtToken.decodeJWT(token);
+        UserDetails user = userRepository.findById(userId).orElseThrow(() -> new UserServiceException("User Not Found"));
+
+        CustomerDetails customerDetails = new CustomerDetails(customerDetailsDTO);
+
+        List<CustomerDetails> customerDetailsList = new ArrayList<>();
+        customerDetailsList.add(customerDetails);
+        user.getCustomerDetails().add(customerDetails);
+        user.setCustomerDetails(customerDetailsList);
+        customerDetails.setUserDetails(user);
+        customerDetails.setAddressType(AddressType.valueOf(customerDetailsDTO.addressType));
+
+        userRepository.save(user);
+        return "Customer Details Added Successful";
     }
 
 }
