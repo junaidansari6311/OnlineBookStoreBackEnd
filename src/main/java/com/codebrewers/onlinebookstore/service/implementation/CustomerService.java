@@ -44,7 +44,9 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public UserDetails getCustomerDetail(String token) {
-        return null;
+        int userId = jwtToken.decodeJWT(token);
+        Optional<UserDetails> user = userRepository.findById(userId);
+        return user.get();
     }
 
 }
