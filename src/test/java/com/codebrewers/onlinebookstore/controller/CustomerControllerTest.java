@@ -133,4 +133,25 @@ public class CustomerControllerTest {
         Assert.assertEquals(message, responseMessage);
     }
 
+    @Test
+    void givenUserDetail_WhenAddressIsMoreThan150Character_ShouldReturnProperMessage() throws Exception {
+        httpHeaders.set("token","Qwebst43Y");
+        CustomerDetailsDTO customerDetailsDTO = new CustomerDetailsDTO("400604","Thane52",
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
+                "Thane","Thane", "home");
+        CustomerDetails customerDetails = new CustomerDetails(customerDetailsDTO);
+        customerDetails.id=1;
+        String customerDetailsString = gson.toJson(customerDetails);
+        String message = "Please enter Address between 150 character";
+        when(customerService.getCustomerDetails(anyString(),any())).thenReturn(message);
+        MvcResult mvcResult = mockMvc.perform(post("/customer")
+                .content(customerDetailsString)
+                .contentType(MediaType.APPLICATION_JSON_VALUE).headers(httpHeaders).characterEncoding("utf-8")).andReturn();
+
+        String response = mvcResult.getResponse().getContentAsString();
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
+        String responseMessage = responseDto.message;
+        Assert.assertEquals(message, responseMessage);
+    }
+
 }
