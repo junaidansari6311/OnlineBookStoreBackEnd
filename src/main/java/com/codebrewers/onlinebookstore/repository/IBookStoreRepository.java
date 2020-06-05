@@ -22,4 +22,12 @@ public interface IBookStoreRepository extends JpaRepository<BookDetails, Integer
     @Query(value = "select * from book_details where author_name LIKE %:searchText% OR book_name LIKE %:searchText%", nativeQuery = true)
     List<BookDetails> findSortedBooks(@Param("searchText") String searchText);
 
+
+    @Query(value = "select * from book_details where author_name LIKE %:toSearch% OR book_name LIKE %:toSearch%", nativeQuery = true)
+    Page<BookDetails> fetchBooks(Pageable pageable, @Param("toSearch") String toSearch);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update book_details set quantity= quantity - :quantity where id = :bid ", nativeQuery = true)
+    int updateBookQuantity(@Param("bid") Integer cid,@Param("quantity") Integer quantity);
 }

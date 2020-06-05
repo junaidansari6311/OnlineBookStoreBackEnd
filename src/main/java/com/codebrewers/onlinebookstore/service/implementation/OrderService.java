@@ -37,8 +37,46 @@ public class OrderService implements IOrderService {
 
     @Override
     public Integer placeOrder(Double totalPrice, String token) throws MessagingException {
-        return null;
+        Integer orderId = generatedOrderId();
+        System.out.println(orderId);
+        CartDetails cart = getCart(token);
+        List<BookCartDetails> cartBooks = cartDetailsRepository.fetchCartItems(cart.getId());
+        CustomerDetails customerDetails = customerDetailsRepository.findByUserDetailsOrderById(cart.getUserDetails()).get(0);
+        OrderDetails order = new OrderDetails(cart, orderId, cart.getUserDetails(), totalPrice, customerDetails, cartBooks);
+        orderRepository.save(order);
+        cartBooks.forEach(cartBook ->{
+            cartBook.setOrderDetails(order);
+            bookStoreRepository.updateBookQuantity(cartBook.getBookDetails().id, cartBook.getQuantity());
+        });
+        cartDetailsRepository.updateOrderPlacedStatus(cart.getId());
+
+        String body = "Dear, "+cart.getUserDetails().fullName+" Congratulations! Your order for the books is Successfully Placed. Save this orderId: #"+orderId+" for further communication"
+                +"\n Your Book Name Are : "+
+                cart.getBook().stream().map(bookCartDetails -> bookCartDetails.getBookDetails().bookName).peek(System.out::println).collect(Collectors.toList()) +"\n Total Book Price : "+totalPrice+"\n Total No. Of Books : "+cart.getBook().size();
+
+        mailService.sendMail(body,"Order Placed",cart.userDetails.emailID);
+        return orderId;
     }
 
+    private int generatedOrderId(){
+        boolean isUnique = false;
+        Integer orderId = 0;
+        while(!isUnique){
+            orderId = (int) Math.floor(100000 + Math.random() * 999999);
+            Optional<OrderDetails> byId = orderRepository.findByOrderId(orderId);
+            if( !byId.isPresent())
+                isUnique = true;
+        }
+        System.out.println(orderId);
+        return orderId;
+    }
+
+    private CartDetails getCart(String token) {
+        int userId = jwtToken.decodeJWT(token);
+        UserDetails userDetails = userRepository.findById(userId)
+                .orElseThrow(() -> new UserServiceException("User Not Exist"));
+        return cartRepository.findByUserDetails(userDetails)
+                .orElseThrow(() -> new CartException("Cart Not Found"));
+    }
 
 }
