@@ -27,6 +27,9 @@ public class UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userDetails")
     public List<CustomerDetails> customerDetails;
 
+    @OneToMany(mappedBy = "user")
+    public List<OrderDetails> orderDetails;
+
     public UserDetails() {
     }
 

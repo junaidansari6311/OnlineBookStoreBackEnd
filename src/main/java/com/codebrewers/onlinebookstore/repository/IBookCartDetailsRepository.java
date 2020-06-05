@@ -14,8 +14,5 @@ public interface IBookCartDetailsRepository extends JpaRepository<BookCartDetail
     @Query(value = "select * from book_cart_details where cart_id = :cartId and order_status = false ", nativeQuery = true)
     List<BookCartDetails> fetchCartItems(@Param("cartId") Integer cartId);
 
-    @Transactional
-    @Modifying
-    @Query(value = "update book_cart_details set order_status = true where cart_id = :cartId and order_status = false ", nativeQuery = true)
-    int updateOrderPlacedStatus(@Param("cartId") Integer cartId);
+
 }

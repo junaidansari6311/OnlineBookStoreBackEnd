@@ -5,6 +5,7 @@ import com.codebrewers.onlinebookstore.enums.AddressType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table
@@ -28,6 +29,9 @@ public class CustomerDetails {
     @ManyToOne()
     @JoinColumn(name = "userId")
     public UserDetails userDetails;
+
+    @OneToMany(mappedBy = "customer")
+    List<OrderDetails> orderDetailsList;
 
     public CustomerDetails() {
     }

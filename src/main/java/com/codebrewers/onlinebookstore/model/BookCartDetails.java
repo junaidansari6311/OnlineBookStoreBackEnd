@@ -28,6 +28,10 @@ public class BookCartDetails {
     @JoinColumn(name = "cartId")
     public CartDetails cartDetails;
 
+    @ManyToOne()
+    @JoinColumn(name = "orderId")
+    public OrderDetails orderDetails;
+
 
     public BookCartDetails() {
     }
@@ -74,5 +78,13 @@ public class BookCartDetails {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public OrderDetails getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(OrderDetails orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }

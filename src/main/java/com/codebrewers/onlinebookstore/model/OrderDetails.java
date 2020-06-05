@@ -4,9 +4,7 @@ package com.codebrewers.onlinebookstore.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -44,7 +42,7 @@ public class OrderDetails {
     public OrderDetails() {
     }
 
-    public OrderDetails(CartDetails cart,Integer orderId, UserDetails user, Double totalPrice, CustomerDetails customerDetails,List<BookCartDetails> bookCartDetails) {
+    public OrderDetails(CartDetails cart, Integer orderId, UserDetails user, Double totalPrice, CustomerDetails customerDetails, List<BookCartDetails> bookCartDetails) {
         this.user = user;
         this.cart = cart;
         this.customer = customerDetails;
