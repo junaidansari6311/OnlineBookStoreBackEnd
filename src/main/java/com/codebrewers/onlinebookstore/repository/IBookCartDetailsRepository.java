@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface IBookCartDetailsRepository extends JpaRepository<BookCartDetails,Integer> {
 
+    List<BookCartDetails> findBookCartDetailsByOrderDetails(OrderDetails orderDetails);
 
     @Query(value = "select * from book_cart_details where cart_id = :cartId and order_status = false ", nativeQuery = true)
     List<BookCartDetails> fetchCartItems(@Param("cartId") Integer cartId);

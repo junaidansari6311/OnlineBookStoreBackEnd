@@ -82,7 +82,18 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<BookCartDetails> fetchOrders(String token) {
-        return null;
+        int userId = jwtToken.decodeJWT(token);
+        UserDetails userDetails = userRepository.findById(userId)
+                .orElseThrow(() -> new UserServiceException("User Not Exist"));
+        List<OrderDetails> orderDetailsByUser = orderRepository.findOrderDetailsByUser(userDetails);
+        List bookCartDetailsByOrderDetails=new ArrayList();
+        List<BookCartDetails> bookCartDetailsByOrderDetails1=new ArrayList();
+        for (OrderDetails order : orderDetailsByUser) {
+            OrderDetails byId = orderRepository.findById(order.id).get();
+            bookCartDetailsByOrderDetails1 = cartDetailsRepository.findBookCartDetailsByOrderDetails(byId);
+            bookCartDetailsByOrderDetails.add(bookCartDetailsByOrderDetails1);
+        }
+        return bookCartDetailsByOrderDetails;
     }
 
 }
