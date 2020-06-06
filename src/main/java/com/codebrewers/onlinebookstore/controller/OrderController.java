@@ -24,4 +24,11 @@ public class OrderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/order")
+    public ResponseEntity fetchOrderSummary(@RequestHeader(value = "token",required = false) String token) {
+        List<BookCartDetails> orders = orderService.fetchOrders(token);
+        ResponseDTO response = new ResponseDTO("Order Data Fetched Successfully", orders);
+        return new ResponseEntity(response, HttpStatus.OK);
+    }
+
 }

@@ -10,6 +10,7 @@ import com.codebrewers.onlinebookstore.utils.implementation.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -77,6 +78,11 @@ public class OrderService implements IOrderService {
                 .orElseThrow(() -> new UserServiceException("User Not Exist"));
         return cartRepository.findByUserDetails(userDetails)
                 .orElseThrow(() -> new CartException("Cart Not Found"));
+    }
+
+    @Override
+    public List<BookCartDetails> fetchOrders(String token) {
+        return null;
     }
 
 }
