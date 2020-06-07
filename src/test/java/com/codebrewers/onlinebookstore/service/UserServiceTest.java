@@ -88,16 +88,4 @@ public class UserServiceTest {
         }
     }
 
-    @Test
-    void givenUserDetails_WhenUserLogedin_ShouldReturnMessage() {
-        LoginDTO loginDTO = new LoginDTO("gajanan@gmail.com", "Gajanan@123");
-        UserDetails userDetails = new UserDetails(loginDTO);
-        String message = "token";
-        when(userRepository.findByEmailID(any())).thenReturn(java.util.Optional.of(userDetails));
-        when(bCryptPasswordEncoder.matches(loginDTO.password,userDetails.password)).thenReturn(true);
-        when(jwtToken.generateLoginToken(userDetails)).thenReturn("token");
-        String user = userService.userLogin(loginDTO);
-        Assert.assertEquals(message, user);
-    }
-
 }
