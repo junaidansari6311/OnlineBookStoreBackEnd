@@ -12,11 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class ApplicationConfiguration {
 
-    /*@Bean
-    public MailService mailService(){
-        return new MailService();
-    }*/
-
     @Bean
     public JavaMailSender javaMailSender(){
         return new JavaMailSenderImpl();

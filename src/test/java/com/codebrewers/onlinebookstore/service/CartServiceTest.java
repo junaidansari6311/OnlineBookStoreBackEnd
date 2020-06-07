@@ -34,25 +34,25 @@ public class CartServiceTest {
     @Mock
     ICartRepository cartRepository;
 
-    @Mock
-    IBookStoreRepository bookStoreRepository;
-
     @InjectMocks
     CartService cartService;
 
 
-    @MockBean
-    FileProperties fileProperties;
 
     @Mock
-    IUserRepository userRepository;
+    IBookStoreRepository bookStoreRepository;
 
     @Mock
     IBookCartDetailsRepository bookCartDetailsRepository;
 
     @Mock
-    Token jwtToken;
+    IUserRepository userRepository;
 
+    @MockBean
+    FileProperties fileProperties;
+
+    @Mock
+    Token jwtToken;
 
     UserDetails user;
     BookDetails book;
@@ -89,29 +89,26 @@ public class CartServiceTest {
 
     @Test
     void givenCart_ShouldReturnListOfBooks() {
+        String token="asbfj45";
         List<CartDetails> cartList = new ArrayList<>();
         List<CartDetails> cartList1 = new ArrayList<>();
-        CartDTO cartDTO = new CartDTO(1,50,200.0);
+        CartDTO cartDTO = new CartDTO(1, 50,200.0);
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","XYTZ@1456","9966998855",true);
+        user= new UserDetails(registrationDTO);
+        bookCartDetails = new BookCartDetails(cartDTO);
+        bookDetails.add(bookCartDetails);
         CartDetails cartDetails = new CartDetails();
+        cartDetails.setId(1);
+        cartDetails.setBook(bookDetails);
+        cartDetails.setUserDetails(user);
         cartList.add(cartDetails);
         cartList1.add(cartDetails);
+        when(jwtToken.decodeJWT(anyString())).thenReturn(1);
+        when(userRepository.findById(anyInt())).thenReturn(java.util.Optional.of(user));
+        when(cartRepository.findByUserDetails(any())).thenReturn(java.util.Optional.of(cartDetails));
         when(cartRepository.findAll()).thenReturn(cartList);
-        cartService.allCartItems("token");
+        cartService.allCartItems(token);
         Assert.assertEquals(cartList1, cartList);
-    }
-
-    @Test
-    void givenBookDetails_WhenNoBooksAvailableInCart_ShouldThrowException() {
-        List<CartDetails> cartList = new ArrayList<>();
-        try {
-            CartDTO cartDTO = new CartDTO(1,50,200.0);
-            CartDetails cartDetails = new CartDetails();
-            cartList.add(cartDetails);
-            when(cartRepository.findAll()).thenReturn(cartList);
-            cartService.allCartItems("token");
-        } catch (CartException e) {
-            Assert.assertEquals("No Books Available", e.getMessage());
-        }
     }
 
     @Test
@@ -129,7 +126,6 @@ public class CartServiceTest {
         Assert.assertEquals(message, updateQuantity);
     }
 
-
     @Test
     void givenBookID_WhenPresentToDelete_ShouldReturnMessage() throws Exception {
         String message = "Book Has Been Deleted";
@@ -138,6 +134,6 @@ public class CartServiceTest {
         doNothing().doThrow(new IllegalArgumentException()).when(cartRepository).deleteById(id);
         String deleteCartItems = cartService.deleteCartItem(id);
         Assert.assertEquals(message, deleteCartItems);
-        verify(cartRepository).deleteById(id);
     }
+
 }
