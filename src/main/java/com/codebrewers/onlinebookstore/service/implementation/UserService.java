@@ -8,6 +8,7 @@ import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.IUserService;
 import com.codebrewers.onlinebookstore.utils.IToken;
 import com.codebrewers.onlinebookstore.utils.implementation.MailService;
+import com.codebrewers.onlinebookstore.utils.templet.EmailVerification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class UserService implements IUserService {
 
     @Autowired
     IToken jwtToken;
+
+    @Autowired
+    EmailVerification emailVerification;
 
     @Autowired
     MailService mailService;
@@ -93,11 +97,11 @@ public class UserService implements IUserService {
     public String sendVerificationMail(String email, String requestURL) throws MessagingException {
         UserDetails user = userRepository.findByEmailID(email).orElseThrow(()->new UserServiceException("User Not Found"));
         String token = jwtToken.generateVerificationToken(user);
-        requestURL= requestURL.contains("user") ?
+        requestURL= emailVerification.getHeader(requestURL.contains("user") ?
                 requestURL.substring(0, requestURL.indexOf("u") - 1) + "verify/email/" + token  :
                 requestURL.contains("resend") ?
                         requestURL.substring(0, requestURL.indexOf("r") - 1) + "verify/email/" + token :
-                        requestURL + "verify/email/" + token;
+                        requestURL + "verify/email/" + token);
         String subject="Email Verification";
         mailService.sendMail(requestURL,subject,user.emailID);
         return "Verification Mail Has Been Sent Successfully";
