@@ -9,6 +9,7 @@ import com.codebrewers.onlinebookstore.service.IUserService;
 import com.codebrewers.onlinebookstore.utils.IToken;
 import com.codebrewers.onlinebookstore.utils.implementation.MailService;
 import com.codebrewers.onlinebookstore.utils.templet.EmailVerification;
+import com.codebrewers.onlinebookstore.utils.templet.ForgotPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    ForgotPassword forgotPassword;
 
     @Override
     public String userRegistration(RegistrationDTO registrationDTO,String requestURL) throws MessagingException {
@@ -76,9 +80,9 @@ public class UserService implements IUserService {
     public String resetPasswordLink(String email, String urlToken) throws MessagingException {
         UserDetails user = userRepository.findByEmailID(email).orElseThrow(() -> new UserServiceException("User Not Found"));
         String tokenGenerate = jwtToken.generateVerificationToken(user);
-        urlToken = urlToken.contains("forgot")?
+        urlToken = forgotPassword.getHeader(urlToken.contains("forgot")?
                 urlToken.substring(0, urlToken.indexOf("f") - 1) + "/reset/password/" + tokenGenerate :
-                urlToken.substring(0, urlToken.indexOf("r") - 1) + "/reset/password/" + tokenGenerate;
+                urlToken.substring(0, urlToken.indexOf("r") - 1) + "/reset/password/" + tokenGenerate );
         mailService.sendMail(urlToken, "Reset Password", user.emailID);
         return "Reset Password Link Has Been Sent To Your Email Address";
     }
