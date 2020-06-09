@@ -7,6 +7,7 @@ import com.codebrewers.onlinebookstore.repository.*;
 import com.codebrewers.onlinebookstore.service.IOrderService;
 import com.codebrewers.onlinebookstore.utils.implementation.MailService;
 import com.codebrewers.onlinebookstore.utils.implementation.Token;
+import com.codebrewers.onlinebookstore.utils.templet.PlacedOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
@@ -35,6 +36,9 @@ public class OrderService implements IOrderService {
     @Autowired
     ICartRepository cartRepository;
 
+    @Autowired
+    PlacedOrder placedOrder;
+
 
     @Override
     public Integer placeOrder(Double totalPrice, String token) throws MessagingException {
@@ -51,9 +55,7 @@ public class OrderService implements IOrderService {
         });
         cartDetailsRepository.updateOrderPlacedStatus(cart.getId());
 
-        String body = "Dear, "+cart.getUserDetails().fullName+" Congratulations! Your order for the books is Successfully Placed. Save this orderId: #"+orderId+" for further communication"
-                +"\n Your Book Name Are : "+
-                cart.getBook().stream().map(bookCartDetails -> bookCartDetails.getBookDetails().bookName).peek(System.out::println).collect(Collectors.toList()) +"\n Total Book Price : "+totalPrice+"\n Total No. Of Books : "+cart.getBook().size();
+        String body = placedOrder.getHeader(cart,orderId,totalPrice,cartBooks);
 
         mailService.sendMail(body,"Order Placed",cart.userDetails.emailID);
         return orderId;
