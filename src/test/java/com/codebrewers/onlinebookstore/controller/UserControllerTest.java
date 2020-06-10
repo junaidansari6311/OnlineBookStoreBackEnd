@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -112,6 +113,21 @@ public class UserControllerTest {
         ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
+    }
+
+    @Test
+    void givenUserRegistration_WhenMobileNumberFieldIsBlank_ShouldReturnProperMessage() throws Exception {
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","Gajanan@123","",true);
+        UserDetails userDetails = new UserDetails(registrationDTO);
+        String stringConvertDTO = gson.toJson(userDetails);
+        String message = "Please Enter Mobile Number";
+        when(userService.userRegistration(any(),anyString())).thenReturn(message);
+        MvcResult mvcResult = mockMvc.perform(post("/user/register")
+                .content(stringConvertDTO)
+                .contentType(MediaType.APPLICATION_JSON).headers(httpHeaders).characterEncoding("utf-8")).andReturn();
+
+        String response = mvcResult.getResponse().getContentAsString();
+        Assert.assertEquals(message, response);
     }
 
 }
