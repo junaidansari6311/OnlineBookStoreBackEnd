@@ -9,4 +9,7 @@ public class ResponseDTO {
         this.bookDetails = bookDetails;
     }
 
+    public ResponseDTO(String message) {
+        this.message = message;
+    }
 }

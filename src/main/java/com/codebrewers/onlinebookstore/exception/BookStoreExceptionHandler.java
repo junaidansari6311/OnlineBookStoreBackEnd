@@ -13,6 +13,18 @@ public class BookStoreExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AdminServiceException.class)
     public ResponseEntity<ResponseDTO> adminServiceExceptionHandler(AdminServiceException e) {
         ResponseDTO responseDto = new ResponseDTO(e.getMessage(), null);
-        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseDto, HttpStatus.ALREADY_REPORTED);
+    }
+
+    @ExceptionHandler(UserServiceException.class)
+    public ResponseEntity<ResponseDTO> adminServiceExceptionHandler(UserServiceException e) {
+        ResponseDTO responseDto = new ResponseDTO(e.getMessage());
+        return new ResponseEntity<>(responseDto, HttpStatus.ALREADY_REPORTED);
+    }
+
+    @ExceptionHandler(JWTException.class)
+    public ResponseEntity adminServiceExceptionHandler(JWTException e){
+        ResponseDTO responseDTO = new ResponseDTO((e.getMessage()));
+        return new ResponseEntity(responseDTO,HttpStatus.ALREADY_REPORTED);
     }
 }
