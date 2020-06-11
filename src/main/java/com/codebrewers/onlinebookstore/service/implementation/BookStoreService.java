@@ -8,7 +8,6 @@ import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.repository.IBookStoreRepository;
 import com.codebrewers.onlinebookstore.service.IBookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -70,7 +69,7 @@ public class BookStoreService implements IBookStoreService {
     @Override
     public Resource loadFileAsResource(String fileName) {
         try {
-            String fileBasePath = System.getProperty("user.dir") + "\\src\\main\\resources\\Images\\";
+            String fileBasePath = System.getProperty("user.dir") + fileProperties.getUploadDir();
             Path path = Paths.get(fileBasePath + fileName);
             Resource resource = new UrlResource(path.toUri());
             if (resource.exists()) {
