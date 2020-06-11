@@ -1,6 +1,7 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
+import com.codebrewers.onlinebookstore.dto.UploadFileResponse;
 import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,18 +50,29 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public String storeFile(MultipartFile file) {
+    public UploadFileResponse storeFile(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        String fileBasePath = System.getProperty("user.dir") + fileProperties;
+        String fileBasePath = System.getProperty("user.dir");
+
+        String uploadDir = fileProperties.getUploadDir();
+        String actualPath = fileBasePath + uploadDir;
+
         if (!(fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png"))) {
             throw new AdminServiceException("Only Image Files Can Be Uploaded");
         }
-        Path path = Paths.get(fileBasePath + fileName);
+        Path path = Paths.get(actualPath + fileName);
         try {
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return fileName;
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/books/image/")
+                .path(fileName)
+                .toUriString();
+
+        UploadFileResponse fileResponse=new UploadFileResponse(fileName,fileDownloadUri);
+
+        return fileResponse;
     }
 }

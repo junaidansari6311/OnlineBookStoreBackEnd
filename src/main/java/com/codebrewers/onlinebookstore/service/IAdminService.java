@@ -1,11 +1,12 @@
 package com.codebrewers.onlinebookstore.service;
 
 import com.codebrewers.onlinebookstore.dto.BookDTO;
+import com.codebrewers.onlinebookstore.dto.UploadFileResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IAdminService {
 
     String addBook(BookDTO bookDTO);
 
-    String storeFile(MultipartFile file);
+    UploadFileResponse storeFile(MultipartFile file);
 }

@@ -29,7 +29,7 @@ public class UserController {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
         String message = userService.userRegistration(registrationDTO,request.getHeader("Referer"));
-        ResponseDTO responseDTO = new ResponseDTO(message,null);
+        ResponseDTO responseDTO = new ResponseDTO(message);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 
     }
@@ -47,21 +47,21 @@ public class UserController {
     @PostMapping("/forget/password")
     public ResponseEntity getResetPassword(@RequestParam("emailID") String emailID,HttpServletRequest httpServletRequest) throws MessagingException {
         String resetPassword = userService.resetPasswordLink(emailID,httpServletRequest.getHeader("Referer"));
-        ResponseDTO response = new ResponseDTO(resetPassword,null);
+        ResponseDTO response = new ResponseDTO(resetPassword);
         return new ResponseEntity(response,HttpStatus.OK);
     }
 
     @PostMapping("/confirm/password/")
     public ResponseEntity resetPassword(@RequestParam(name = "password") String password,@RequestParam(value = "token",defaultValue = "") String urlToken){
         String resetPassword = userService.resetPassword(password,urlToken);
-        ResponseDTO response = new ResponseDTO(resetPassword,null);
+        ResponseDTO response = new ResponseDTO(resetPassword);
         return new ResponseEntity(response,HttpStatus.OK);
     }
 
     @PostMapping("/resend/email/{emailID}")
     public ResponseEntity<ResponseDTO> resendMail(@PathVariable(name = "emailID")String emailID,HttpServletRequest request) throws MessagingException {
         String resentMail = userService.sendVerificationMail(emailID,request.getHeader("Referer"));
-        ResponseDTO response = new ResponseDTO(resentMail,null);
+        ResponseDTO response = new ResponseDTO(resentMail);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

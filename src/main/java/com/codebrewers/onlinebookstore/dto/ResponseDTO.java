@@ -2,11 +2,11 @@ package com.codebrewers.onlinebookstore.dto;
 
 public class ResponseDTO {
     public String message;
-    public Object bookDetails;
+    public Object data;
 
-    public ResponseDTO(String message, Object bookDetails) {
+    public ResponseDTO(String message, Object data) {
         this.message = message;
-        this.bookDetails = bookDetails;
+        this.data = data;
     }
 
     public ResponseDTO(String message) {

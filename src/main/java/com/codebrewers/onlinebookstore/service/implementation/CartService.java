@@ -14,6 +14,7 @@ import com.codebrewers.onlinebookstore.repository.ICartRepository;
 import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.ICartService;
 import com.codebrewers.onlinebookstore.utils.IToken;
+import com.codebrewers.onlinebookstore.utils.implementation.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -23,7 +24,13 @@ import java.util.List;
 public class CartService implements ICartService {
 
     @Autowired
-    private ICartRepository icartRepository;
+    MailService mailService;
+
+    @Autowired
+    private ICartRepository cartRepository;
+
+    @Autowired
+    private IUserRepository userRepository;
 
     @Autowired
     private IBookStoreRepository bookStoreRepository;
@@ -32,15 +39,7 @@ public class CartService implements ICartService {
     private IBookCartDetailsRepository bookCartDetailsRepository;
 
     @Autowired
-    private ICartRepository cartRepository;
-
-    @Autowired
     IToken jwtToken;
-
-    @Autowired
-    private IUserRepository userRepository;
-
-
 
     @Override
     public String addToCart(CartDTO cartDTO, String token) {

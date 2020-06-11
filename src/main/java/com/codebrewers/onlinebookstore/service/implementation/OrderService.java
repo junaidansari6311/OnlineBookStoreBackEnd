@@ -43,7 +43,6 @@ public class OrderService implements IOrderService {
     @Override
     public Integer placeOrder(Double totalPrice, String token) throws MessagingException {
         Integer orderId = generatedOrderId();
-        System.out.println(orderId);
         CartDetails cart = getCart(token);
         List<BookCartDetails> cartBooks = cartDetailsRepository.fetchCartItems(cart.getId());
         CustomerDetails customerDetails = customerDetailsRepository.findByUserDetailsOrderById(cart.getUserDetails()).get(0);
@@ -70,7 +69,6 @@ public class OrderService implements IOrderService {
             if( !byId.isPresent())
                 isUnique = true;
         }
-        System.out.println(orderId);
         return orderId;
     }
 

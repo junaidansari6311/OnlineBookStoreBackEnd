@@ -1,11 +1,10 @@
 package com.codebrewers.onlinebookstore.controller;
 
 import com.codebrewers.onlinebookstore.dto.CartDTO;
-import com.codebrewers.onlinebookstore.dto.CustomerDetailsDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.model.BookCartDetails;
-import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.service.ICartService;
+import com.codebrewers.onlinebookstore.utils.IToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -24,6 +22,9 @@ public class CartController {
     @Autowired
     ICartService cartService;
 
+    @Autowired
+    IToken token;
+
     @PostMapping("/cart")
     public ResponseEntity<ResponseDTO> addBooks(@Valid @RequestBody CartDTO cartDTO,@RequestHeader(value = "token",required = false) String token,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -33,7 +34,6 @@ public class CartController {
         ResponseDTO responseDto = new ResponseDTO(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
-
 
     @GetMapping("/cart")
     public ResponseEntity<ResponseDTO> fetchBooks(@RequestHeader(value = "token",required = false) String token) {
@@ -55,5 +55,4 @@ public class CartController {
         ResponseDTO responseDto = new ResponseDTO(message, null);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
-
 }

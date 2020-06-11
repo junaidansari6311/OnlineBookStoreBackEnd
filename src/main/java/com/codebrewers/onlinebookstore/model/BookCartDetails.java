@@ -17,6 +17,7 @@ public class BookCartDetails {
     public Integer quantity;
     public Double totalPrice;
 
+    public boolean orderStatus;
     public String addedToCartDate;
 
     @ManyToOne()
@@ -38,6 +39,7 @@ public class BookCartDetails {
 
     public BookCartDetails(CartDTO cartDTO){
         this.quantity=cartDTO.quantity;
+        this.orderStatus= false;
         this.totalPrice=cartDTO.totalPrice;
         this.addedToCartDate= LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
     }

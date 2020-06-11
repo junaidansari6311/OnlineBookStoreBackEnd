@@ -14,6 +14,7 @@ public class CartDetails {
     public Integer id;
 
     @OneToMany(mappedBy = "cartDetails")
+    @Where(clause = "order_status=true")
     public List<BookCartDetails> book;
 
     @JsonIgnore
