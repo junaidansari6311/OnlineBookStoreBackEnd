@@ -7,6 +7,7 @@ import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.service.implementation.CartService;
 import com.codebrewers.onlinebookstore.utils.IToken;
+import com.codebrewers.onlinebookstore.utils.implementation.Token;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,9 @@ public class CartControllerTest {
 
     @MockBean
     FileProperties fileProperties;
+
+    @MockBean
+    Token jwtToken;
 
     Gson gson = new Gson();
 

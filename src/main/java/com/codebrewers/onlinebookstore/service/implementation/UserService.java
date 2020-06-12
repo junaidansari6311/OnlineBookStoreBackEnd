@@ -102,9 +102,9 @@ public class UserService implements IUserService {
         UserDetails user = userRepository.findByEmailID(email).orElseThrow(()->new UserServiceException("User Not Found"));
         String token = jwtToken.generateVerificationToken(user);
         requestURL= emailVerification.getHeader(requestURL.contains("user") ?
-                requestURL.substring(0, requestURL.indexOf("u") - 1) + "verify/email/" + token  :
+                requestURL.substring(0, requestURL.indexOf("u") - 1) + "/verify/email/" + token  :
                 requestURL.contains("resend") ?
-                        requestURL.substring(0, requestURL.indexOf("r") - 1) + "verify/email/" + token :
+                        requestURL.substring(0, requestURL.indexOf("r") - 1) + "/verify/email/" + token :
                         requestURL + "verify/email/" + token);
         String subject="Email Verification";
         mailService.sendMail(requestURL,subject,user.emailID);

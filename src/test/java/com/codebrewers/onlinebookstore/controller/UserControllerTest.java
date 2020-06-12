@@ -4,10 +4,12 @@ import com.codebrewers.onlinebookstore.dto.LoginDTO;
 import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.model.UserDetails;
+import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.service.implementation.UserService;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,6 +40,9 @@ public class UserControllerTest {
 
     @MockBean
     HttpServletResponse httpServletResponse;
+
+    @MockBean
+    FileProperties fileProperties;
 
     HttpHeaders httpHeaders=new HttpHeaders();
 
@@ -130,4 +135,19 @@ public class UserControllerTest {
         Assert.assertEquals(message, response);
     }
 
+    @Test
+    void givenUserRegistration_WhenUserVerifyEmail_ShouldReturnMessage() throws Exception {
+        String urlToken="gvfa454";
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","Gajanan@123","",true);
+        UserDetails userDetails = new UserDetails(registrationDTO);
+        String stringConvertDTO = gson.toJson(userDetails);
+        String message = "User Has Been Verified";
+        when(userService.verifyEmail(anyString())).thenReturn(message);
+        MvcResult result = mockMvc.perform(post("/user/verify/mail")
+                .param("token", urlToken)
+                .content(stringConvertDTO)
+                .contentType(MediaType.APPLICATION_JSON).headers(httpHeaders).characterEncoding("utf-8")).andReturn();
+        String response = result.getResponse().getContentAsString();
+        Assert.assertEquals(message,response);
+    }
 }

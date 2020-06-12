@@ -9,7 +9,6 @@ import com.codebrewers.onlinebookstore.repository.ICartRepository;
 import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.implementation.CartService;
 import com.codebrewers.onlinebookstore.service.implementation.UserService;
-import com.codebrewers.onlinebookstore.utils.IMailService;
 import com.codebrewers.onlinebookstore.utils.implementation.Token;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.mail.MessagingException;
-import static org.mockito.ArgumentMatchers.*;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
