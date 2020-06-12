@@ -52,4 +52,8 @@ public class OrderDetails {
         this.orderId = orderId;
     }
 
+    public Integer getOrderId() {
+        return orderId;
+    }
+
 }

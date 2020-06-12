@@ -47,7 +47,7 @@ public class OrderService implements IOrderService {
         List<BookCartDetails> cartBooks = cartDetailsRepository.fetchCartItems(cart.getId());
         CustomerDetails customerDetails = customerDetailsRepository.findByUserDetailsOrderById(cart.getUserDetails()).get(0);
         OrderDetails order = new OrderDetails(cart, orderId, cart.getUserDetails(), totalPrice, customerDetails, cartBooks);
-        orderRepository.save(order);
+        OrderDetails saveOrder = orderRepository.save(order);
         cartBooks.forEach(cartBook ->{
             cartBook.setOrderDetails(order);
             bookStoreRepository.updateBookQuantity(cartBook.getBookDetails().id, cartBook.getQuantity());
@@ -57,7 +57,7 @@ public class OrderService implements IOrderService {
         String body = placedOrder.getHeader(cart,orderId,totalPrice,cartBooks);
 
         mailService.sendMail(body,"Order Placed",cart.userDetails.emailID);
-        return orderId;
+        return saveOrder.getOrderId();
     }
 
     private int generatedOrderId(){
