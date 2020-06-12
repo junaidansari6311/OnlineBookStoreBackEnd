@@ -16,7 +16,7 @@ public class MailService implements IMailService {
     JavaMailSender javaMailSender;
 
     @Override
-    public void sendMail(String body,String subject,String emailID) throws MessagingException {
+    public String sendMail(String body,String subject,String emailID) throws MessagingException {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -24,6 +24,7 @@ public class MailService implements IMailService {
         helper.setSubject(subject);
         helper.setText(body,true);
         javaMailSender.send(message);
+        return "Mail Has Been Send Successfully";
     }
 }
 

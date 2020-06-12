@@ -8,5 +8,5 @@ import java.io.IOException;
 public interface IMailService {
 
 
-    void sendMail(String body,String subject,String emailID) throws MessagingException, IOException;
+    String sendMail(String body,String subject,String emailID) throws MessagingException, IOException;
 }

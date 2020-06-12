@@ -9,7 +9,6 @@ import com.codebrewers.onlinebookstore.service.implementation.UserService;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,17 +43,17 @@ public class UserControllerTest {
     @MockBean
     FileProperties fileProperties;
 
-    HttpHeaders httpHeaders=new HttpHeaders();
+    HttpHeaders httpHeaders = new HttpHeaders();
 
     Gson gson = new Gson();
 
     @Test
     void givenUserRegistration_WhenAllValidationAreTrue_ShouldReturnMessage() throws Exception {
-        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","Gajanan@123","8855885588",true);
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan", "gajanan@gmail.com", "Gajanan@123", "8855885588", true);
         UserDetails userDetails = new UserDetails(registrationDTO);
         String stringConvertDTO = gson.toJson(userDetails);
         String message = "REGISTRATION SUCCESSFUL";
-        when(userService.userRegistration(any(),any())).thenReturn(message);
+        when(userService.userRegistration(any(), any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/user/register").contentType(MediaType.APPLICATION_JSON)
                 .content(stringConvertDTO)).andReturn();
 
@@ -66,7 +65,7 @@ public class UserControllerTest {
 
     @Test
     void givenUserLogin_WhenFieldsAreCorrect_ShouldReturnMessage() throws Exception {
-        LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com","Gajanan@123");
+        LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com", "Gajanan@123");
         UserDetails userDetails = new UserDetails(logInDTO);
         String stringConvertDTO = gson.toJson(userDetails);
         String message = "token";
@@ -75,14 +74,14 @@ public class UserControllerTest {
                 .content(stringConvertDTO)).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
-        httpServletResponse.setHeader("Authorization",message);
+        httpServletResponse.setHeader("Authorization", message);
 
-        Assert.assertEquals("LOGIN SUCCESSFUL",response);
+        Assert.assertEquals("LOGIN SUCCESSFUL", response);
     }
 
     @Test
     void givenUserLogin_WhenEmailIDFieldIsEmpty_ShouldReturnErrorMessage() throws Exception {
-        LoginDTO logInDTO = new LoginDTO("","Gajanan@123");
+        LoginDTO logInDTO = new LoginDTO("", "Gajanan@123");
         UserDetails userDetails = new UserDetails(logInDTO);
         String stringConvertDTO = gson.toJson(userDetails);
         BindingResult bindingResult = mock(BindingResult.class);
@@ -94,7 +93,7 @@ public class UserControllerTest {
 
     @Test
     void givenUserLogin_WhenPasswordFieldIsEmpty_ShouldReturnErrorMessage() throws Exception {
-        LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com","");
+        LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com", "");
         UserDetails userDetails = new UserDetails(logInDTO);
         String stringConvertDTO = gson.toJson(userDetails);
         BindingResult bindingResult = mock(BindingResult.class);
@@ -106,13 +105,13 @@ public class UserControllerTest {
 
     @Test
     void givenPassword_WhenProper_ShouldReturnProperMessage() throws Exception {
-        String password="Gajanan@123";
-        String urlToken="gvfa454";
-        String message="Password Has Been Reset";
-        when(userService.resetPassword(any(),any())).thenReturn(message);
+        String password = "Gajanan@123";
+        String urlToken = "gvfa454";
+        String message = "Password Has Been Reset";
+        when(userService.resetPassword(any(), any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/user/confirm/password/")
-                .param("password",password)
-                .param("token",urlToken)
+                .param("password", password)
+                .param("token", urlToken)
                 .headers(httpHeaders).characterEncoding("utf-8")).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
@@ -122,11 +121,11 @@ public class UserControllerTest {
 
     @Test
     void givenUserRegistration_WhenMobileNumberFieldIsBlank_ShouldReturnProperMessage() throws Exception {
-        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","Gajanan@123","",true);
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan", "gajanan@gmail.com", "Gajanan@123", "", true);
         UserDetails userDetails = new UserDetails(registrationDTO);
         String stringConvertDTO = gson.toJson(userDetails);
         String message = "Please Enter Mobile Number";
-        when(userService.userRegistration(any(),anyString())).thenReturn(message);
+        when(userService.userRegistration(any(), anyString())).thenReturn(message);
         MvcResult mvcResult = mockMvc.perform(post("/user/register")
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON).headers(httpHeaders).characterEncoding("utf-8")).andReturn();
@@ -137,8 +136,8 @@ public class UserControllerTest {
 
     @Test
     void givenUserRegistration_WhenUserVerifyEmail_ShouldReturnMessage() throws Exception {
-        String urlToken="gvfa454";
-        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan","gajanan@gmail.com","Gajanan@123","",true);
+        String urlToken = "gvfa454";
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan", "gajanan@gmail.com", "Gajanan@123", "", true);
         UserDetails userDetails = new UserDetails(registrationDTO);
         String stringConvertDTO = gson.toJson(userDetails);
         String message = "User Has Been Verified";
@@ -148,6 +147,6 @@ public class UserControllerTest {
                 .content(stringConvertDTO)
                 .contentType(MediaType.APPLICATION_JSON).headers(httpHeaders).characterEncoding("utf-8")).andReturn();
         String response = result.getResponse().getContentAsString();
-        Assert.assertEquals(message,response);
+        Assert.assertEquals(message, response);
     }
 }
