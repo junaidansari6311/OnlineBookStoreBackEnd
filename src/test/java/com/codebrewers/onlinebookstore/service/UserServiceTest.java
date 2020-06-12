@@ -162,4 +162,30 @@ public class UserServiceTest {
             Assert.assertEquals("User With Same Email Id Already Exists", e.getMessage());
         }
     }
+
+    @Test
+    void givenUserDetails_WhenUserResetPassword_ShouldReturnResetPasswordLinkMessage() throws MessagingException {
+        LoginDTO loginDTO = new LoginDTO("pritam@gmail.com","pritam123");
+        UserDetails userDetails = new UserDetails(loginDTO);
+        when(userRepository.findByEmailID(loginDTO.emailID)).thenReturn(java.util.Optional.of(userDetails));
+        when(jwtToken.generateVerificationToken(any())).thenReturn(String.valueOf(userDetails));
+        when(forgotPassword.getHeader(anyString())).thenReturn("token");
+        when(mailService.sendMail(any(),any(),any())).thenReturn("Mail has been send");
+        String user = userService.resetPasswordLink("pritam@gmail.com", "tokenforgot");
+        Assert.assertEquals("Reset Password Link Has Been Sent To Your Email Address",user);
+    }
+
+    @Test
+    void givenUserDetails_WhenUserRegistered_ShouldReturnVerificationMessage() throws MessagingException {
+        RegistrationDTO registrationDTO = new RegistrationDTO("Gajanan", "gajanan@gmail.com", "Gajanan@123", "8855885588", true);
+        UserDetails userDetails = new UserDetails(registrationDTO);
+        when(jwtToken.generateVerificationToken(any())).thenReturn(String.valueOf(userDetails));
+        when(userRepository.findByEmailID(registrationDTO.emailID)).thenReturn(java.util.Optional.of(userDetails));
+        when(bCryptPasswordEncoder.matches(registrationDTO.password, userDetails.password)).thenReturn(false);
+        when(userRepository.save(any())).thenReturn(userDetails);
+        when(emailVerification.getHeader(anyString())).thenReturn("token");
+        when(mailService.sendMail(any(),any(),any())).thenReturn("Mail has been send");
+        String user = userService.sendVerificationMail("gajanan@gmail.com", "tokenuser");
+        Assert.assertEquals("Verification Mail Has Been Sent Successfully",user);
+    }
 }
