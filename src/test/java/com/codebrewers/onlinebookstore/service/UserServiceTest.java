@@ -94,4 +94,20 @@ public class UserServiceTest {
         Assert.assertEquals(message,verifyEmail);
     }
 
+    @Test
+    void givenUserDetails_WhenUserSetThePassword_ShouldReturnMessage() {
+        String password="Gajanan@123";
+        String token="ghfd12hvw";
+        String message = "Password Has Been Reset";
+        LoginDTO loginDTO = new LoginDTO("pritam@gmail.com","pritam123");
+        UserDetails userDetails = new UserDetails(loginDTO);
+
+        when(jwtToken.decodeJWT(anyString())).thenReturn(1);
+        when(userRepository.findById(anyInt())).thenReturn(java.util.Optional.of(userDetails));
+        when(bCryptPasswordEncoder.encode(password)).thenReturn(password);
+        when(userRepository.save(any())).thenReturn(userDetails);
+        String reset = userService.resetPassword(password,token);
+        Assert.assertEquals(message,reset);
+    }
+
 }
