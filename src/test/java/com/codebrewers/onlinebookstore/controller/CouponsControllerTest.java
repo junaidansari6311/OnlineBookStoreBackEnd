@@ -56,4 +56,15 @@ public class CouponsControllerTest {
         String responseMessage = responseDto.message;
         Assert.assertEquals(message, responseMessage);
     }
+
+    @Test
+    void givenCoupon_WhenFetchCoupons_ShouldReturnAllCoupons(){
+        List<Coupons> couponsList = new ArrayList<>();
+        List<Coupons> couponsList1 = new ArrayList<>();
+        Coupons coupons = new Coupons("WEL100", 100.0,"10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        couponsList.add(coupons);
+        couponsList1.add(coupons);
+        when(couponService.fetchCoupon(anyString())).thenReturn(couponsList);
+        Assert.assertEquals(couponsList1, couponsList);
+    }
 }
