@@ -1,11 +1,10 @@
 package com.codebrewers.onlinebookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -20,6 +19,10 @@ public class Coupons {
     public String description;
     public String expireCouponDate;
 
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "coupons")
+    public List<CouponsDetails> couponsDetails;
 
     public Coupons(String couponsType, Double discountPrice, String description, String expireCouponDate) {
         this.couponsType = couponsType;
