@@ -18,9 +18,10 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(CouponController.class)
 public class CouponsControllerTest {
@@ -66,5 +67,20 @@ public class CouponsControllerTest {
         couponsList1.add(coupons);
         when(couponService.fetchCoupon(anyString())).thenReturn(couponsList);
         Assert.assertEquals(couponsList1, couponsList);
+    }
+
+    @Test
+    void givenCoupon_WhenCouponAdded_ShouldReturnMessage() throws Exception {
+        String discountCoupon="CB50";
+        String totalPrice = "200.0";
+        String message = "Coupon added successfully";
+        when(couponService.addCoupon(any(),anyString(),anyDouble())).thenReturn(200.0);
+        MvcResult mvcResult = this.mockMvc.perform(post("/coupon")
+                .param("discountCoupon", discountCoupon).param("totalPrice", totalPrice)
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        String response = mvcResult.getResponse().getContentAsString();
+        ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
+        String responseMessage = responseDto.message;
+        Assert.assertEquals(message, responseMessage);
     }
 }

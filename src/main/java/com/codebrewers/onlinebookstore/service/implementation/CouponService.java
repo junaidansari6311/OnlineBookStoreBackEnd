@@ -39,4 +39,9 @@ public class CouponService implements ICouponService {
 
         return coupons;
     }
+
+    @Override
+    public Double addCoupon(String token, String coupon, Double totalPrice) {
+        return null;
+    }
 }

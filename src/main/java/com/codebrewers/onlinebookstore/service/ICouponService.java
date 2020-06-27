@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ICouponService {
     List<Coupons> fetchCoupon(String token);
+
+    Double addCoupon(String token, String coupon, Double totalPrice);
 }
