@@ -59,4 +59,43 @@ public class CouponsServiceTest {
         List<Coupons> coupons1 = couponService.fetchCoupon("token");
         Assert.assertEquals(couponsList,coupons1);
     }
+
+    @Test
+    void givenCoupon_WhenNoCouponAvailable_ShouldThrowException() {
+        List<CouponsDetails> couponsDetailsList = new ArrayList<>();
+        List<Coupons> couponsList = new ArrayList<>();
+        Coupons coupons = new Coupons("WEL100", 100.0,"10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        LoginDTO logInDTO = new LoginDTO("junaid@gmail.com", "Junaid@123");
+        UserDetails userDetails = new UserDetails(logInDTO);
+        CouponsDetails couponsDetails = new CouponsDetails(coupons,userDetails);
+        couponsDetailsList.add(couponsDetails);
+        String message = "Coupons Not Available";
+        try {
+            when(jwtToken.decodeJWT(anyString())).thenReturn(1);
+            when(couponRepository.findAll()).thenReturn(couponsList);
+            when(couponDetailsRepository.findByUserId(anyInt())).thenReturn(couponsDetailsList);
+            couponService.fetchCoupon("token");
+        }catch (UserServiceException e) {
+            Assert.assertEquals(message,e.getMessage());
+        }
+    }
+
+    @Test
+    void givenCoupon_WhenAppliedOneCoupon_ShouldReturnRemainingCoupon() {
+        List<CouponsDetails> couponsDetailsList = new ArrayList<>();
+        List<Coupons> couponsList = new ArrayList<>();
+        Coupons coupons = new Coupons("WEL100", 100.0,"10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        couponsList.add(coupons);
+        couponsList.add(coupons);
+        couponsList.add(coupons);
+        LoginDTO logInDTO = new LoginDTO("junaid@gmail.com", "Junaid@123");
+        UserDetails userDetails = new UserDetails(logInDTO);
+        CouponsDetails couponsDetails = new CouponsDetails(coupons,userDetails);
+        couponsDetailsList.add(couponsDetails);
+        when(jwtToken.decodeJWT(anyString())).thenReturn(1);
+        when(couponRepository.findAll()).thenReturn(couponsList);
+        when(couponDetailsRepository.findByUserId(anyInt())).thenReturn(couponsDetailsList);
+        List<Coupons> coupons1 = couponService.fetchCoupon("token");
+        Assert.assertEquals(couponsList,coupons1);
+    }
 }
