@@ -5,6 +5,7 @@ import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.model.BookCartDetails;
 import com.codebrewers.onlinebookstore.model.CartDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
+import com.codebrewers.onlinebookstore.repository.ICouponRepository;
 import com.codebrewers.onlinebookstore.service.implementation.CartService;
 import com.codebrewers.onlinebookstore.utils.IToken;
 import com.codebrewers.onlinebookstore.utils.implementation.Token;
@@ -37,6 +38,9 @@ public class CartControllerTest {
 
     @MockBean
     FileProperties fileProperties;
+
+    @MockBean
+    ICouponRepository couponRepository;
 
     @MockBean
     Token jwtToken;

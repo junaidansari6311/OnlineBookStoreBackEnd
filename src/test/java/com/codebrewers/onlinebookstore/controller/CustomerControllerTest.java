@@ -7,6 +7,7 @@ import com.codebrewers.onlinebookstore.exception.UserServiceException;
 import com.codebrewers.onlinebookstore.model.CustomerDetails;
 import com.codebrewers.onlinebookstore.model.UserDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
+import com.codebrewers.onlinebookstore.repository.ICouponRepository;
 import com.codebrewers.onlinebookstore.service.implementation.CustomerService;
 import com.codebrewers.onlinebookstore.utils.implementation.Token;
 import com.google.gson.Gson;
@@ -41,6 +42,9 @@ public class CustomerControllerTest {
 
     @MockBean
     FileProperties fileProperties;
+
+    @MockBean
+    ICouponRepository couponRepository;
 
     Gson gson = new Gson();
 

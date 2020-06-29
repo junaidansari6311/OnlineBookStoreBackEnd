@@ -5,6 +5,7 @@ import com.codebrewers.onlinebookstore.dto.SearchAndFilterResponseDTO;
 import com.codebrewers.onlinebookstore.enums.BookStoreEnum;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
+import com.codebrewers.onlinebookstore.repository.ICouponRepository;
 import com.codebrewers.onlinebookstore.service.implementation.BookStoreService;
 import com.google.gson.Gson;
 import org.springframework.core.io.Resource;
@@ -43,6 +44,9 @@ public class DisplayBooksControllerTest {
 
     @MockBean
     FileProperties fileProperties;
+
+    @MockBean
+    ICouponRepository couponRepository;
 
     Gson gson = new Gson();
 

@@ -5,6 +5,7 @@ import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.exception.AdminServiceException;
 import com.codebrewers.onlinebookstore.model.BookDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
+import com.codebrewers.onlinebookstore.repository.ICouponRepository;
 import com.codebrewers.onlinebookstore.service.implementation.AdminService;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -39,6 +40,9 @@ public class AdminControllerTest {
 
     @MockBean
     FileProperties fileProperties;
+
+    @MockBean
+    ICouponRepository couponRepository;
 
     Gson gson = new Gson();
 

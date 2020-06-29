@@ -5,6 +5,7 @@ import com.codebrewers.onlinebookstore.dto.RegistrationDTO;
 import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.model.UserDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
+import com.codebrewers.onlinebookstore.repository.ICouponRepository;
 import com.codebrewers.onlinebookstore.service.implementation.UserService;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -42,6 +43,9 @@ public class UserControllerTest {
 
     @MockBean
     FileProperties fileProperties;
+
+    @MockBean
+    ICouponRepository couponRepository;
 
     HttpHeaders httpHeaders = new HttpHeaders();
 

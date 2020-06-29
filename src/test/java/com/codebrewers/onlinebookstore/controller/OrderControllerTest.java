@@ -3,6 +3,7 @@ package com.codebrewers.onlinebookstore.controller;
 import com.codebrewers.onlinebookstore.dto.ResponseDTO;
 import com.codebrewers.onlinebookstore.model.BookCartDetails;
 import com.codebrewers.onlinebookstore.properties.FileProperties;
+import com.codebrewers.onlinebookstore.repository.ICouponRepository;
 import com.codebrewers.onlinebookstore.service.implementation.OrderService;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -34,6 +35,9 @@ public class OrderControllerTest {
 
     @MockBean
     FileProperties fileProperties;
+
+    @MockBean
+    ICouponRepository couponRepository;
 
     Gson gson = new Gson();
     HttpHeaders httpHeaders = new HttpHeaders();
