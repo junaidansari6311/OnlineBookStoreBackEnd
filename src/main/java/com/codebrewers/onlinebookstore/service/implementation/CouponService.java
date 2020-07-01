@@ -4,6 +4,7 @@ import com.codebrewers.onlinebookstore.exception.CouponException;
 import com.codebrewers.onlinebookstore.model.Coupons;
 import com.codebrewers.onlinebookstore.model.CouponsDetails;
 import com.codebrewers.onlinebookstore.model.UserDetails;
+import com.codebrewers.onlinebookstore.repository.ICouponDetailsRepository;
 import com.codebrewers.onlinebookstore.repository.ICouponRepository;
 import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.ICouponService;

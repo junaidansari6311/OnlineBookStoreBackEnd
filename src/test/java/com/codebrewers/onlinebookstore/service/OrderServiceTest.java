@@ -88,9 +88,9 @@ public class OrderServiceTest {
         when(cartRepository.findByUserDetails(any())).thenReturn(java.util.Optional.of(cartDetails));
         when(bookStoreRepository.updateBookQuantity(any(),any())).thenReturn(1);
         when(bookCartDetailsRepository.updateOrderPlacedStatus(anyInt())).thenReturn(1);
-        when(placedOrder.getHeader(any(),any(),any(),any())).thenReturn("Placed");
+        when(placedOrder.getHeader(any(),any(),any(),any(),any())).thenReturn("Placed");
         when(mailService.sendMail(any(),any(),any())).thenReturn("Mail has been send");
-        Integer token = orderService.placeOrder(1000.0, "token");
+        Integer token = orderService.placeOrder(1000.0,500.0, "token");
         Assert.assertEquals(123456,token,0.0);
     }
 

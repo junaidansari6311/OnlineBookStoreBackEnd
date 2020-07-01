@@ -37,7 +37,6 @@ public class AdminControllerTest {
     @MockBean
     private AdminService adminService;
 
-
     @MockBean
     FileProperties fileProperties;
 

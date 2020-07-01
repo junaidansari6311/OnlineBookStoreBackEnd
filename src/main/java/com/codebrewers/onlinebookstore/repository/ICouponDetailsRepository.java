@@ -1,4 +1,4 @@
-package com.codebrewers.onlinebookstore.service.implementation;
+package com.codebrewers.onlinebookstore.repository;
 
 import com.codebrewers.onlinebookstore.model.CouponsDetails;
 import org.springframework.data.jpa.repository.JpaRepository;

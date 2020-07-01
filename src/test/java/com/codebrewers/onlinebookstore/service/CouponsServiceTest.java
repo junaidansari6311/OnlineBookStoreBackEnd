@@ -9,7 +9,7 @@ import com.codebrewers.onlinebookstore.properties.FileProperties;
 import com.codebrewers.onlinebookstore.repository.ICouponRepository;
 import com.codebrewers.onlinebookstore.repository.IUserRepository;
 import com.codebrewers.onlinebookstore.service.implementation.CouponService;
-import com.codebrewers.onlinebookstore.service.implementation.ICouponDetailsRepository;
+import com.codebrewers.onlinebookstore.repository.ICouponDetailsRepository;
 import com.codebrewers.onlinebookstore.utils.implementation.Token;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -48,7 +48,7 @@ public class CouponsServiceTest {
     @Test
     void givenCoupon_WhenFetchCoupon_ShouldReturnCoupons() {
         List<Coupons> couponsList = new ArrayList<>();
-        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020",699.0);
         couponsList.add(coupons);
         couponsList.add(coupons);
         couponsList.add(coupons);
@@ -56,7 +56,7 @@ public class CouponsServiceTest {
         UserDetails userDetails = new UserDetails(logInDTO);
         when(jwtToken.decodeJWT(anyString())).thenReturn(1);
         when(couponRepository.findAll()).thenReturn(couponsList);
-        List<Coupons> coupons1 = couponService.fetchCoupon("token");
+        List<Coupons> coupons1 = couponService.fetchCoupon("token",800.0);
         Assert.assertEquals(couponsList, coupons1);
     }
 
@@ -64,7 +64,7 @@ public class CouponsServiceTest {
     void givenCoupon_WhenNoCouponAvailable_ShouldThrowException() {
         List<CouponsDetails> couponsDetailsList = new ArrayList<>();
         List<Coupons> couponsList = new ArrayList<>();
-        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020",699.0);
         LoginDTO logInDTO = new LoginDTO("junaid@gmail.com", "Junaid@123");
         UserDetails userDetails = new UserDetails(logInDTO);
         CouponsDetails couponsDetails = new CouponsDetails(coupons, userDetails);
@@ -74,7 +74,7 @@ public class CouponsServiceTest {
             when(jwtToken.decodeJWT(anyString())).thenReturn(1);
             when(couponRepository.findAll()).thenReturn(couponsList);
             when(couponDetailsRepository.findByUserId(anyInt())).thenReturn(couponsDetailsList);
-            couponService.fetchCoupon("token");
+            couponService.fetchCoupon("token",800.0);
         } catch (CouponException e) {
             Assert.assertEquals(message, e.getMessage());
         }
@@ -84,7 +84,7 @@ public class CouponsServiceTest {
     void givenCoupon_WhenAppliedOneCoupon_ShouldReturnRemainingCoupon() {
         List<CouponsDetails> couponsDetailsList = new ArrayList<>();
         List<Coupons> couponsList = new ArrayList<>();
-        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020",699.0);
         couponsList.add(coupons);
         couponsList.add(coupons);
         couponsList.add(coupons);
@@ -95,14 +95,14 @@ public class CouponsServiceTest {
         when(jwtToken.decodeJWT(anyString())).thenReturn(1);
         when(couponRepository.findAll()).thenReturn(couponsList);
         when(couponDetailsRepository.findByUserId(anyInt())).thenReturn(couponsDetailsList);
-        List<Coupons> coupons1 = couponService.fetchCoupon("token");
-        Assert.assertEquals(couponsList, coupons1);
+        List<Coupons> coupons1 = couponService.fetchCoupon("token",800.0);
+        Assert.assertEquals(couponsList.size()-1, coupons1.size());
     }
 
     @Test
     void givenCoupon_WhenUserApplied100RsDisCountCoupon_ShouldReturnDiscountPrice() {
 
-        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020",699.0);
         LoginDTO logInDTO = new LoginDTO("gajanan@gmail.com", "Gajanan@123");
         UserDetails userDetails = new UserDetails(logInDTO);
         CouponsDetails couponsDetails = new CouponsDetails(coupons, userDetails);

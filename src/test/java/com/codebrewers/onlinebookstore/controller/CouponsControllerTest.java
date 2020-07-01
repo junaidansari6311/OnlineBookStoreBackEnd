@@ -45,12 +45,16 @@ public class CouponsControllerTest {
     void givenCoupon_WhenFetchCoupon_ShouldReturnMessage() throws Exception {
         List<Coupons> couponsList = new ArrayList<>();
         List<Coupons> couponsList1 = new ArrayList<>();
-        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        String totalPrice="350";
+
+        Coupons coupons = new Coupons("WEL100", 100.0, "10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020",699.0);
         couponsList.add(coupons);
         couponsList1.add(coupons);
         String message = "Coupons Fetched Successfully";
-        when(couponService.fetchCoupon(anyString())).thenReturn(couponsList);
-        MvcResult mvcResult = this.mockMvc.perform(get("/coupon").contentType(MediaType.APPLICATION_JSON)).andReturn();
+        when(couponService.fetchCoupon(anyString(),any())).thenReturn(couponsList);
+        MvcResult mvcResult = this.mockMvc.perform(get("/coupon")
+                                                    .param("totalPrice",totalPrice)
+                                                    .contentType(MediaType.APPLICATION_JSON)).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
         ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
@@ -62,10 +66,10 @@ public class CouponsControllerTest {
     void givenCoupon_WhenFetchCoupons_ShouldReturnAllCoupons(){
         List<Coupons> couponsList = new ArrayList<>();
         List<Coupons> couponsList1 = new ArrayList<>();
-        Coupons coupons = new Coupons("WEL100", 100.0,"10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020");
+        Coupons coupons = new Coupons("WEL100", 100.0,"10% Off upto Rs.100 on minimum purchase of Rs.699.0", "30-06-2020",699.0);
         couponsList.add(coupons);
         couponsList1.add(coupons);
-        when(couponService.fetchCoupon(anyString())).thenReturn(couponsList);
+        when(couponService.fetchCoupon(anyString(),any())).thenReturn(couponsList);
         Assert.assertEquals(couponsList1, couponsList);
     }
 
