@@ -26,7 +26,7 @@ public class CartController {
     IToken token;
 
     @PostMapping("/cart")
-    public ResponseEntity<ResponseDTO> addBooks(@Valid @RequestBody CartDTO cartDTO,@RequestHeader(value = "token",required = false) String token,BindingResult bindingResult) {
+    public ResponseEntity<ResponseDTO> addBooks(@Valid @RequestBody CartDTO cartDTO,@RequestHeader(value = "token") String token,BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -36,14 +36,14 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public ResponseEntity<ResponseDTO> fetchBooks(@RequestHeader(value = "token",required = false) String token) {
+    public ResponseEntity<ResponseDTO> fetchBooks(@RequestHeader(value = "token") String token) {
         List<BookCartDetails> list =  cartService.allCartItems(token);
         ResponseDTO responseDTO = new ResponseDTO("Response Successful", list);
         return new ResponseEntity(responseDTO, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PutMapping("/cart")
-    public ResponseEntity updateBookQuantity(@Valid @RequestBody CartDTO cartDTO,@RequestHeader(value = "token",required = false) String token) {
+    public ResponseEntity updateBookQuantity(@Valid @RequestBody CartDTO cartDTO,@RequestHeader(value = "token") String token) {
         String message = cartService.updateQuantityAndPrice(cartDTO,token);
         ResponseDTO responseDto = new ResponseDTO(message, null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);

@@ -16,8 +16,10 @@ public class CustomerDetailsDTO {
     @Pattern(regexp = "^[a-zA-Z]+",message = "Please enter valid city name")
     public String city;
 
+    @Pattern(regexp = "^[a-zA-Z]+",message = "Please enter valid landmark field")
     public String landmark;
 
+    @Pattern(regexp = "^[A-Z]+",message = "Please enter valid address type")
     public String addressType;
 
 

@@ -18,14 +18,14 @@ public class CouponController {
     ICouponService couponService;
 
     @GetMapping("/coupon")
-    public ResponseEntity fetchOrderCoupon(@RequestHeader(value = "token", required = false) String token,@RequestParam(name = "totalPrice") Double totalPrice) {
+    public ResponseEntity fetchOrderCoupon(@RequestHeader(value = "token") String token,@RequestParam(name = "totalPrice") Double totalPrice) {
         List<Coupons> orders = couponService.fetchCoupon(token,totalPrice);
         ResponseDTO response = new ResponseDTO("Coupons Fetched Successfully", orders);
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
     @PostMapping("/coupon")
-    public ResponseEntity addCoupon(@RequestHeader(value = "token",required = false) String token,@RequestParam(name = "discountCoupon",defaultValue = "0") String coupon, @RequestParam(name = "totalPrice") Double totalPrice){
+    public ResponseEntity addCoupon(@RequestHeader(value = "token") String token,@RequestParam(name = "discountCoupon",defaultValue = "0") String coupon, @RequestParam(name = "totalPrice") Double totalPrice){
         Double coupon1 = couponService.addCoupon(token, coupon, totalPrice);
         ResponseDTO responseDTO = new ResponseDTO("Coupon added successfully",coupon1);
         return new ResponseEntity(responseDTO,HttpStatus.OK);
