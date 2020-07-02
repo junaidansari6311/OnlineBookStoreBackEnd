@@ -34,4 +34,16 @@ public class BookStoreExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(responseDTO,HttpStatus.ALREADY_REPORTED);
     }
 
+    @ExceptionHandler(CartException.class)
+    public ResponseEntity adminServiceExceptionHandler(CartException e){
+        ResponseDTO responseDTO = new ResponseDTO((e.getMessage()));
+        return new ResponseEntity(responseDTO,HttpStatus.ALREADY_REPORTED);
+    }
+
+    @ExceptionHandler(BookStoreException.class)
+    public ResponseEntity adminServiceExceptionHandler(BookStoreException e){
+        ResponseDTO responseDTO = new ResponseDTO((e.getMessage()));
+        return new ResponseEntity(responseDTO,HttpStatus.ALREADY_REPORTED);
+    }
+
 }
