@@ -82,10 +82,6 @@ public class BookCartDetails {
         this.totalPrice = totalPrice;
     }
 
-    public OrderDetails getOrderDetails() {
-        return orderDetails;
-    }
-
     public void setOrderDetails(OrderDetails orderDetails) {
         this.orderDetails = orderDetails;
     }

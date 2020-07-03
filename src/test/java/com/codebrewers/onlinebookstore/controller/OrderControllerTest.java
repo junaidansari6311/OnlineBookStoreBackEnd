@@ -44,15 +44,17 @@ public class OrderControllerTest {
 
     @Test
     void givenOrderDetails_WhenOrderPlaced_ShouldReturnMessage() throws Exception {
+        httpHeaders.set("token","Qwebst43Y");
         String message = "Order Placed Successfully";
         String totalprice="200";
         String discountPrice="100";
 
         when(orderService.placeOrder(anyDouble(), any(),any())).thenReturn(552255);
         MvcResult mvcResult = this.mockMvc.perform(post("/order")
-                                                    .param("totalprice",totalprice)
-                                                    .param("discountPrice",discountPrice))
-                                           .andReturn();
+                .param("totalprice",totalprice)
+                .param("discountPrice",discountPrice)
+                .headers(httpHeaders).characterEncoding("utf-8"))
+                .andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
         String responseMessage = responseDto.message;
@@ -61,6 +63,7 @@ public class OrderControllerTest {
 
     @Test
     void givenOrderDetails_WhenCartDataFetch_ShouldReturnMessage() throws Exception {
+        httpHeaders.set("token","Qwebst43Y");
         List<BookCartDetails> cartList = new ArrayList<>();
         String message = "Order Data Fetched Successfully";
         when(orderService.fetchOrders(anyString())).thenReturn(cartList);

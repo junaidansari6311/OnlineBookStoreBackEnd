@@ -44,9 +44,7 @@ public class CartService implements ICartService {
     @Override
     public String addToCart(CartDTO cartDTO, String token) {
         int userId = jwtToken.decodeJWT(token);
-        UserDetails user = userRepository.findById(userId).orElseThrow(()->new UserServiceException("User Not Found"));
-        CartDetails cartDetails = cartRepository.findByUserDetails(user)
-                .orElseThrow(() -> new CartException("Cart Not Found"));
+        CartDetails cartDetails = getCart(userId);
         BookCartDetails bookCartDetails = new BookCartDetails(cartDTO);
         BookDetails books = bookStoreRepository.findById(cartDTO.id).get();
         List<BookCartDetails> cartList = new ArrayList<>();
@@ -63,8 +61,7 @@ public class CartService implements ICartService {
     @Override
     public List<BookCartDetails> allCartItems(String token) {
         int userId = jwtToken.decodeJWT(token);
-        UserDetails user = userRepository.findById(userId).orElseThrow(()-> new UserServiceException("User Not Found"));
-        CartDetails cartDetails = cartRepository.findByUserDetails(user).orElseThrow(()->new CartException("Cart Not Found"));
+        CartDetails cartDetails = getCart(userId);
         List<BookCartDetails> bookCartDetails = bookCartDetailsRepository.fetchCartItems(cartDetails.getId());
         return bookCartDetails;
     }
@@ -94,5 +91,13 @@ public class CartService implements ICartService {
         cartRepository.save(cartDetails);
         return cartDetails;
     }
+
+
+    public CartDetails getCart(int userId){
+        UserDetails user = userRepository.findById(userId).orElseThrow(() -> new UserServiceException("User Not Found"));
+        CartDetails cartDetails = cartRepository.findByUserDetails(user).orElseThrow(() -> new CartException("Cart Not Found"));
+        return cartDetails;
+    }
+
 
 }

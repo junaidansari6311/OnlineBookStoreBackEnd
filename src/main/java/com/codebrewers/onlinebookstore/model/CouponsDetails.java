@@ -1,11 +1,8 @@
 package com.codebrewers.onlinebookstore.model;
 
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
 public class CouponsDetails {
 
     @Id
@@ -19,6 +16,9 @@ public class CouponsDetails {
     @ManyToOne
     @JoinColumn(name = "userId")
     public UserDetails user;
+
+    public CouponsDetails() {
+    }
 
     public CouponsDetails(Coupons coupons, UserDetails userDetails) {
 

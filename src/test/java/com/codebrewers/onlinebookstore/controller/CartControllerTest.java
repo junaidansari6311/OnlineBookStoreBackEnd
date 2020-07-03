@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -46,9 +47,11 @@ public class CartControllerTest {
     Token jwtToken;
 
     Gson gson = new Gson();
+    HttpHeaders httpHeaders=new HttpHeaders();
 
     @Test
     void givenBookDetails_WhenAddedToCart_ShouldReturnMessage() throws Exception {
+        httpHeaders.set("token","Qwebst43Y");
         List<CartDetails> cart1 = new ArrayList<>();
         CartDetails cartDetails = new CartDetails();
         cart1.add(cartDetails);
@@ -57,7 +60,7 @@ public class CartControllerTest {
         when(cartService.addToCart(any(),any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(post("/cart")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(stringConvertDTO)).andReturn();
+                .content(stringConvertDTO).headers(httpHeaders).characterEncoding("utf-8")).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
         ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);
@@ -107,6 +110,7 @@ public class CartControllerTest {
 
     @Test
     void givenBookDetails_WhenUpdateBookQuantity_ShouldReturnMessage() throws Exception {
+        httpHeaders.set("token","Qwebst43Y");
         List<CartDetails> cart1 = new ArrayList<>();
         CartDTO cartDTO = new CartDTO(1,50,200.0);
         CartDetails cartDetails = new CartDetails();
@@ -116,7 +120,7 @@ public class CartControllerTest {
         when(cartService.updateQuantityAndPrice(any(),any())).thenReturn(message);
         MvcResult mvcResult = this.mockMvc.perform(put("/cart")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(stringConvertDTO)).andReturn();
+                .content(stringConvertDTO).headers(httpHeaders).characterEncoding("utf-8")).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
         ResponseDTO responseDto = gson.fromJson(response, ResponseDTO.class);

@@ -44,10 +44,6 @@ public class CustomerDetails {
         this.landmark = orderBookDTO.landmark;
     }
 
-    public AddressType getAddressType() {
-        return addressType;
-    }
-
     public void setAddressType(AddressType addressType) {
         this.addressType = addressType;
     }
