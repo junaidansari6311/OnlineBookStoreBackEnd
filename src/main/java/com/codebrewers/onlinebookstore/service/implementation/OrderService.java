@@ -1,8 +1,10 @@
 package com.codebrewers.onlinebookstore.service.implementation;
 
+import com.codebrewers.onlinebookstore.dto.EmailDTO;
 import com.codebrewers.onlinebookstore.exception.CartException;
 import com.codebrewers.onlinebookstore.exception.UserServiceException;
 import com.codebrewers.onlinebookstore.model.*;
+import com.codebrewers.onlinebookstore.rabbitmq.producer.EmailSender;
 import com.codebrewers.onlinebookstore.repository.*;
 import com.codebrewers.onlinebookstore.service.IOrderService;
 import com.codebrewers.onlinebookstore.utils.implementation.MailService;
@@ -14,30 +16,39 @@ import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService implements IOrderService {
 
     @Autowired
     Token jwtToken;
+
     @Autowired
     MailService mailService;
+
     @Autowired
     IOrderRepository orderRepository;
+
     @Autowired
     IBookCartDetailsRepository cartDetailsRepository;
+
     @Autowired
     IBookStoreRepository bookStoreRepository;
+
     @Autowired
     IUserRepository userRepository;
+
     @Autowired
     ICustomerDetailsRepository customerDetailsRepository;
+
     @Autowired
     ICartRepository cartRepository;
 
     @Autowired
     PlacedOrder placedOrder;
+
+    @Autowired
+    EmailSender emailSender;
 
 
     @Override
@@ -56,7 +67,9 @@ public class OrderService implements IOrderService {
 
         String body = placedOrder.getHeader(cart,orderId,totalPrice,cartBooks,discountPrice);
 
-        mailService.sendMail(body,"Order Placed",cart.userDetails.emailID);
+        /*mailService.sendMail(body,"Order Placed",cart.userDetails.emailID);*/
+        EmailDTO emailDTO = new EmailDTO(cart.userDetails.emailID, "Order Placed", body);
+        emailSender.addToEmailQueue(emailDTO);
         return saveOrder.getOrderId();
     }
 
